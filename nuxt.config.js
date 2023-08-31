@@ -37,7 +37,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+    '@nuxtjs/axios'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -67,4 +67,18 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  publicRuntimeConfig: {
+    kisUrl: process.env.NODE_ENV === "production" ? "https://openapi.koreainvestment.com:9443" : "https://openapivts.koreainvestment.com:29443"
+  },
+
+  privateRuntimeConfig: {
+    host: process.env.host,
+    username: process.env.username,
+    password: process.env.password,
+    database: process.env.dbName,
+    dialect: process.env.dialect,
+    kisKey: process.env.kisKey,
+    kisSecret: process.env.kisSecret,
+  }
 }
