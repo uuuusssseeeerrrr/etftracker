@@ -1,17 +1,19 @@
+import { response } from 'express'
+
 import { getJPStockData } from './jpStock';
 import models from '../../models'
 
-const getStockData = (countryCode: string) => {
+export const getStockData = (countryCode: string) => {
     if (countryCode === "japan") {
-        const query = `
-        select * 
-        from priceinfo
-        where priceinfo.market = ${}
-        and priceinfo.`;
+        //     const query = `
+        //     select * 
+        //     from priceinfo
+        //     where priceinfo.market = ${}
+        //     and priceinfo.`;
     }
 };
 
-const saveStockData = async (countryCode: string, etfStockCode: string) => {
+export const saveStockData = async (countryCode: string, etfStockCode: string) => {
     if (countryCode === "japan") {
         const allStockList = await models.etfstocklist.findAll({
             where: {
@@ -22,6 +24,7 @@ const saveStockData = async (countryCode: string, etfStockCode: string) => {
 
         for (const stockObj of allStockList) {
             const stockData = await getJPStockData(stockObj.stockCode);
+
             await models.stockpricehistory.create({
                 market: stockObj.market,
                 stockCode: stockObj.stockCode,
@@ -37,4 +40,6 @@ const saveStockData = async (countryCode: string, etfStockCode: string) => {
             });
         }
     }
+
+    return response.status(200);
 };
