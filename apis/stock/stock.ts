@@ -1,5 +1,3 @@
-import { response } from 'express'
-
 import { getJPStockData } from './jpStock';
 import models from '../../models'
 
@@ -41,5 +39,7 @@ export const saveStockData = async (countryCode: string, etfStockCode: string) =
         }
     }
 
-    return response.status(200);
+    return {
+        resultCode : 200
+    };
 };
