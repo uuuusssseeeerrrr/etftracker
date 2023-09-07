@@ -43,21 +43,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
-  publicRuntimeConfig: {
+  runtimeConfig: {
     kisUrl: process.env.NODE_ENV === "production" ? "https://openapi.koreainvestment.com:9443" : "https://openapivts.koreainvestment.com:29443"
   },
-
-  privateRuntimeConfig: {
-    host: process.env.host,
-    username: process.env.username,
-    password: process.env.password,
-    database: process.env.dbName,
-    dialect: process.env.dialect,
-    kisKey: process.env.kisKey,
-    kisSecret: process.env.kisSecret,
-  },
-
-  serverHandlers: [
-    { route: '/batch/stockData', handler: '~/server/batch/stockData.ts' }
-  ]
 };

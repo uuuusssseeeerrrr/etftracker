@@ -93,3 +93,6 @@ sw.*
 
 # 개인정보
 /config/config.js
+
+# ide 설정 삭제
+.vscode
