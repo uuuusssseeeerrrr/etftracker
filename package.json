@@ -27,7 +27,7 @@
     "vue-server-renderer": "^2.7.14",
     "vue-template-compiler": "^2.7.14",
     "vuetify": "^3.3.14",
-    "ws": "^8.13.0"
+    "ws": "^8.14.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.11",
