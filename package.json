@@ -21,7 +21,7 @@
     "mariadb": "^3.2.0",
     "mysql2": "^3.6.0",
     "nuxt": "^3.7.0",
-    "sequelize": "^6.32.1",
+    "sequelize": "^6.33.0",
     "sequelize-auto": "^0.8.8",
     "vue": "^3.3.4",
     "vue-server-renderer": "^2.7.14",
