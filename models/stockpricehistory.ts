@@ -7,17 +7,15 @@ export interface stockpricehistoryAttributes {
   stockCode: string;
   priceDate: string;
   priceTime: string;
-  openPrice: string;
-  lowPrice: string;
-  highPrice: string;
-  price: string;
-  betweenPrice: string;
-  priceSign: string;
-  betweenRate: string;
+  lowPrice?: string;
+  highPrice?: string;
+  price?: string;
+  priceChangeAmt?: string;
+  priceChangeRate?: string;
 }
 
 export type stockpricehistoryPk = "priceIdx";
-export type stockpricehistoryOptionalAttributes = "priceIdx";
+export type stockpricehistoryOptionalAttributes = "priceIdx" | "lowPrice" | "highPrice" | "price" | "priceChangeAmt" | "priceChangeRate";
 export type stockpricehistoryCreationAttributes = Optional<stockpricehistoryAttributes, stockpricehistoryOptionalAttributes>;
 
 export class stockpricehistory extends Model<stockpricehistoryAttributes, stockpricehistoryCreationAttributes> implements stockpricehistoryAttributes {
@@ -26,13 +24,11 @@ export class stockpricehistory extends Model<stockpricehistoryAttributes, stockp
   stockCode!: string;
   priceDate!: string;
   priceTime!: string;
-  openPrice!: string;
-  lowPrice!: string;
-  highPrice!: string;
-  price!: string;
-  betweenPrice!: string;
-  priceSign!: string;
-  betweenRate!: string;
+  lowPrice?: string;
+  highPrice?: string;
+  price?: string;
+  priceChangeAmt?: string;
+  priceChangeRate?: string;
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof stockpricehistory {
@@ -64,39 +60,29 @@ export class stockpricehistory extends Model<stockpricehistoryAttributes, stockp
       allowNull: false,
       comment: "한국시간"
     },
-    openPrice: {
-      type: DataTypes.STRING(6),
-      allowNull: false,
-      comment: "시작가격"
-    },
     lowPrice: {
       type: DataTypes.STRING(6),
-      allowNull: false,
+      allowNull: true,
       comment: "저가"
     },
     highPrice: {
       type: DataTypes.STRING(6),
-      allowNull: false,
+      allowNull: true,
       comment: "고가"
     },
     price: {
       type: DataTypes.STRING(6),
-      allowNull: false,
+      allowNull: true,
       comment: "현재가"
     },
-    betweenPrice: {
+    priceChangeAmt: {
+      type: DataTypes.STRING(10),
+      allowNull: true,
+      comment: "전일대비가격"
+    },
+    priceChangeRate: {
       type: DataTypes.STRING(8),
-      allowNull: false,
-      comment: "전일대비"
-    },
-    priceSign: {
-      type: DataTypes.STRING(6),
-      allowNull: false,
-      comment: "등락구분"
-    },
-    betweenRate: {
-      type: DataTypes.STRING(6),
-      allowNull: false,
+      allowNull: true,
       comment: "등락율"
     }
   }, {

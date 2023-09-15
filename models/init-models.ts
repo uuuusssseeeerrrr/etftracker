@@ -33,6 +33,7 @@ export function initModels(sequelize: Sequelize) {
   const stocklist = _stocklist.initModel(sequelize);
   const stockpricehistory = _stockpricehistory.initModel(sequelize);
 
+
   return {
     etf,
     etfstocklist,
