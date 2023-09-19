@@ -25,7 +25,7 @@
     "pino": "^8.15.1",
     "pino-pretty": "^10.2.0",
     "sequelize": "^6.33.0",
-    "tui-grid": "^4.21.16",
+    "tui-grid": "^4.21.17",
     "vue": "^3.3.4",
     "vue-server-renderer": "^2.7.14",
     "vue-template-compiler": "^2.7.14"
