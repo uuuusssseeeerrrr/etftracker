@@ -9,19 +9,26 @@ export default defineEventHandler(async (event) => {
     if (event.node.req.method === 'POST') {
         const body = await readBody(event);
 
-        if (body.country === "japan") {
-            const allStockList = await models.etfstocklist.findAll({
-                where: {
-                    market: "TSE",
-                    etfStockCode: body.code,
-                }
-            });
+        if (body.market.includes("TOKYO")) {
+            let allStockList;
+            const market = body.market;
 
-            // 주식데이터 가져오기
-            // for (let i = 0; i < allStockList.length; i++) {
-            //     const stockObj = allStockList[i].dataValues;
+            if (body.code) {
+                allStockList = await models.etfstocklist.findAll({
+                    where: {
+                        market,
+                        etfStockCode: body.code,
+                    }
+                });
+            } else {
+                allStockList = await models.etfstocklist.findAll({
+                    where: {
+                        market
+                    }
+                });
+            }
 
-            if(allStockList.length > 0) {
+            if (allStockList.length > 0) {
                 return await getJPStockData(allStockList);
             }
         }
