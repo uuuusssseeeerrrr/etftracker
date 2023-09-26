@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { useHead } from 'unhead'
-import { watch, ref } from 'vue';
+import { watch, ref, Ref } from 'vue';
 
 useHead({
     titleTemplate: "etfTracker"
@@ -48,27 +48,23 @@ interface stockObj {
 
 const exchangeStockArray = new Map<string, stockObj[]>();
 const exchangeSelectValue = ref('');
-let exchangeStockSelectValue: string;
-let exchangeStockList: stockObj[] = [];
+let exchangeStockSelectValue: string = "";
+const exchangeStockList: Ref<stockObj[]> = ref<stockObj[]>([]);
 
 watch(exchangeSelectValue, async (newValue) => {
-    console.log(newValue);
-
     if (!exchangeStockArray.has(newValue)) {
         const stockArray: stockObj[] = await $fetch(`/api/etf?market=${newValue}`);
         exchangeStockArray.set(newValue, stockArray);
     }
 
-    exchangeStockList = [];
+    exchangeStockList.value = [];
+    exchangeStockSelectValue = "";
 
     exchangeStockArray.get(newValue)!.forEach((stockObj) => {
-        exchangeStockList.push({
+        exchangeStockList.value.push({
             stockCode: stockObj.stockCode,
             stockNm: stockObj.stockNm
         });
     })
-
-    exchangeStockSelectValue = exchangeStockList[0].stockCode;
-    console.log(exchangeStockList);
 });
 </script>
