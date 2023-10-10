@@ -30,7 +30,7 @@
     "vue": "^3.3.4",
     "vue-server-renderer": "^2.7.14",
     "vue-template-compiler": "^2.7.14",
-    "vuetify-nuxt-module": "^0.5.12"
+    "vuetify-nuxt-module": "^0.5.14"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.15",
