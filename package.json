@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "core-js": "^3.32.2",
+    "core-js": "^3.33.2",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.10",
     "mariadb": "^3.2.1",
