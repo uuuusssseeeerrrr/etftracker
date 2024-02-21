@@ -1,51 +1,53 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 
-export interface stocklistAttributes {
+export interface stockListAttributes {
   market: string;
   stockCode: string;
-  stockNm?: string;
+  stockName?: string;
   regDate?: Date;
 }
 
-export type stocklistPk = "market" | "stockCode";
-export type stocklistOptionalAttributes = "stockNm" | "regDate";
-export type stocklistCreationAttributes = Optional<stocklistAttributes, stocklistOptionalAttributes>;
+export type stockListPk = "market" | "stockCode";
+export type stockListId = stockList[stockListPk];
+export type stockListOptionalAttributes = "market" | "stockCode" | "stockName" | "regDate";
+export type stockListCreationAttributes = Optional<stockListAttributes, stockListOptionalAttributes>;
 
-export class stocklist extends Model<stocklistAttributes, stocklistCreationAttributes> implements stocklistAttributes {
+export class stockList extends Model<stockListAttributes, stockListCreationAttributes> implements stockListAttributes {
   market!: string;
   stockCode!: string;
-  stockNm?: string;
+  stockName?: string;
   regDate?: Date;
 
 
-  static initModel(sequelize: Sequelize.Sequelize): typeof stocklist {
-    return stocklist.init({
+  static initModel(sequelize: Sequelize.Sequelize): typeof stockList {
+    return stockList.init({
     market: {
-      type: DataTypes.STRING(5),
+      type: DataTypes.STRING(10),
       allowNull: false,
-      primaryKey: true,
-      comment: "시장구분"
+      defaultValue: "",
+      primaryKey: true
     },
     stockCode: {
       type: DataTypes.STRING(20),
       allowNull: false,
+      defaultValue: "",
       primaryKey: true,
-      comment: "종목코드"
+      field: 'stock_code'
     },
-    stockNm: {
+    stockName: {
       type: DataTypes.STRING(255),
       allowNull: true,
-      comment: "종목명"
+      field: 'stock_name'
     },
     regDate: {
       type: DataTypes.DATE,
       allowNull: true,
-      comment: "생성일"
+      field: 'reg_date'
     }
   }, {
     sequelize,
-    tableName: 'stocklist',
+    tableName: 'stock_list',
     timestamps: false,
     indexes: [
       {
@@ -54,12 +56,10 @@ export class stocklist extends Model<stocklistAttributes, stocklistCreationAttri
         using: "BTREE",
         fields: [
           { name: "market" },
-          { name: "stockCode" },
+          { name: "stock_code" },
         ]
       },
     ]
   });
   }
 }
-
-export type stocklistId = stocklist[stocklistPk];

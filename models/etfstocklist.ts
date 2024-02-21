@@ -1,52 +1,66 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 
-export interface etfstocklistAttributes {
+export interface etfStockListAttributes {
   market: string;
   etfStockCode: string;
   stockCode: string;
   regDate?: Date;
+  etfPercent?: number;
 }
 
-export type etfstocklistPk = "market" | "etfStockCode" | "stockCode";
-export type etfstocklistOptionalAttributes = "regDate";
-export type etfstocklistCreationAttributes = Optional<etfstocklistAttributes, etfstocklistOptionalAttributes>;
+export type etfStockListPk = "market" | "etfStockCode" | "stockCode";
+export type etfStockListId = etfStockList[etfStockListPk];
+export type etfStockListOptionalAttributes = "market" | "etfStockCode" | "regDate" | "etfPercent";
+export type etfStockListCreationAttributes = Optional<etfStockListAttributes, etfStockListOptionalAttributes>;
 
-export class etfstocklist extends Model<etfstocklistAttributes, etfstocklistCreationAttributes> implements etfstocklistAttributes {
+export class etfStockList extends Model<etfStockListAttributes, etfStockListCreationAttributes> implements etfStockListAttributes {
   market!: string;
   etfStockCode!: string;
   stockCode!: string;
   regDate?: Date;
+  etfPercent?: number;
 
 
-  static initModel(sequelize: Sequelize.Sequelize): typeof etfstocklist {
-    return etfstocklist.init({
+  static initModel(sequelize: Sequelize.Sequelize): typeof etfStockList {
+    return etfStockList.init({
     market: {
-      type: DataTypes.STRING(5),
+      type: DataTypes.STRING(10),
       allowNull: false,
+      defaultValue: "",
       primaryKey: true,
-      comment: "시장구분"
+      comment: "시장코드"
     },
     etfStockCode: {
       type: DataTypes.STRING(20),
       allowNull: false,
+      defaultValue: "",
       primaryKey: true,
-      comment: "ETF종목코드"
+      comment: "ETF종목코드",
+      field: 'etf_stock_code'
     },
     stockCode: {
       type: DataTypes.STRING(20),
       allowNull: false,
       primaryKey: true,
-      comment: "일반종목코드"
+      comment: "일반종목코드",
+      field: 'stock_code'
     },
     regDate: {
       type: DataTypes.DATE,
       allowNull: true,
-      comment: "생성일"
+      comment: "생성일",
+      field: 'reg_date'
+    },
+    etfPercent: {
+      type: DataTypes.FLOAT(2,2),
+      allowNull: true,
+      comment: "ETF 비율",
+      field: 'etf_percent'
     }
   }, {
     sequelize,
-    tableName: 'etfstocklist',
+    tableName: 'etf_stock_list',
     timestamps: false,
     indexes: [
       {
@@ -55,13 +69,11 @@ export class etfstocklist extends Model<etfstocklistAttributes, etfstocklistCrea
         using: "BTREE",
         fields: [
           { name: "market" },
-          { name: "etfStockCode" },
-          { name: "stockCode" },
+          { name: "etf_stock_code" },
+          { name: "stock_code" },
         ]
       },
     ]
   });
   }
 }
-
-export type etfstocklistId = etfstocklist[etfstocklistPk];

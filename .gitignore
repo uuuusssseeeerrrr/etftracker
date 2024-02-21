@@ -81,6 +81,7 @@ dist
 
 # IDE / Editor
 .idea
+.github
 
 # Service worker
 sw.*
@@ -96,3 +97,6 @@ sw.*
 
 # ide 설정 삭제
 .vscode
+
+# 서버 빌드파일
+.output

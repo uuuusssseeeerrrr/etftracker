@@ -1,93 +1,222 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 
-export interface stockpricehistoryAttributes {
-  priceIdx: number;
-  market: string;
-  stockCode: string;
-  priceDate: string;
-  priceTime: string;
-  lowPrice?: string;
-  highPrice?: string;
+export interface stockPriceHistoryAttributes {
+  priceIndex: number;
+  market?: string;
+  stockCode?: string;
+  open?: string;
+  high?: string;
+  low?: string;
   price?: string;
-  priceChangeAmt?: string;
-  priceChangeRate?: string;
+  lastDayPrice?: string;
+  tomv?: string;
+  h52P?: string;
+  l52P?: string;
+  perx?: string;
+  pbrx?: string;
+  epsx?: string;
+  bpsx?: string;
+  tXprc?: string;
+  tXdif?: string;
+  tXrat?: string;
+  pXprc?: string;
+  pXdif?: string;
+  pXrat?: string;
+  tRate?: string;
+  tXsgn?: string;
+  pXsng?: string;
+  eIcod?: string;
+  regUnixtime?: number;
 }
 
-export type stockpricehistoryPk = "priceIdx";
-export type stockpricehistoryOptionalAttributes = "priceIdx" | "lowPrice" | "highPrice" | "price" | "priceChangeAmt" | "priceChangeRate";
-export type stockpricehistoryCreationAttributes = Optional<stockpricehistoryAttributes, stockpricehistoryOptionalAttributes>;
+export type stockPriceHistoryPk = "priceIndex";
+export type stockPriceHistoryId = stockPriceHistory[stockPriceHistoryPk];
+export type stockPriceHistoryOptionalAttributes = "priceIndex" | "market" | "stockCode" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "tXsgn" | "pXsng" | "eIcod" | "regUnixtime";
+export type stockPriceHistoryCreationAttributes = Optional<stockPriceHistoryAttributes, stockPriceHistoryOptionalAttributes>;
 
-export class stockpricehistory extends Model<stockpricehistoryAttributes, stockpricehistoryCreationAttributes> implements stockpricehistoryAttributes {
-  priceIdx!: number;
-  market!: string;
-  stockCode!: string;
-  priceDate!: string;
-  priceTime!: string;
-  lowPrice?: string;
-  highPrice?: string;
+export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockPriceHistoryCreationAttributes> implements stockPriceHistoryAttributes {
+  priceIndex!: number;
+  market?: string;
+  stockCode?: string;
+  open?: string;
+  high?: string;
+  low?: string;
   price?: string;
-  priceChangeAmt?: string;
-  priceChangeRate?: string;
+  lastDayPrice?: string;
+  tomv?: string;
+  h52P?: string;
+  l52P?: string;
+  perx?: string;
+  pbrx?: string;
+  epsx?: string;
+  bpsx?: string;
+  tXprc?: string;
+  tXdif?: string;
+  tXrat?: string;
+  pXprc?: string;
+  pXdif?: string;
+  pXrat?: string;
+  tRate?: string;
+  tXsgn?: string;
+  pXsng?: string;
+  eIcod?: string;
+  regUnixtime?: number;
 
 
-  static initModel(sequelize: Sequelize.Sequelize): typeof stockpricehistory {
-    return stockpricehistory.init({
-    priceIdx: {
-      autoIncrement: true,
+  static initModel(sequelize: Sequelize.Sequelize): typeof stockPriceHistory {
+    return stockPriceHistory.init({
+    priceIndex: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 0,
       primaryKey: true,
-      comment: "인덱스키"
+      comment: "인덱스",
+      field: 'price_index'
     },
     market: {
-      type: DataTypes.STRING(5),
-      allowNull: false,
-      comment: "시장구분"
+      type: DataTypes.STRING(10),
+      allowNull: true,
+      comment: "시장코드"
     },
     stockCode: {
       type: DataTypes.STRING(20),
-      allowNull: false,
-      comment: "일반종목코드"
-    },
-    priceDate: {
-      type: DataTypes.STRING(8),
-      allowNull: false,
-      comment: "한국일자"
-    },
-    priceTime: {
-      type: DataTypes.STRING(6),
-      allowNull: false,
-      comment: "한국시간"
-    },
-    lowPrice: {
-      type: DataTypes.STRING(6),
       allowNull: true,
-      comment: "저가"
+      comment: "종목코드",
+      field: 'stock_code'
     },
-    highPrice: {
-      type: DataTypes.STRING(6),
+    open: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "시가"
+    },
+    high: {
+      type: DataTypes.STRING(12),
       allowNull: true,
       comment: "고가"
     },
+    low: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "저가"
+    },
     price: {
-      type: DataTypes.STRING(6),
+      type: DataTypes.STRING(12),
       allowNull: true,
       comment: "현재가"
     },
-    priceChangeAmt: {
+    lastDayPrice: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "전일종가",
+      field: 'last_day_price'
+    },
+    tomv: {
+      type: DataTypes.STRING(16),
+      allowNull: true,
+      comment: "시가총액"
+    },
+    h52P: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "52주최고가",
+      field: 'h52p'
+    },
+    l52P: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "52주최저가",
+      field: 'l52p'
+    },
+    perx: {
       type: DataTypes.STRING(10),
       allowNull: true,
-      comment: "전일대비가격"
+      comment: "PER"
     },
-    priceChangeRate: {
-      type: DataTypes.STRING(8),
+    pbrx: {
+      type: DataTypes.STRING(10),
       allowNull: true,
-      comment: "등락율"
+      comment: "PBR"
+    },
+    epsx: {
+      type: DataTypes.STRING(10),
+      allowNull: true,
+      comment: "EPS"
+    },
+    bpsx: {
+      type: DataTypes.STRING(10),
+      allowNull: true,
+      comment: "BPS"
+    },
+    tXprc: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산당일가격",
+      field: 't_xprc'
+    },
+    tXdif: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산당일대비",
+      field: 't_xdif'
+    },
+    tXrat: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산당일등락",
+      field: 't_xrat'
+    },
+    pXprc: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산전일가격",
+      field: 'p_xprc'
+    },
+    pXdif: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산전일대비",
+      field: 'p_xdif'
+    },
+    pXrat: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산전일등락",
+      field: 'p_xrat'
+    },
+    tRate: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "당일환율",
+      field: 't_rate'
+    },
+    tXsgn: {
+      type: DataTypes.STRING(1),
+      allowNull: true,
+      comment: "원환산당일기호",
+      field: 't_xsgn'
+    },
+    pXsng: {
+      type: DataTypes.STRING(1),
+      allowNull: true,
+      comment: "원환산전일기호",
+      field: 'p_xsng'
+    },
+    eIcod: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+      comment: "업종(섹터)",
+      field: 'e_icod'
+    },
+    regUnixtime: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      comment: "등록시간",
+      field: 'reg_unixtime'
     }
   }, {
     sequelize,
-    tableName: 'stockpricehistory',
+    tableName: 'stock_price_history',
     timestamps: false,
     indexes: [
       {
@@ -95,22 +224,25 @@ export class stockpricehistory extends Model<stockpricehistoryAttributes, stockp
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "priceIdx" },
+          { name: "price_index" },
         ]
       },
       {
-        name: "stock_price_history_idx1",
+        name: "market_stock_code",
         using: "BTREE",
         fields: [
           { name: "market" },
-          { name: "stockCode" },
-          { name: "priceDate" },
-          { name: "priceTime" },
+          { name: "stock_code" },
+        ]
+      },
+      {
+        name: "reg_date",
+        using: "BTREE",
+        fields: [
+          { name: "reg_unixtime" },
         ]
       },
     ]
   });
   }
 }
-
-export type stockpricehistoryId = stockpricehistory[stockpricehistoryPk];

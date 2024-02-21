@@ -9,7 +9,9 @@
                     <v-row>
                         <v-col>
                             <v-select v-model="exchangeSelectValue" label="거래소" :items="exchangeList" item-title="n"
-                                item-value="v"></v-select> </v-col>
+                                item-value="v">
+                            </v-select>
+                        </v-col>
                         <v-col>
                             <v-btn color="success" style="width: 100px; height:33px;">
                                 조회

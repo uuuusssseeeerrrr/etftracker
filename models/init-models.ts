@@ -1,43 +1,49 @@
-import { etf as _etf } from "./etf";
-import { etfstocklist as _etfstocklist } from "./etfstocklist";
-import { stocklist as _stocklist } from "./stocklist";
-import { stockpricehistory as _stockpricehistory } from "./stockpricehistory";
-
-import type { etfAttributes, etfCreationAttributes } from "./etf";
-import type { etfstocklistAttributes, etfstocklistCreationAttributes } from "./etfstocklist";
-import type { stocklistAttributes, stocklistCreationAttributes } from "./stocklist";
-import type { stockpricehistoryAttributes, stockpricehistoryCreationAttributes } from "./stockpricehistory";
 import type { Sequelize } from "sequelize";
+import { etfList as _etfList } from "./etfList";
+import type { etfListAttributes, etfListCreationAttributes } from "./etfList";
+import { etfStockList as _etfStockList } from "./etfStockList";
+import type { etfStockListAttributes, etfStockListCreationAttributes } from "./etfStockList";
+import { stockList as _stockList } from "./stockList";
+import type { stockListAttributes, stockListCreationAttributes } from "./stockList";
+import { stockPriceHistory as _stockPriceHistory } from "./stockPriceHistory";
+import type { stockPriceHistoryAttributes, stockPriceHistoryCreationAttributes } from "./stockPriceHistory";
+import { token as _token } from "./token";
+import type { tokenAttributes, tokenCreationAttributes } from "./token";
 
 export {
-  _etf as etf,
-  _etfstocklist as etfstocklist,
-  _stocklist as stocklist,
-  _stockpricehistory as stockpricehistory,
+  _etfList as etfList,
+  _etfStockList as etfStockList,
+  _stockList as stockList,
+  _stockPriceHistory as stockPriceHistory,
+  _token as token,
 };
 
 export type {
-  etfAttributes,
-  etfCreationAttributes,
-  etfstocklistAttributes,
-  etfstocklistCreationAttributes,
-  stocklistAttributes,
-  stocklistCreationAttributes,
-  stockpricehistoryAttributes,
-  stockpricehistoryCreationAttributes,
+  etfListAttributes,
+  etfListCreationAttributes,
+  etfStockListAttributes,
+  etfStockListCreationAttributes,
+  stockListAttributes,
+  stockListCreationAttributes,
+  stockPriceHistoryAttributes,
+  stockPriceHistoryCreationAttributes,
+  tokenAttributes,
+  tokenCreationAttributes,
 };
 
 export function initModels(sequelize: Sequelize) {
-  const etf = _etf.initModel(sequelize);
-  const etfstocklist = _etfstocklist.initModel(sequelize);
-  const stocklist = _stocklist.initModel(sequelize);
-  const stockpricehistory = _stockpricehistory.initModel(sequelize);
+  const etfList = _etfList.initModel(sequelize);
+  const etfStockList = _etfStockList.initModel(sequelize);
+  const stockList = _stockList.initModel(sequelize);
+  const stockPriceHistory = _stockPriceHistory.initModel(sequelize);
+  const token = _token.initModel(sequelize);
 
 
   return {
-    etf,
-    etfstocklist,
-    stocklist,
-    stockpricehistory,
+    etfList: etfList,
+    etfStockList: etfStockList,
+    stockList: stockList,
+    stockPriceHistory: stockPriceHistory,
+    token: token,
   };
 }

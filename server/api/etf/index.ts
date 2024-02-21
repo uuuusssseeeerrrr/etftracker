@@ -1,17 +1,17 @@
-import { defineEventHandler, getQuery } from 'h3';
+// import { defineEventHandler, getQuery } from 'h3';
 
-import models from '../../../models';
+// import models from '../../../models';
 
-export default defineEventHandler(async (event) => {
-    if (event.node.req.method === 'GET') {
-        const query = await getQuery(event);
+// export default defineEventHandler(async (event) => {
+//     if (event.node.req.method === 'GET') {
+//         const query = await getQuery(event);
 
-        console.log(query);
+//         console.log(query);
 
-        return await models.etf.findAll({
-            where: {
-                market: query.market as string
-            }
-        });
-    }
-});
+//         return await models.etf.findAll({
+//             where: {
+//                 market: query.market as string
+//             }
+//         });
+//     }
+// });
