@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
 
 import { getKisApiData } from './kisApi';
-import getStockData from './stockIF'
+import { getStockData } from '../interface/stock'
 import { models } from '../../../models';
-import { logger } from '../../../pino.config'
 
 const market = "TSE";
 
@@ -15,41 +14,41 @@ export const getTSEStockData: getStockData = async (accessToken: string) => {
         }
     });
 
-    logger.info(`allStockList.length = ${stockListArray.length}`)
+    const stockPriceArr = new Array(stockListArray.length);
 
     for (let i = 0; i < stockListArray.length; i++) {
         const stockObj = stockListArray[i].dataValues;
         const stockDataObj = await getKisApiData(market, stockObj.stockCode, accessToken);
 
-        await models.stockPriceHistory.create({
+        stockPriceArr[i] = new models.stockPriceHistory({
             market: 'TSE',
             stockCode: stockObj.stockCode,
             open: stockDataObj.open,
             high: stockDataObj.high,
             low: stockDataObj.low,
-            price: stockDataObj.price,
-            lastDayPrice: stockDataObj.lastDayPrice,
+            price: stockDataObj.last,
+            lastDayPrice: stockDataObj.base,
             tomv: stockDataObj.tomv,
-            h52P: stockDataObj.h52P,
-            l52P: stockDataObj.l52P,
+            h52P: stockDataObj.h52p,
+            l52P: stockDataObj.l52p,
             perx: stockDataObj.perx,
             pbrx: stockDataObj.pbrx,
             epsx: stockDataObj.epsx,
             bpsx: stockDataObj.bpsx,
-            tXprc: stockDataObj.t_Xprc,
-            tXdif: stockDataObj.t_Xdif,
-            tXrat: stockDataObj.t_Xrat,
-            pXprc: stockDataObj.p_Xprc,
-            pXdif: stockDataObj.p_Xdif,
-            pXrat: stockDataObj.p_Xrat,
-            tRate: stockDataObj.t_Rate,
-            tXsgn: stockDataObj.t_Xsgn,
-            pXsng: stockDataObj.p_Xsng,
-            eIcod: stockDataObj.e_Icod,
+            tXprc: stockDataObj.t_xprc,
+            tXdif: stockDataObj.t_xdif,
+            tXrat: stockDataObj.t_xrat,
+            pXprc: stockDataObj.p_xprc,
+            pXdif: stockDataObj.p_xdif,
+            pXrat: stockDataObj.p_xrat,
+            tRate: stockDataObj.t_rate,
+            tXsgn: stockDataObj.t_xsgn,
+            pXsng: stockDataObj.p_xsng,
+            eIcod: stockDataObj.e_icod,
             regUnixtime: today.unix()
-        });
+        }).dataValues;
     }
 
-    logger.info(`end!!`);
+    await models.stockPriceHistory.bulkCreate(stockPriceArr);
     return true;
 }

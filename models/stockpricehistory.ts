@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 
 export interface stockPriceHistoryAttributes {
-  priceIndex: number;
+  priceIdx: number;
   market?: string;
   stockCode?: string;
   open?: string;
@@ -30,13 +30,13 @@ export interface stockPriceHistoryAttributes {
   regUnixtime?: number;
 }
 
-export type stockPriceHistoryPk = "priceIndex";
+export type stockPriceHistoryPk = "priceIdx";
 export type stockPriceHistoryId = stockPriceHistory[stockPriceHistoryPk];
-export type stockPriceHistoryOptionalAttributes = "priceIndex" | "market" | "stockCode" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "tXsgn" | "pXsng" | "eIcod" | "regUnixtime";
+export type stockPriceHistoryOptionalAttributes = "priceIdx" | "market" | "stockCode" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "tXsgn" | "pXsng" | "eIcod" | "regUnixtime";
 export type stockPriceHistoryCreationAttributes = Optional<stockPriceHistoryAttributes, stockPriceHistoryOptionalAttributes>;
 
 export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockPriceHistoryCreationAttributes> implements stockPriceHistoryAttributes {
-  priceIndex!: number;
+  priceIdx!: number;
   market?: string;
   stockCode?: string;
   open?: string;
@@ -66,13 +66,13 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
 
   static initModel(sequelize: Sequelize.Sequelize): typeof stockPriceHistory {
     return stockPriceHistory.init({
-    priceIndex: {
+    priceIdx: {
+      autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
       primaryKey: true,
       comment: "인덱스",
-      field: 'price_index'
+      field: 'price_idx'
     },
     market: {
       type: DataTypes.STRING(10),
@@ -224,7 +224,7 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "price_index" },
+          { name: "price_idx" },
         ]
       },
       {

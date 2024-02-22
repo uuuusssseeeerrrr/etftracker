@@ -53,7 +53,7 @@ export class etfStockList extends Model<etfStockListAttributes, etfStockListCrea
       field: 'reg_date'
     },
     etfPercent: {
-      type: DataTypes.FLOAT(2,2),
+      type: DataTypes.FLOAT,
       allowNull: true,
       comment: "ETF 비율",
       field: 'etf_percent'
