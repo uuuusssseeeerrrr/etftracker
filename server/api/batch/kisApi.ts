@@ -48,8 +48,7 @@ export const getKisAccessToken = async function () {
     });
 
     if(!tokenData) {
-        const url = `https://openapi.koreainvestment.com:9443/oauth2/tokenP`;
-        const tokenResObj = await axios.post('https://openapi.koreainvestment.com:9443/uapi/overseas-price/v1/quotations/price-detail', {
+        const tokenResObj = await axios.post('https://openapi.koreainvestment.com:9443/oauth2/tokenP', {
             "grant_type": "client_credentials",
             "appkey": process.env.kisKey,
             "appsecret": process.env.kisSecret

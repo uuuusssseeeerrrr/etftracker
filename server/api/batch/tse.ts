@@ -42,13 +42,14 @@ export const getTSEStockData: getStockData = async (accessToken: string) => {
             pXdif: stockDataObj.p_xdif,
             pXrat: stockDataObj.p_xrat,
             tRate: stockDataObj.t_rate,
-            tXsgn: stockDataObj.t_xsgn,
-            pXsng: stockDataObj.p_xsng,
             eIcod: stockDataObj.e_icod,
             regUnixtime: today.unix()
         }).dataValues;
     }
 
     await models.stockPriceHistory.bulkCreate(stockPriceArr);
+    
+    console.log('insert batch end');
+
     return true;
 }

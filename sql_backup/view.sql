@@ -23,8 +23,6 @@ select etf_list.market       as market_code,
        H2.p_xdif AS  pXdif,
        concat(H2.p_xrat, '%') pXrat,
        H2.t_rate AS  tRate,
-       H2.t_xsgn AS  tXsgn,
-       H2.p_xsng AS  pXsng,
        H2.e_icod AS  eIcod
 from etf_list
          join etf_stock_list

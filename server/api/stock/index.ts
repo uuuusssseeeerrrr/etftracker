@@ -1,16 +1,23 @@
 /* eslint-disable import/namespace */
-import { defineEventHandler, readBody } from 'h3';
+import { defineEventHandler, getQuery } from 'h3';
 
 import { getJPStockData } from './tse';
 
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 export default defineEventHandler(async (event) => {
-    if (event.node.req.method === 'POST') {
-        const body = await readBody(event);
+    const params = await getQuery(event);
 
-        if (body.market.includes("TSE")) {
-            return await getJPStockData(body.market, body.etfStockCode);
+    console.log(params);
+
+    if(!params.market || !params.etfStockCode) {
+        setResponseStatus(event, 204);
+        return {msg : '필수값이 없습니다'};
+    }
+
+    if (event.node.req.method === 'GET') {
+        if (params.market === "TSE") {
+            return await getJPStockData(params.market, String(params.etfStockCode));
         }
     }
 });

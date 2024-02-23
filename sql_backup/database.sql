@@ -77,8 +77,6 @@ CREATE TABLE IF NOT EXISTS `stock_price_history` (
   `p_xdif` varchar(12) DEFAULT NULL COMMENT '원환산전일대비',
   `p_xrat` varchar(12) DEFAULT NULL COMMENT '원환산전일등락',
   `t_rate` varchar(12) DEFAULT NULL COMMENT '당일환율',
-  `t_xsgn` varchar(1) DEFAULT NULL COMMENT '원환산당일기호',
-  `p_xsng` varchar(1) DEFAULT NULL COMMENT '원환산전일기호',
   `e_icod` varchar(50) DEFAULT NULL COMMENT '업종(섹터)',
   `reg_date` int(11) DEFAULT NULL COMMENT '등록시간',
   PRIMARY KEY (`price_index`),
