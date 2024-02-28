@@ -11,6 +11,7 @@
     "buildModels": "sequelize-auto -o './models' -h localhost -d etf_tracker -u root -x 1234 -p 3606 --dialect mariadb -l ts --cm c --cf c --cp c"
   },
   "dependencies": {
+    "@nuxt/ui": "^2.14.0",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
     "mariadb": "^3.2.3",

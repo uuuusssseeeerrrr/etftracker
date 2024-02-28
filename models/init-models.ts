@@ -1,6 +1,8 @@
 import type { Sequelize } from "sequelize";
 import { etfList as _etfList } from "./etfList";
 import type { etfListAttributes, etfListCreationAttributes } from "./etfList";
+import { etfPriceHistory as _etfPriceHistory } from "./etfPriceHistory";
+import type { etfPriceHistoryAttributes, etfPriceHistoryCreationAttributes } from "./etfPriceHistory";
 import { etfStockList as _etfStockList } from "./etfStockList";
 import type { etfStockListAttributes, etfStockListCreationAttributes } from "./etfStockList";
 import { stockList as _stockList } from "./stockList";
@@ -12,6 +14,7 @@ import type { tokenAttributes, tokenCreationAttributes } from "./token";
 
 export {
   _etfList as etfList,
+  _etfPriceHistory as etfPriceHistory,
   _etfStockList as etfStockList,
   _stockList as stockList,
   _stockPriceHistory as stockPriceHistory,
@@ -21,6 +24,8 @@ export {
 export type {
   etfListAttributes,
   etfListCreationAttributes,
+  etfPriceHistoryAttributes,
+  etfPriceHistoryCreationAttributes,
   etfStockListAttributes,
   etfStockListCreationAttributes,
   stockListAttributes,
@@ -33,6 +38,7 @@ export type {
 
 export function initModels(sequelize: Sequelize) {
   const etfList = _etfList.initModel(sequelize);
+  const etfPriceHistory = _etfPriceHistory.initModel(sequelize);
   const etfStockList = _etfStockList.initModel(sequelize);
   const stockList = _stockList.initModel(sequelize);
   const stockPriceHistory = _stockPriceHistory.initModel(sequelize);
@@ -41,6 +47,7 @@ export function initModels(sequelize: Sequelize) {
 
   return {
     etfList: etfList,
+    etfPriceHistory: etfPriceHistory,
     etfStockList: etfStockList,
     stockList: stockList,
     stockPriceHistory: stockPriceHistory,

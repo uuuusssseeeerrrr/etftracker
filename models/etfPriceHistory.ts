@@ -1,7 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 
-export interface stockPriceHistoryAttributes {
+export interface etfPriceHistoryAttributes {
   priceIdx: number;
   market?: string;
   stockCode?: string;
@@ -10,13 +10,8 @@ export interface stockPriceHistoryAttributes {
   low?: string;
   price?: string;
   lastDayPrice?: string;
-  tomv?: string;
   h52P?: string;
   l52P?: string;
-  perx?: string;
-  pbrx?: string;
-  epsx?: string;
-  bpsx?: string;
   tXprc?: string;
   tXdif?: string;
   tXrat?: string;
@@ -24,16 +19,15 @@ export interface stockPriceHistoryAttributes {
   pXdif?: string;
   pXrat?: string;
   tRate?: string;
-  eIcod?: string;
   regUnixtime?: number;
 }
 
-export type stockPriceHistoryPk = "priceIdx";
-export type stockPriceHistoryId = stockPriceHistory[stockPriceHistoryPk];
-export type stockPriceHistoryOptionalAttributes = "priceIdx" | "market" | "stockCode" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "eIcod" | "regUnixtime";
-export type stockPriceHistoryCreationAttributes = Optional<stockPriceHistoryAttributes, stockPriceHistoryOptionalAttributes>;
+export type etfPriceHistoryPk = "priceIdx";
+export type etfPriceHistoryId = etfPriceHistory[etfPriceHistoryPk];
+export type etfPriceHistoryOptionalAttributes = "priceIdx" | "market" | "stockCode" | "open" | "high" | "low" | "price" | "lastDayPrice" | "h52P" | "l52P" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "regUnixtime";
+export type etfPriceHistoryCreationAttributes = Optional<etfPriceHistoryAttributes, etfPriceHistoryOptionalAttributes>;
 
-export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockPriceHistoryCreationAttributes> implements stockPriceHistoryAttributes {
+export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHistoryCreationAttributes> implements etfPriceHistoryAttributes {
   priceIdx!: number;
   market?: string;
   stockCode?: string;
@@ -42,13 +36,8 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
   low?: string;
   price?: string;
   lastDayPrice?: string;
-  tomv?: string;
   h52P?: string;
   l52P?: string;
-  perx?: string;
-  pbrx?: string;
-  epsx?: string;
-  bpsx?: string;
   tXprc?: string;
   tXdif?: string;
   tXrat?: string;
@@ -56,12 +45,11 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
   pXdif?: string;
   pXrat?: string;
   tRate?: string;
-  eIcod?: string;
   regUnixtime?: number;
 
 
-  static initModel(sequelize: Sequelize.Sequelize): typeof stockPriceHistory {
-    return stockPriceHistory.init({
+  static initModel(sequelize: Sequelize.Sequelize): typeof etfPriceHistory {
+    return etfPriceHistory.init({
     priceIdx: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -107,11 +95,6 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
       comment: "전일종가",
       field: 'last_day_price'
     },
-    tomv: {
-      type: DataTypes.STRING(16),
-      allowNull: true,
-      comment: "시가총액"
-    },
     h52P: {
       type: DataTypes.STRING(12),
       allowNull: true,
@@ -123,26 +106,6 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
       allowNull: true,
       comment: "52주최저가",
       field: 'l52p'
-    },
-    perx: {
-      type: DataTypes.STRING(10),
-      allowNull: true,
-      comment: "PER"
-    },
-    pbrx: {
-      type: DataTypes.STRING(10),
-      allowNull: true,
-      comment: "PBR"
-    },
-    epsx: {
-      type: DataTypes.STRING(10),
-      allowNull: true,
-      comment: "EPS"
-    },
-    bpsx: {
-      type: DataTypes.STRING(10),
-      allowNull: true,
-      comment: "BPS"
     },
     tXprc: {
       type: DataTypes.STRING(12),
@@ -186,12 +149,6 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
       comment: "당일환율",
       field: 't_rate'
     },
-    eIcod: {
-      type: DataTypes.STRING(50),
-      allowNull: true,
-      comment: "업종(섹터)",
-      field: 'e_icod'
-    },
     regUnixtime: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -200,7 +157,7 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
     }
   }, {
     sequelize,
-    tableName: 'stock_price_history',
+    tableName: 'etf_price_history',
     timestamps: false,
     indexes: [
       {

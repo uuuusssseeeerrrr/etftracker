@@ -1,7 +1,7 @@
 import { defineEventHandler, getQuery } from 'h3';
 
 // eslint-disable-next-line import/namespace
-import { getTSEStockData } from './tse';
+import { runJpEtfBatch, runJpStockBatch } from './tse';
 import { getKisAccessToken } from './kisApi';
 
 export default defineEventHandler(async (event) => {
@@ -11,7 +11,8 @@ export default defineEventHandler(async (event) => {
         if (queryParam.market === "TSE") {
             const token = await getKisAccessToken();
 
-            getTSEStockData(token);
+            await runJpEtfBatch(token);
+            await runJpStockBatch(token);
         }
     }
 });

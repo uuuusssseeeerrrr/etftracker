@@ -1,17 +1,9 @@
-// import { defineEventHandler, getQuery } from 'h3';
+import { defineEventHandler } from 'h3';
+import { QueryTypes } from "sequelize";
+import { sequelize } from '../../../models';
 
-// import models from '../../../models';
-
-// export default defineEventHandler(async (event) => {
-//     if (event.node.req.method === 'GET') {
-//         const query = await getQuery(event);
-
-//         console.log(query);
-
-//         return await models.etf.findAll({
-//             where: {
-//                 market: query.market as string
-//             }
-//         });
-//     }
-// });
+export default defineEventHandler(async (event) => {
+    if (event.node.req.method === 'GET') {
+        return await sequelize.query(`select * from etf_price_info`, { type: QueryTypes.SELECT });
+    }
+});

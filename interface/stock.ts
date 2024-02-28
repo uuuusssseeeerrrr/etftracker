@@ -49,8 +49,8 @@ type kisPriceDetailResponse = {
     "msg1": string
 }
 
-interface getStockData {
+interface runStockBatch {
     (accessToken: string): Promise<{}>;
 }
 
-export { getStockData, priceDetailData, kisPriceDetailResponse };
+export { runStockBatch, priceDetailData, kisPriceDetailResponse };

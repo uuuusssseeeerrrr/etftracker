@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { models } from '../../../models';
 import axios, { AxiosHeaders } from 'axios'
-import {priceDetailData, kisPriceDetailResponse} from '../interface/stock'
+import {priceDetailData, kisPriceDetailResponse} from '~/interface'
 
 //시세데이터 조회 함수
 export const getKisApiData = async function (market: string, stockCode: string, accessToken: string): Promise<priceDetailData> {
