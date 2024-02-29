@@ -29,7 +29,7 @@
 }
 
 .cont {
-  max-width: 1650px;
+  max-width: 1900px;
   margin: 0 auto;
 }
 </style>
