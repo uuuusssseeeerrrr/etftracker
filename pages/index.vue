@@ -35,11 +35,11 @@ const columns = [{
   key: 'price',
   label: '현재가'
 }, {
-  key: 'tXrat',
-  label: '전일대비'
-}, {
   key: 'tXprc',
   label: '현재가(KRW)'
+}, {
+  key: 'tXrat',
+  label: '전일대비'
 }, {
   key: 'open',
   label: '시가'

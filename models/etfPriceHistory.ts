@@ -3,8 +3,8 @@ import { DataTypes, Model, Optional } from 'sequelize';
 
 export interface etfPriceHistoryAttributes {
   priceIdx: number;
-  market?: string;
-  stockCode?: string;
+  market: string;
+  stockCode: string;
   open?: string;
   high?: string;
   low?: string;
@@ -24,13 +24,13 @@ export interface etfPriceHistoryAttributes {
 
 export type etfPriceHistoryPk = "priceIdx";
 export type etfPriceHistoryId = etfPriceHistory[etfPriceHistoryPk];
-export type etfPriceHistoryOptionalAttributes = "priceIdx" | "market" | "stockCode" | "open" | "high" | "low" | "price" | "lastDayPrice" | "h52P" | "l52P" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "regUnixtime";
+export type etfPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "h52P" | "l52P" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "regUnixtime";
 export type etfPriceHistoryCreationAttributes = Optional<etfPriceHistoryAttributes, etfPriceHistoryOptionalAttributes>;
 
 export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHistoryCreationAttributes> implements etfPriceHistoryAttributes {
   priceIdx!: number;
-  market?: string;
-  stockCode?: string;
+  market!: string;
+  stockCode!: string;
   open?: string;
   high?: string;
   low?: string;
@@ -60,12 +60,12 @@ export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHi
     },
     market: {
       type: DataTypes.STRING(10),
-      allowNull: true,
+      allowNull: false,
       comment: "시장코드"
     },
     stockCode: {
       type: DataTypes.STRING(20),
-      allowNull: true,
+      allowNull: false,
       comment: "종목코드",
       field: 'stock_code'
     },

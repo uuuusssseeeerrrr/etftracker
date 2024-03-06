@@ -1,6 +1,5 @@
 import { defineEventHandler, getQuery } from 'h3';
 
-// eslint-disable-next-line import/namespace
 import { runJpEtfBatch, runJpStockBatch } from './tse';
 import { getKisAccessToken } from './kisApi';
 

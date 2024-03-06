@@ -1,11 +1,15 @@
 import dayjs from 'dayjs';
 
-import { getKisApiData } from './kisApi';
+import { getKisApiData, getKisInfoApiData } from './kisApi';
 import { runStockBatch } from '~/interface'
 import { models } from '../../../models';
+import { sequelize } from "~/models";
+import { QueryTypes } from "sequelize";
+import { stockList } from '~/models/stockList';
 
 const market = "TSE";
 
+// ETF 가격 입력 함수
 export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
     const today = dayjs();
     const etfStockListArray = await models.etfList.findAll({
@@ -45,6 +49,7 @@ export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
     return true;
 }
 
+// 주식 가격 입력 함수
 export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
     const today = dayjs();
     const stockListArray = await models.stockList.findAll({
@@ -87,5 +92,30 @@ export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
     }
 
     await models.stockPriceHistory.bulkCreate(stockPriceArr);
+    return true;
+}
+
+// 종목 정보 입력 함수
+export const runJpStockInfoBatch: runStockBatch = async (accessToken: string) => {
+    const today = dayjs();
+
+    // op.is null 오류 발생으로 직접 쿼리실행
+    const stockListArray: any[] = await sequelize.query(`select * from stock_list where prdt_name is null`, {
+        type: QueryTypes.SELECT
+    });
+
+    for (let i = 0; i < stockListArray.length; i++) {
+        const stockObj = stockListArray[i];
+        const stockDataObj = await getKisInfoApiData(market, stockObj.stock_code, accessToken);
+        await models.stockList.update({
+            trCrcyCd : stockDataObj.tr_crcy_cd,
+            buyUnitQty : stockDataObj.buy_unit_qty,
+            prdtName : stockDataObj.prdt_name.indexOf(']') > -1 ? stockDataObj.prdt_name.split(']')[1] : stockDataObj.prdt_name,
+            modDate: today.toDate()
+        }, {
+            where: { stockCode: stockObj.stock_code }
+        });
+    }
+
     return true;
 }

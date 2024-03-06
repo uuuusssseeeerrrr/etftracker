@@ -1,4 +1,4 @@
-type priceDetailData = {
+interface priceDetailData {
     "rsym": string,
     "zdiv": string,
     "curr": string,
@@ -42,15 +42,28 @@ type priceDetailData = {
     "etyp_nm": string
 }
 
-type kisPriceDetailResponse = {
-    "output": priceDetailData,
+interface stockInfoData {
+    "tr_crcy_cd" : string,
+    "buy_unit_qty" : string,
+    "prdt_name" : string
+}
+
+interface kisdefaultResponse {
     "rt_cd": string,
     "msg_cd": string,
     "msg1": string
+}
+
+interface kisPriceDetailResponse extends kisdefaultResponse{
+    "output": priceDetailData
+}
+
+interface kisPriceInfoResponse extends kisdefaultResponse {
+    "output": stockInfoData,
 }
 
 interface runStockBatch {
     (accessToken: string): Promise<{}>;
 }
 
-export { runStockBatch, priceDetailData, kisPriceDetailResponse };
+export { runStockBatch, priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData };

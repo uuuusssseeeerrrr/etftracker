@@ -3,8 +3,8 @@ import { DataTypes, Model, Optional } from 'sequelize';
 
 export interface stockPriceHistoryAttributes {
   priceIdx: number;
-  market?: string;
-  stockCode?: string;
+  market: string;
+  stockCode: string;
   open?: string;
   high?: string;
   low?: string;
@@ -30,13 +30,13 @@ export interface stockPriceHistoryAttributes {
 
 export type stockPriceHistoryPk = "priceIdx";
 export type stockPriceHistoryId = stockPriceHistory[stockPriceHistoryPk];
-export type stockPriceHistoryOptionalAttributes = "priceIdx" | "market" | "stockCode" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "eIcod" | "regUnixtime";
+export type stockPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "eIcod" | "regUnixtime";
 export type stockPriceHistoryCreationAttributes = Optional<stockPriceHistoryAttributes, stockPriceHistoryOptionalAttributes>;
 
 export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockPriceHistoryCreationAttributes> implements stockPriceHistoryAttributes {
   priceIdx!: number;
-  market?: string;
-  stockCode?: string;
+  market!: string;
+  stockCode!: string;
   open?: string;
   high?: string;
   low?: string;
@@ -72,12 +72,12 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
     },
     market: {
       type: DataTypes.STRING(10),
-      allowNull: true,
+      allowNull: false,
       comment: "시장코드"
     },
     stockCode: {
       type: DataTypes.STRING(20),
-      allowNull: true,
+      allowNull: false,
       comment: "종목코드",
       field: 'stock_code'
     },
