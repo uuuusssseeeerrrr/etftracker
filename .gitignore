@@ -85,6 +85,7 @@ dist
 
 # IDE / Editor
 .idea
+.vscode
 
 # Service worker
 sw.*
@@ -97,4 +98,3 @@ sw.*
 
 # 잡다한 폴더
 .output
-.vscode
