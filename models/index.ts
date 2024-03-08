@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-import { etfList, etfPriceHistory, initModels } from './init-models';
+import { etfList, etfStockList, initModels } from './init-models';
 
 const sequelize = new Sequelize(process.env.database || '', process.env.userNm || '', process.env.password || '', {
     dialect: 'mariadb',
@@ -10,8 +10,11 @@ const sequelize = new Sequelize(process.env.database || '', process.env.userNm |
 
 const models = initModels(sequelize);
 
-models.etfList.hasMany(etfPriceHistory, {as: 'etfPriceHistory'});
-models.etfPriceHistory.belongsTo(etfList, { as: 'etfList' });
+models.etfList.hasMany(etfStockList, { as: 'etfStockList' });
+models.etfStockList.belongsTo(etfList, { as: 'etfList',
+    targetKey: 'stockCode',
+    foreignKey: 'etfStockCode'
+});
 
 export {
     models,

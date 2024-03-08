@@ -11,35 +11,35 @@
           <tbody>
             <tr>
               <td class="mr-3">마켓</td>
-              <td>{{ etfInfo?.market }}</td>
+              <td>{{ etfInfo.market }}</td>
             </tr>
             <tr>
               <td class="mr-3">ETF 코드</td>
-              <td>{{ etfInfo?.stockCode }}</td>
+              <td>{{ etfInfo.stockCode }}</td>
             </tr>
             <tr>
               <td class="mr-3">ETF 명</td>
-              <td>{{ etfInfo?.etfName }}</td>
+              <td>{{ etfInfo.etfName }}</td>
             </tr>
             <tr>
               <td class="mr-3">ETF 운용사</td>
-              <td>{{ etfInfo?.companyName }}</td>
+              <td>{{ etfInfo.companyName }}</td>
             </tr>
             <tr>
               <td class="mr-3">벤치마크 인덱스</td>
-              <td>{{ etfInfo?.benchmarkIndex }}</td>
+              <td>{{ etfInfo.benchmarkIndex }}</td>
             </tr>
             <tr>
               <td class="mr-3">인덱스 소개</td>
-              <td>{{ etfInfo?.indexComment }}</td>
+              <td>{{ etfInfo.indexComment }}</td>
             </tr>
             <tr>
               <td class="mr-3">거래단위</td>
-              <td>{{ etfInfo?.tradingLot }}</td>
+              <td>{{ etfInfo.tradingLot }}</td>
             </tr>
             <tr>
               <td class="mr-3">수수료</td>
-              <td>{{ etfInfo?.trustFeeRate }}</td>
+              <td>{{ etfInfo.trustFeeRate }}</td>
             </tr>
           </tbody>
         </table>
@@ -127,16 +127,17 @@ const columns = [{
   label: '최종 업데이트시간'
 }];
 
-const route = useRoute()
+const route = useRoute();
+const router = useRouter();
 const { pending, data: stockData } = await useAsyncData('stockData', () => $fetch(`/api/etf/${route.params.stockCode}`));
-const rowData = stockData.value?.stockInfo as { [key: string]: any; }[];
+const rowData: gIEtfList | undefined = stockData.value?.stockInfo as unknown as gIEtfList;
 const etfInfo: any = stockData.value?.etfInfo;
 const selectedColumns = ref([...columns])
 const columnsTable = computed(() => columns.filter((column) => selectedColumns.value.includes(column)))
 
 const selectRow = (row: any) => {
   if(row.marketCode === 'TSE') {
-    window.open(`https://finance.yahoo.com/quote/${row.stockCode}.T`);
+    router.push(`/stock/${row.marketCode}-${row.stockCode}`);
   }
 }
 </script>

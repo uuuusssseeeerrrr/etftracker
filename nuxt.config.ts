@@ -5,4 +5,7 @@ export default defineNuxtConfig({
   css: [
     '@/assets/global.css',
   ],
+  imports: {
+    dirs: ["types"],
+  },
 })

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { models } from '../../../models';
 import axios, { AxiosHeaders } from 'axios'
-import {priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData} from '~/interface'
+import {priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData} from '~/types'
 
 // axios 로그 인터셉터
 axios.interceptors.request.use(request => {

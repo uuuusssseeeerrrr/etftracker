@@ -66,4 +66,4 @@ interface runStockBatch {
     (accessToken: string): Promise<{}>;
 }
 
-export { runStockBatch, priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData };
+export type { runStockBatch, priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData };

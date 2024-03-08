@@ -10,11 +10,12 @@ export interface stockListAttributes {
   prdtName?: string;
   regDate?: Date;
   modDate?: Date;
+  stockComment?: string;
 }
 
 export type stockListPk = "market" | "stockCode";
 export type stockListId = stockList[stockListPk];
-export type stockListOptionalAttributes = "market" | "stockCode" | "stockName" | "trCrcyCd" | "buyUnitQty" | "prdtName" | "regDate" | "modDate";
+export type stockListOptionalAttributes = "market" | "stockCode" | "stockName" | "trCrcyCd" | "buyUnitQty" | "prdtName" | "regDate" | "modDate" | "stockComment";
 export type stockListCreationAttributes = Optional<stockListAttributes, stockListOptionalAttributes>;
 
 export class stockList extends Model<stockListAttributes, stockListCreationAttributes> implements stockListAttributes {
@@ -26,6 +27,7 @@ export class stockList extends Model<stockListAttributes, stockListCreationAttri
   prdtName?: string;
   regDate?: Date;
   modDate?: Date;
+  stockComment?: string;
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof stockList {
@@ -80,6 +82,12 @@ export class stockList extends Model<stockListAttributes, stockListCreationAttri
       allowNull: true,
       comment: "수정시간",
       field: 'mod_date'
+    },
+    stockComment: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      comment: "종목소개",
+      field: 'stock_comment'
     }
   }, {
     sequelize,

@@ -1,11 +1,10 @@
 import dayjs from 'dayjs';
 
 import { getKisApiData, getKisInfoApiData } from './kisApi';
-import { runStockBatch } from '~/interface'
+import { runStockBatch } from '~/types'
 import { models } from '../../../models';
 import { sequelize } from "~/models";
 import { QueryTypes } from "sequelize";
-import { stockList } from '~/models/stockList';
 
 const market = "TSE";
 
