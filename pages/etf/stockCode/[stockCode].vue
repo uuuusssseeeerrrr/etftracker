@@ -92,7 +92,8 @@ const items = [{
 
 const columns = [{
   key: 'stockCode',
-  label: '종목코드'
+  label: '종목코드',
+  sortable: true
 }, {
   key: 'prdtName',
   label: '종목명'
@@ -107,7 +108,9 @@ const columns = [{
   label: '현재가(KRW)'
 }, {
   key: 'tXrat',
-  label: '전일대비'
+  label: '전일대비',
+  sortable: true,
+  sort
 }, {
   key: 'open',
   label: '시가'
@@ -140,7 +143,9 @@ const columns = [{
   label: 'BPS'
 }, {
   key: 'etfPercent',
-  label: 'ETF 비중'
+  label: 'ETF 비중',
+  sortable: true,
+  sort
 }, {
   key: 'buyUnitQty',
   label: '거래단위'
@@ -162,6 +167,14 @@ const columnsTable = computed(() => columns.filter((column) => selectedColumns.v
 const selectRow = (row: any) => {
   if(row.marketCode === 'TSE') {
     router.push(`/stock/${row.marketCode}-${row.stockCode}`);
+  }
+}
+
+function sort (a:string, b:string, direction:"asc" | "desc") {
+  if (direction === "asc") {
+    return Number(a.replace('%', '')) > Number(b.replace('%', '')) ? 1 : -1;
+  } else if (direction === "desc") {
+    return Number(a.replace('%', '')) > Number(b.replace('%', '')) ? -1 : 1;
   }
 }
 
@@ -222,7 +235,6 @@ for (const gIEtfObj of etfStockData) {
 
 const hiddenLoading = () => {
   loader.value.style.display = "none";
-  console.log(loader.value);
 }
 
 </script>

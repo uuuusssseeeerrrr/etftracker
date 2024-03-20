@@ -36,9 +36,6 @@ export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
             tXprc: stockDataObj.t_xprc,
             tXdif: stockDataObj.t_xdif,
             tXrat: stockDataObj.t_xrat,
-            pXprc: stockDataObj.p_xprc,
-            pXdif: stockDataObj.p_xdif,
-            pXrat: stockDataObj.p_xrat,
             tRate: stockDataObj.t_rate,
             regUnixtime: today.unix()
         }).dataValues;
@@ -81,9 +78,6 @@ export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
             tXprc: stockDataObj.t_xprc,
             tXdif: stockDataObj.t_xdif,
             tXrat: stockDataObj.t_xrat,
-            pXprc: stockDataObj.p_xprc,
-            pXdif: stockDataObj.p_xdif,
-            pXrat: stockDataObj.p_xrat,
             tRate: stockDataObj.t_rate,
             eIcod: stockDataObj.e_icod,
             regUnixtime: today.unix()

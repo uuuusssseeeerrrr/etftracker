@@ -73,7 +73,9 @@ interface runStockBatch {
 
 interface gIEtfList extends etfListAttributes {}
 interface gIStockList extends stockListAttributes {}
-interface gIStockPriceHistory extends stockPriceHistoryAttributes {}
+interface gIStockPriceHistory extends stockPriceHistoryAttributes {
+    "regDate": string
+}
 interface gIStockWeightInfo {
     "market": string,
     "etfStockCode": string,

@@ -32,8 +32,16 @@
               <td>{{ stockInfo.prdtName }}</td>
             </tr>
             <tr>
+              <td class="mr-3">업종(섹터)</td>
+              <td>{{ stockPriceHistory[0].eIcod || '수집된 자료가 없습니다.' }}</td>
+            </tr>
+            <tr>
               <td class="mr-3">거래통화</td>
               <td>{{ stockInfo.trCrcyCd }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">시가총액</td>
+              <td>{{ tomv || '수집된 자료가 없습니다.' }}</td>
             </tr>
             <tr>
               <td class="mr-3">매수단위수량</td>
@@ -66,7 +74,7 @@
       </div>
       <UTable :loading="pending" :columns="selectedStockColumns" :rows="stockPriceHistory" :ui="{
               tr:{
-                base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                base: 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
               }
             }">
         <template #empty-state>
@@ -103,6 +111,7 @@
 </template>
   
 <script setup lang="ts">
+import dayjs from 'dayjs'
 import type { gIStockList, gIStockPriceHistory, gIStockWeightInfo } from '~/types';
 
   const tabMenu = [{
@@ -138,10 +147,10 @@ import type { gIStockList, gIStockPriceHistory, gIStockWeightInfo } from '~/type
       key: 'lastDayPrice',
       label: '전일종가'
   }, {
-      key: 'h52p',
+      key: 'h52P',
       label: '52주 최고가'
   }, {
-      key: 'l52p',
+      key: 'l52P',
       label: '52주 최저가'
   }, {
       key: 'perx',
@@ -156,14 +165,11 @@ import type { gIStockList, gIStockPriceHistory, gIStockWeightInfo } from '~/type
       key: 'bpsx',
       label: 'BPS'
   }, {
-      key: 'etfPercent',
-      label: 'ETF 비중'
-  }, {
-      key: 'buyUnitQty',
-      label: '거래단위'
+      key: 'tRate',
+      label: '적용환율'
   }, {
       key: 'regDate',
-      label: '최종 업데이트시간'
+      label: '업데이트시간'
   }];
 
   const weightColumns = [{
@@ -191,11 +197,12 @@ import type { gIStockList, gIStockPriceHistory, gIStockWeightInfo } from '~/type
   
   const route = useRoute();
   const router = useRouter();
+  let tomv: string = "";
   const { pending, data: stockData } = await useAsyncData('stockData', () => $fetch(`/api/stock/${route.params.market}/${route.params.stockCode}`));
-  
-  const stockInfo: gIStockList | null | undefined = stockData.value?.stockInfo as unknown as gIStockList;
-  const stockPriceHistory: gIStockPriceHistory[] | undefined = stockData.value?.stockPriceHistory;
-  const etfWeight: gIStockWeightInfo[] | undefined = stockData.value?.weightInfo;
+
+  const stockInfo: gIStockList = stockData.value?.stockInfo as unknown as gIStockList || {};
+  const stockPriceHistory: gIStockPriceHistory[] = stockData.value?.stockPriceHistory || [];
+  const etfWeight: gIStockWeightInfo[] = stockData.value?.weightInfo || [];
 
   const stockRefColumns = ref([...stockColumns]);
   const selectedStockColumns = computed(() => stockColumns.filter((column) => stockRefColumns.value.includes(column)));
@@ -206,4 +213,20 @@ import type { gIStockList, gIStockPriceHistory, gIStockWeightInfo } from '~/type
   const selectRow = (row: any) => {
     router.push(`/etf/stockCode/${row.etfStockCode}`);
   }
+
+  for(const stockPriceObj of stockPriceHistory) {
+    const dateObj = dayjs.unix(stockPriceObj.regUnixtime || 0);
+    stockPriceObj.regDate = dateObj.format('YYYY-MM-DD HH:mm:ss');
+
+    if(tomv.length === 0) {
+      if(stockPriceObj.tomv && stockPriceObj.tomv.length > 12) {
+        tomv = Math.floor(Number(stockPriceObj.tomv) / 1000000000000) + " 조엔";
+      } else if (stockPriceObj.tomv && stockPriceObj.tomv.length > 8) {
+        tomv = Math.floor(Number(stockPriceObj.tomv) / 100000000) + " 억엔";
+      } else if (stockPriceObj.tomv && stockPriceObj.tomv.length > 8) {
+        tomv = Math.floor(Number(stockPriceObj.tomv) / 10000) + " 만엔";
+      }
+    }
+  }
+ 
 </script>

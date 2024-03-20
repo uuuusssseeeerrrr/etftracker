@@ -62,7 +62,7 @@ export const getKisApiData = async function (market: string, stockCode: string, 
     });
 
     if(kisPriceDetailResponseObj.rt_cd !== '0') {
-        console.log(JSON.stringify(kisPriceDetailResponseObj));
+        console.error(JSON.stringify(kisPriceDetailResponseObj));
         throw new Error('KisApi 연동에러');
     } else {
         await sleep();
@@ -90,7 +90,7 @@ export const getKisInfoApiData = async function (market: string, stockCode: stri
     });
 
     if(kisPriceInfoResponseObj.rt_cd !== '0') {
-        console.log(JSON.stringify(kisPriceInfoResponseObj));
+        console.error(JSON.stringify(kisPriceInfoResponseObj));
         throw new Error('KisApi 연동에러');
     } else {
         await sleep();

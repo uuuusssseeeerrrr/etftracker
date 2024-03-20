@@ -23,7 +23,10 @@ export default defineEventHandler(async (event) => {
                     [Op.between] : [dayjs().subtract(3, 'day').unix(), dayjs().unix()]
                 }}
             ]
-        }
+        },
+        order : [
+            ['regUnixtime', 'DESC']
+        ]
     });
 
     stockData.weightInfo = await models.etfStockList.findAll({

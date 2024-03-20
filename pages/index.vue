@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div>
+        <div class="mb-5 mt-5">
           <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Columns" class="w-44"/>
         </div>
         <UTable 
@@ -24,7 +24,8 @@ const columns = [{
   label: '국가'
 }, {
   key: 'etfStockCode',
-  label: '종목코드'
+  label: '종목코드',
+  sortable: true
 }, {
   key: 'etfName',
   label: 'ETF명'
@@ -39,7 +40,15 @@ const columns = [{
   label: '현재가(KRW)'
 }, {
   key: 'tXrat',
-  label: '전일대비'
+  label: '전일대비',
+  sortable: true,
+  sort : (a:string, b:string, direction:"asc" | "desc") => {
+    if(direction === "asc") {
+      return Number(a.replace('%', '')) > Number(b.replace('%', '')) ? 1 : -1;
+    } else if (direction === "desc") {
+      return Number(a.replace('%', '')) > Number(b.replace('%', '')) ? -1 : 1;
+    }
+  }
 }, {
   key: 'open',
   label: '시가'

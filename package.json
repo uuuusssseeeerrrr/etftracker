@@ -11,24 +11,24 @@
     "buildModels": "sequelize-auto -o './models' -h localhost -d etf_tracker -u root -x 1234 -p 3606 --dialect mariadb -l ts --cm c --cf c --cp c"
   },
   "dependencies": {
-    "@nuxt/ui": "^2.14.0",
+    "@nuxt/ui": "^2.14.2",
     "@sequelize/core": "^7.0.0-alpha.37",
-    "apexcharts": "^3.47.0",
+    "apexcharts": "^3.48.0",
     "dayjs": "^1.11.10",
     "mariadb": "^3.2.3",
-    "mysql2": "^3.9.1",
-    "nuxt": "^3.10.2",
+    "mysql2": "^3.9.2",
+    "nuxt": "^3.11.1",
     "sequelize": "^6.37.1",
-    "vue": "^3.4.19",
-    "vue-router": "^4.2.5",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
     "vue3-apexcharts": "^1.5.2"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@nuxt/types": "^2.17.3",
     "@nuxt/typescript-build": "^3.0.2",
-    "@types/node": "^20.11.19",
+    "@types/node": "^20.11.30",
     "sequelize-auto": "^0.8.8",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }
