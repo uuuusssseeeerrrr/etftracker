@@ -1,3 +1,7 @@
+import type { etfListAttributes } from '~/models/etfList';
+import type { stockListAttributes } from '~/models/stockList';
+import type { stockPriceHistoryAttributes } from '~/models/stockPriceHistory';
+
 interface priceDetailData {
     "rsym": string,
     "zdiv": string,
@@ -43,6 +47,7 @@ interface priceDetailData {
 }
 
 interface stockInfoData {
+    "std_pdno" : string,
     "tr_crcy_cd" : string,
     "buy_unit_qty" : string,
     "prdt_name" : string
@@ -66,4 +71,20 @@ interface runStockBatch {
     (accessToken: string): Promise<{}>;
 }
 
-export type { runStockBatch, priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData };
+interface gIEtfList extends etfListAttributes {}
+interface gIStockList extends stockListAttributes {}
+interface gIStockPriceHistory extends stockPriceHistoryAttributes {}
+interface gIStockWeightInfo {
+    "market": string,
+    "etfStockCode": string,
+    "stockCode": string,
+    "etfPercent": string,
+    "etfList": {
+        "etfName": string,
+        "companyName": string,
+        "tradingLot": string,
+        "trustFeeRate": string
+    }
+}
+
+export type { runStockBatch, priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData, gIEtfList, gIStockList, gIStockPriceHistory, gIStockWeightInfo };

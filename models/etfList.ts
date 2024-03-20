@@ -1,21 +1,25 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import type { etfStockList, etfStockListId } from './etfStockList';
 
 export interface etfListAttributes {
   market: string;
   stockCode: string;
   etfName?: string;
   companyName?: string;
-  regDate?: Date;
   benchmarkIndex?: string;
   indexComment?: string;
-  tradingLot?: number;
+  tradingLot?: string;
   trustFeeRate?: string;
+  stdPdno?: string;
+  distributionYield?: string;
+  regDate?: Date;
+  modDate?: Date;
 }
 
 export type etfListPk = "market" | "stockCode";
 export type etfListId = etfList[etfListPk];
-export type etfListOptionalAttributes = "market" | "stockCode" | "etfName" | "companyName" | "regDate" | "benchmarkIndex" | "indexComment" | "tradingLot" | "trustFeeRate";
+export type etfListOptionalAttributes = "market" | "stockCode" | "etfName" | "companyName" | "benchmarkIndex" | "indexComment" | "tradingLot" | "trustFeeRate" | "stdPdno" | "distributionYield" | "regDate" | "modDate";
 export type etfListCreationAttributes = Optional<etfListAttributes, etfListOptionalAttributes>;
 
 export class etfList extends Model<etfListAttributes, etfListCreationAttributes> implements etfListAttributes {
@@ -23,12 +27,39 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
   stockCode!: string;
   etfName?: string;
   companyName?: string;
-  regDate?: Date;
   benchmarkIndex?: string;
   indexComment?: string;
-  tradingLot?: number;
+  tradingLot?: string;
   trustFeeRate?: string;
+  stdPdno?: string;
+  distributionYield?: string;
+  regDate?: Date;
+  modDate?: Date;
 
+  // etfList hasMany etfStockList via market
+  etfStockLists!: etfStockList[];
+  getEtfStockLists!: Sequelize.HasManyGetAssociationsMixin<etfStockList>;
+  setEtfStockLists!: Sequelize.HasManySetAssociationsMixin<etfStockList, etfStockListId>;
+  addEtfStockList!: Sequelize.HasManyAddAssociationMixin<etfStockList, etfStockListId>;
+  addEtfStockLists!: Sequelize.HasManyAddAssociationsMixin<etfStockList, etfStockListId>;
+  createEtfStockList!: Sequelize.HasManyCreateAssociationMixin<etfStockList>;
+  removeEtfStockList!: Sequelize.HasManyRemoveAssociationMixin<etfStockList, etfStockListId>;
+  removeEtfStockLists!: Sequelize.HasManyRemoveAssociationsMixin<etfStockList, etfStockListId>;
+  hasEtfStockList!: Sequelize.HasManyHasAssociationMixin<etfStockList, etfStockListId>;
+  hasEtfStockLists!: Sequelize.HasManyHasAssociationsMixin<etfStockList, etfStockListId>;
+  countEtfStockLists!: Sequelize.HasManyCountAssociationsMixin;
+  // etfList hasMany etfStockList via etfStockCode
+  etfStockCodeEtfStockLists!: etfStockList[];
+  getEtfStockCodeEtfStockLists!: Sequelize.HasManyGetAssociationsMixin<etfStockList>;
+  setEtfStockCodeEtfStockLists!: Sequelize.HasManySetAssociationsMixin<etfStockList, etfStockListId>;
+  addEtfStockCodeEtfStockList!: Sequelize.HasManyAddAssociationMixin<etfStockList, etfStockListId>;
+  addEtfStockCodeEtfStockLists!: Sequelize.HasManyAddAssociationsMixin<etfStockList, etfStockListId>;
+  createEtfStockCodeEtfStockList!: Sequelize.HasManyCreateAssociationMixin<etfStockList>;
+  removeEtfStockCodeEtfStockList!: Sequelize.HasManyRemoveAssociationMixin<etfStockList, etfStockListId>;
+  removeEtfStockCodeEtfStockLists!: Sequelize.HasManyRemoveAssociationsMixin<etfStockList, etfStockListId>;
+  hasEtfStockCodeEtfStockList!: Sequelize.HasManyHasAssociationMixin<etfStockList, etfStockListId>;
+  hasEtfStockCodeEtfStockLists!: Sequelize.HasManyHasAssociationsMixin<etfStockList, etfStockListId>;
+  countEtfStockCodeEtfStockLists!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof etfList {
     return etfList.init({
@@ -59,14 +90,8 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
       comment: "회사명",
       field: 'company_name'
     },
-    regDate: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      comment: "생성일",
-      field: 'reg_date'
-    },
     benchmarkIndex: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(100),
       allowNull: true,
       comment: "벤치마크인덱스명",
       field: 'benchmark_index'
@@ -78,7 +103,7 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
       field: 'index_comment'
     },
     tradingLot: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(10),
       allowNull: true,
       comment: "거래주수",
       field: 'trading_lot'
@@ -88,6 +113,30 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
       allowNull: true,
       comment: "수수료",
       field: 'trust_fee_rate'
+    },
+    stdPdno: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "표준상품번호",
+      field: 'std_pdno'
+    },
+    distributionYield: {
+      type: DataTypes.STRING(10),
+      allowNull: true,
+      comment: "배당수익률",
+      field: 'distribution_yield'
+    },
+    regDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      comment: "생성시간",
+      field: 'reg_date'
+    },
+    modDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      comment: "수정시간",
+      field: 'mod_date'
     }
   }, {
     sequelize,

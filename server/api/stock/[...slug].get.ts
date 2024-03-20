@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
 
     stockData.stockInfo = await models.stockList.findOne({
         where : {
-            market, stockCode
+            stockCode
         }
     });
 
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
         include : [{ 
             model: models.etfList,
             as: "etfList",
-            attributes: ['etfName', 'companyName', 'tradingLot', 'trustFeeRate'],
+            attributes: ['etfName', 'companyName', 'tradingLot', 'trustFeeRate', 'stdPdno'],
             required: true
         }]
     });

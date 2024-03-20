@@ -13,14 +13,15 @@
   "dependencies": {
     "@nuxt/ui": "^2.14.0",
     "@sequelize/core": "^7.0.0-alpha.37",
-    "axios": "^1.6.7",
+    "apexcharts": "^3.47.0",
     "dayjs": "^1.11.10",
     "mariadb": "^3.2.3",
     "mysql2": "^3.9.1",
     "nuxt": "^3.10.2",
     "sequelize": "^6.37.1",
     "vue": "^3.4.19",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue3-apexcharts": "^1.5.2"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

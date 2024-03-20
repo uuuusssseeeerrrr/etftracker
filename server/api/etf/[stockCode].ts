@@ -23,14 +23,6 @@ export default defineEventHandler(async (event) => {
             type: QueryTypes.SELECT,
             replacements: [stockCode],
         });
-    
-        if(returnData.etfInfo?.dataValues.market) {
-            switch(returnData.etfInfo?.dataValues.market) {
-                case "TSE":
-                    returnData.etfInfo.dataValues.market = `도쿄증권거래소(${returnData.etfInfo?.dataValues.market})`
-                    break;
-            }
-        }
         
         return returnData;
     } else {
