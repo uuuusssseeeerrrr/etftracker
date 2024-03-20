@@ -53,19 +53,6 @@ interface stockInfoData {
     "prdt_name" : string
 }
 
-interface kisdefaultResponse {
-    "rt_cd": string,
-    "msg_cd": string,
-    "msg1": string
-}
-
-interface kisPriceDetailResponse extends kisdefaultResponse{
-    "output": priceDetailData
-}
-
-interface kisPriceInfoResponse extends kisdefaultResponse {
-    "output": stockInfoData,
-}
 
 interface runStockBatch {
     (accessToken: string): Promise<{}>;
@@ -89,4 +76,4 @@ interface gIStockWeightInfo {
     }
 }
 
-export type { runStockBatch, priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData, gIEtfList, gIStockList, gIStockPriceHistory, gIStockWeightInfo };
+export type { runStockBatch, priceDetailData, stockInfoData, gIEtfList, gIStockList, gIStockPriceHistory, gIStockWeightInfo };
