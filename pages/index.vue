@@ -1,20 +1,27 @@
 <template>
     <section>
-        <div class="mb-5 mt-5">
-          <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Columns" class="w-44"/>
+        <div class="m-5">
+          <span>참고 : 장이 열리기 전인 경우 모든페이지 내 가격데이터가 표시되지 않을 수 있습니다</span><p></p>
+          <span>가격내 통화가 표시되지 않은 경우 현지통화입니다</span>
         </div>
-        <UTable 
-        :loading="pending"
-        :columns="columnsTable"
-        :rows="rowData"
-        :ui="{
-          tr:{
-            base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
-          }
-        }"
-        @select="selectRow"
-        >
-        </UTable>
+        <div class="mt-5 ml-5 mb-20">
+          <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Columns" class="w-44 float-left"/>
+          <UInput v-model="q" placeholder="ETF명을 입력하여 검색할수 있습니다(대소문자 구분X)" class="ml-3 w-1/3 float-left"/>
+        </div>
+        <div class="float-left">
+          <UTable 
+          :loading="pending"
+          :columns="columnsTable"
+          :rows="filteredRows"
+          :ui="{
+            tr:{
+              base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
+            }
+          }"
+          @select="selectRow"
+          >
+          </UTable>
+        </div>
     </section>
 </template>
 
@@ -77,11 +84,23 @@ const rowData = etfData.value as { [key: string]: any; }[];
 const selectedColumns = ref([...columns])
 const columnsTable = computed(() => columns.filter((column) => selectedColumns.value.includes(column)))
 const router = useRouter();
+const q = ref('')
+
+const filteredRows = computed(() => {
+  if (!q.value) {
+    return rowData;
+  }
+
+  return rowData.filter((inputObj) => {
+    return Object.values(inputObj).some((value) => {
+      return String(value).toLowerCase().includes(q.value.toLowerCase());
+    })
+  })
+})
 
 const selectRow = (row: any) => {
   router.push(`/etf/stockCode/${row.etfStockCode}`);
 }
-
 </script>
 
 <style scoped>

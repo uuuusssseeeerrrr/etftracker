@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "buildModels": "sequelize-auto -o './models' -h localhost -d etf_tracker -u root -x 1234 -p 3606 --dialect mariadb -l ts --cm c --cf c --cp c"
+    "buildModels": "sequelize-auto -o './models' -h -d etf_tracker -u root -x -p --dialect mariadb -l ts --cm c --cf c --cp c"
   },
   "dependencies": {
     "@nuxt/ui": "^2.14.2",

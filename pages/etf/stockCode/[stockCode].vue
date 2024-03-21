@@ -218,18 +218,20 @@ const chartOptions = {
 
 for (const gIEtfObj of etfStockData) {
   let tXrat: number = Number(String(gIEtfObj.tXrat || '0').replace('%', ''));
-  
-  if(tXrat > 3) {
-    tXrat = 3;
-  } else if (tXrat < -3){
-    tXrat = -3
+  let fillColor: string = "";
+  if(tXrat === 0) {
+    fillColor = '#E2E2E2'
+  } else if (tXrat > 0) {
+    fillColor = (tXrat > 3) ? plusColorMap[plusColorMap.length - 1] : plusColorMap[Math.floor(tXrat)];
+  } else if (tXrat < 0) {
+    fillColor = (tXrat < -3) ? minusColorMap[minusColorMap.length - 1] : minusColorMap[Math.abs(Math.round(tXrat))];
   }
 
   chartData[0].data.push({
     x: gIEtfObj.prdtName,
     y : Number(String(gIEtfObj.etfPercent).replace('%', '')),
-    fillColor : (String(gIEtfObj.tXrat || '0').includes('-')) ? minusColorMap[Math.abs(Math.round(tXrat))] : plusColorMap[Math.floor(tXrat)],
-    tXrat : gIEtfObj.tXrat
+    tXrat : gIEtfObj.tXrat,
+    fillColor
   });
 }
 
