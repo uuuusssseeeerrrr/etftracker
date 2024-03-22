@@ -22,12 +22,12 @@ export interface stockPriceHistoryAttributes {
   tXrat?: string;
   tRate?: string;
   eIcod?: string;
-  regUnixtime?: number;
+  regDate?: Date;
 }
 
 export type stockPriceHistoryPk = "priceIdx";
 export type stockPriceHistoryId = stockPriceHistory[stockPriceHistoryPk];
-export type stockPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "tRate" | "eIcod" | "regUnixtime";
+export type stockPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "tRate" | "eIcod" | "regDate";
 export type stockPriceHistoryCreationAttributes = Optional<stockPriceHistoryAttributes, stockPriceHistoryOptionalAttributes>;
 
 export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockPriceHistoryCreationAttributes> implements stockPriceHistoryAttributes {
@@ -51,7 +51,7 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
   tXrat?: string;
   tRate?: string;
   eIcod?: string;
-  regUnixtime?: number;
+  regDate?: Date;
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof stockPriceHistory {
@@ -168,11 +168,11 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
       comment: "업종(섹터)",
       field: 'e_icod'
     },
-    regUnixtime: {
-      type: DataTypes.INTEGER,
+    regDate: {
+      type: DataTypes.DATE,
       allowNull: true,
       comment: "등록시간",
-      field: 'reg_unixtime'
+      field: 'reg_Date'
     }
   }, {
     sequelize,
@@ -186,22 +186,7 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
         fields: [
           { name: "price_idx" },
         ]
-      },
-      {
-        name: "market_stock_code",
-        using: "BTREE",
-        fields: [
-          { name: "market" },
-          { name: "stock_code" },
-        ]
-      },
-      {
-        name: "reg_date",
-        using: "BTREE",
-        fields: [
-          { name: "reg_unixtime" },
-        ]
-      },
+      }
     ]
   });
   }

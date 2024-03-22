@@ -16,12 +16,12 @@ export interface etfPriceHistoryAttributes {
   tXdif?: string;
   tXrat?: string;
   tRate?: string;
-  regUnixtime?: number;
+  regDate?: Date;
 }
 
 export type etfPriceHistoryPk = "priceIdx";
 export type etfPriceHistoryId = etfPriceHistory[etfPriceHistoryPk];
-export type etfPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "h52P" | "l52P" | "tXprc" | "tXdif" | "tXrat" | "tRate" | "regUnixtime";
+export type etfPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "h52P" | "l52P" | "tXprc" | "tXdif" | "tXrat" | "tRate" | "regDate";
 export type etfPriceHistoryCreationAttributes = Optional<etfPriceHistoryAttributes, etfPriceHistoryOptionalAttributes>;
 
 export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHistoryCreationAttributes> implements etfPriceHistoryAttributes {
@@ -39,7 +39,7 @@ export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHi
   tXdif?: string;
   tXrat?: string;
   tRate?: string;
-  regUnixtime?: number;
+  regDate?: Date;
 
 
   static initModel(sequelize: Sequelize.Sequelize): typeof etfPriceHistory {
@@ -125,11 +125,11 @@ export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHi
       comment: "당일환율",
       field: 't_rate'
     },
-    regUnixtime: {
-      type: DataTypes.INTEGER,
+    regDate: {
+      type: DataTypes.DATE,
       allowNull: true,
       comment: "등록시간",
-      field: 'reg_unixtime'
+      field: 'reg_date'
     }
   }, {
     sequelize,
@@ -143,22 +143,7 @@ export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHi
         fields: [
           { name: "price_idx" },
         ]
-      },
-      {
-        name: "market_stock_code",
-        using: "BTREE",
-        fields: [
-          { name: "market" },
-          { name: "stock_code" },
-        ]
-      },
-      {
-        name: "reg_date",
-        using: "BTREE",
-        fields: [
-          { name: "reg_unixtime" },
-        ]
-      },
+      }
     ]
   });
   }

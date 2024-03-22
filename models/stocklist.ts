@@ -86,7 +86,7 @@ export class stockList extends Model<stockListAttributes, stockListCreationAttri
       field: 'prdt_name'
     },
     stockComment: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING(2000),
       allowNull: true,
       comment: "종목소개",
       field: 'stock_comment'

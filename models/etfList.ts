@@ -97,7 +97,7 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
       field: 'benchmark_index'
     },
     indexComment: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING(2000),
       allowNull: true,
       comment: "인덱스 소개",
       field: 'index_comment'

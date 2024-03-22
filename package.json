@@ -8,16 +8,15 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "buildModels": "sequelize-auto -o './models' -h -d etf_tracker -u root -x -p --dialect mariadb -l ts --cm c --cf c --cp c"
+    "buildModels": "sequelize-auto -o './models' -h -d etf_tracker -u root -x -p --dialect oracle -l ts --cm c --cf c --cp c"
   },
   "dependencies": {
     "@nuxt/ui": "^2.14.2",
     "@sequelize/core": "^7.0.0-alpha.37",
     "apexcharts": "^3.48.0",
     "dayjs": "^1.11.10",
-    "mariadb": "^3.2.3",
-    "mysql2": "^3.9.2",
     "nuxt": "^3.11.1",
+    "oracledb": "^6.4.0",
     "sequelize": "^6.37.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
