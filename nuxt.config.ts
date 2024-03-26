@@ -12,5 +12,14 @@ export default defineNuxtConfig({
   ],
   imports: {
     dirs: ["types"],
+  },
+  app : {
+    head : {
+      title : 'etfTracker',
+      htmlAttrs : {
+        lang: 'kr'
+      },
+      charset : 'utf-8',
+    }
   }
 })

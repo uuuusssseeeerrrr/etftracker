@@ -37,7 +37,7 @@ export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
             tXdif: stockDataObj.t_xdif,
             tXrat: stockDataObj.t_xrat,
             tRate: stockDataObj.t_rate,
-            regUnixtime: today.unix()
+            regDate: today.toDate()
         }).dataValues;
     }
 
@@ -80,7 +80,7 @@ export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
             tXrat: stockDataObj.t_xrat,
             tRate: stockDataObj.t_rate,
             eIcod: stockDataObj.e_icod,
-            regUnixtime: today.unix()
+            regDate: today.toDate()
         }).dataValues;
     }
 

@@ -3,7 +3,7 @@ export default defineNitroPlugin((nitroApp) => {
         console.error(`${event?.path} Application error:`, error)
     });
 
-    nitroApp.hooks.hook("request", (event) => {
-        console.log("on request", event.path);
-    });
+    // nitroApp.hooks.hook("request", (event) => {
+    //     console.log("on request", event.path);
+    // });
 });
