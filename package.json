@@ -9,7 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test": "vitest",
-    "buildModels": "sequelize-auto -o './models' -h 152.69.235.247 -d etf -u etf -x -p 33306 --dialect mysql -l ts --cm c --cf c --cp c"
+    "buildModels": "sequelize-auto -o './models' -h -d etf -u etf -x -p --dialect mysql -l ts --cm c --cf c --cp c"
   },
   "dependencies": {
     "@nuxt/ui": "^2.14.2",
