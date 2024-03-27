@@ -6,7 +6,7 @@ ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
-RUN apk update && apk upgrade -y
+RUN apk update && apk upgrade
 RUN mkdir -p /app
 
 WORKDIR /app
