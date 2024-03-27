@@ -3,13 +3,12 @@ import { Sequelize } from 'sequelize';
 import { etfList, etfStockList, initModels } from './init-models';
 
 const sequelize = new Sequelize({
+    dialect: 'mariadb',
+    host: process.env.dbHost,
+    port: Number(process.env.dbPort),
+    database : process.env.database,
     username : process.env.userNm,
     password : process.env.password,
-    dialect: 'oracle',
-    dialectOptions : {
-        connectString: process.env.tnsString
-    },
-    timezone : process.env.TZ
 });
 
 const models = initModels(sequelize);

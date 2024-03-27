@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
             }
         });
     
-        returnData.stockInfo = await sequelize.query(`select * from ETF.STOCK_PRICE_INFO where etfStockCode = ?`, {
+        returnData.stockInfo = await sequelize.query(`select * from stock_price_info where etfStockCode = ?`, {
             type: QueryTypes.SELECT,
             replacements: [stockCode],
         });

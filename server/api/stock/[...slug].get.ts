@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 import dayjs from 'dayjs';
 
 export default defineEventHandler(async (event) => {
+    const today = dayjs();
     const slug = event.context.params?.slug;
     const market = slug?.split("/")[0].toUpperCase();
     const stockCode = slug?.split("/")[1];
@@ -19,13 +20,13 @@ export default defineEventHandler(async (event) => {
             [Op.and] : [
                 {market}, 
                 {stockCode},
-                {regUnixtime : {
-                    [Op.between] : [dayjs().subtract(3, 'day').unix(), dayjs().unix()]
+                {regDate : {
+                    [Op.between] : [today.subtract(3, 'day').toDate(), today.toDate()]
                 }}
             ]
         },
         order : [
-            ['regUnixtime', 'DESC']
+            ['regDate', 'DESC']
         ]
     });
 

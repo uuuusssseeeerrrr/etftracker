@@ -33,7 +33,7 @@
             </tr>
             <tr>
               <td class="mr-3">업종(섹터)</td>
-              <td>{{ stockPriceHistory[0].eIcod || '수집된 자료가 없습니다.' }}</td>
+              <td>{{ stockPriceHistory[0]?.eIcod || '수집된 자료가 없습니다.' }}</td>
             </tr>
             <tr>
               <td class="mr-3">거래통화</td>
@@ -215,7 +215,7 @@ import type { gIStockList, gIStockPriceHistory, gIStockWeightInfo } from '~/type
   }
 
   for(const stockPriceObj of stockPriceHistory) {
-    const dateObj = dayjs.unix(stockPriceObj.regUnixtime || 0);
+    const dateObj = dayjs(stockPriceObj.regDate);
     stockPriceObj.regDate = dateObj.format('YYYY-MM-DD HH:mm:ss');
 
     if(tomv.length === 0) {

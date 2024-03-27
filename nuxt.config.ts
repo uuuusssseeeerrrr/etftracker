@@ -6,7 +6,10 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  modules: ['@nuxt/ui'],
+  modules: [
+    '@nuxt/ui', 
+    '@nuxt/test-utils/module'
+  ],
   css: [
     '@/assets/global.css',
   ],

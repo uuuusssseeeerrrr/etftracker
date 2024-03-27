@@ -15,13 +15,16 @@ export interface etfPriceHistoryAttributes {
   tXprc?: string;
   tXdif?: string;
   tXrat?: string;
+  pXprc?: string;
+  pXdif?: string;
+  pXrat?: string;
   tRate?: string;
   regDate?: Date;
 }
 
 export type etfPriceHistoryPk = "priceIdx";
 export type etfPriceHistoryId = etfPriceHistory[etfPriceHistoryPk];
-export type etfPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "h52P" | "l52P" | "tXprc" | "tXdif" | "tXrat" | "tRate" | "regDate";
+export type etfPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "h52P" | "l52P" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "regDate";
 export type etfPriceHistoryCreationAttributes = Optional<etfPriceHistoryAttributes, etfPriceHistoryOptionalAttributes>;
 
 export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHistoryCreationAttributes> implements etfPriceHistoryAttributes {
@@ -38,6 +41,9 @@ export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHi
   tXprc?: string;
   tXdif?: string;
   tXrat?: string;
+  pXprc?: string;
+  pXdif?: string;
+  pXrat?: string;
   tRate?: string;
   regDate?: Date;
 
@@ -119,6 +125,24 @@ export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHi
       comment: "원환산당일등락",
       field: 't_xrat'
     },
+    pXprc: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산전일가격",
+      field: 'p_xprc'
+    },
+    pXdif: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산전일대비",
+      field: 'p_xdif'
+    },
+    pXrat: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산전일등락",
+      field: 'p_xrat'
+    },
     tRate: {
       type: DataTypes.STRING(12),
       allowNull: true,
@@ -143,7 +167,22 @@ export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHi
         fields: [
           { name: "price_idx" },
         ]
-      }
+      },
+      {
+        name: "market_stock_code",
+        using: "BTREE",
+        fields: [
+          { name: "market" },
+          { name: "stock_code" },
+        ]
+      },
+      {
+        name: "reg_date",
+        using: "BTREE",
+        fields: [
+          { name: "reg_date" },
+        ]
+      },
     ]
   });
   }

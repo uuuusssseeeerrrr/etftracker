@@ -94,7 +94,7 @@ export const runJpStockInfoBatch: runStockBatch = async (accessToken: string) =>
     let dataListArray: any[];
 
     // ETF 신규데이터 기타정보 가져오기(op.is가 잘 안되서 쿼리 직접실행)
-    dataListArray = await sequelize.query(`select * from etf_list where std_pdno is null`, {
+    dataListArray = await sequelize.query(`select * from etf_list where STD_PDNO is null`, {
         type: QueryTypes.SELECT
     });
 
@@ -112,7 +112,7 @@ export const runJpStockInfoBatch: runStockBatch = async (accessToken: string) =>
     }
 
     // 종목별 신규데이터 기타정보 가져오기
-    dataListArray = await sequelize.query(`select * from stock_list where std_pdno is null`, {
+    dataListArray = await sequelize.query(`select * from stock_list where STD_PDNO is null`, {
         type: QueryTypes.SELECT
     });
 

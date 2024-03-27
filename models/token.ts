@@ -34,7 +34,7 @@ export class token extends Model<tokenAttributes, tokenCreationAttributes> imple
       field: 'reg_date'
     },
     token: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.TEXT,
       allowNull: false
     }
   }, {

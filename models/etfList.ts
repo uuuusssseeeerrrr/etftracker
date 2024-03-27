@@ -12,14 +12,13 @@ export interface etfListAttributes {
   tradingLot?: string;
   trustFeeRate?: string;
   stdPdno?: string;
-  distributionYield?: string;
   regDate?: Date;
   modDate?: Date;
 }
 
 export type etfListPk = "market" | "stockCode";
 export type etfListId = etfList[etfListPk];
-export type etfListOptionalAttributes = "market" | "stockCode" | "etfName" | "companyName" | "benchmarkIndex" | "indexComment" | "tradingLot" | "trustFeeRate" | "stdPdno" | "distributionYield" | "regDate" | "modDate";
+export type etfListOptionalAttributes = "market" | "stockCode" | "etfName" | "companyName" | "benchmarkIndex" | "indexComment" | "tradingLot" | "trustFeeRate" | "stdPdno" | "regDate" | "modDate";
 export type etfListCreationAttributes = Optional<etfListAttributes, etfListOptionalAttributes>;
 
 export class etfList extends Model<etfListAttributes, etfListCreationAttributes> implements etfListAttributes {
@@ -32,10 +31,33 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
   tradingLot?: string;
   trustFeeRate?: string;
   stdPdno?: string;
-  distributionYield?: string;
   regDate?: Date;
   modDate?: Date;
 
+  // etfList belongsToMany etfList via market and etfStockCode
+  etfStockCodeEtfLists!: etfList[];
+  getEtfStockCodeEtfLists!: Sequelize.BelongsToManyGetAssociationsMixin<etfList>;
+  setEtfStockCodeEtfLists!: Sequelize.BelongsToManySetAssociationsMixin<etfList, etfListId>;
+  addEtfStockCodeEtfList!: Sequelize.BelongsToManyAddAssociationMixin<etfList, etfListId>;
+  addEtfStockCodeEtfLists!: Sequelize.BelongsToManyAddAssociationsMixin<etfList, etfListId>;
+  createEtfStockCodeEtfList!: Sequelize.BelongsToManyCreateAssociationMixin<etfList>;
+  removeEtfStockCodeEtfList!: Sequelize.BelongsToManyRemoveAssociationMixin<etfList, etfListId>;
+  removeEtfStockCodeEtfLists!: Sequelize.BelongsToManyRemoveAssociationsMixin<etfList, etfListId>;
+  hasEtfStockCodeEtfList!: Sequelize.BelongsToManyHasAssociationMixin<etfList, etfListId>;
+  hasEtfStockCodeEtfLists!: Sequelize.BelongsToManyHasAssociationsMixin<etfList, etfListId>;
+  countEtfStockCodeEtfLists!: Sequelize.BelongsToManyCountAssociationsMixin;
+  // etfList belongsToMany etfList via etfStockCode and market
+  marketEtfLists!: etfList[];
+  getMarketEtfLists!: Sequelize.BelongsToManyGetAssociationsMixin<etfList>;
+  setMarketEtfLists!: Sequelize.BelongsToManySetAssociationsMixin<etfList, etfListId>;
+  addMarketEtfList!: Sequelize.BelongsToManyAddAssociationMixin<etfList, etfListId>;
+  addMarketEtfLists!: Sequelize.BelongsToManyAddAssociationsMixin<etfList, etfListId>;
+  createMarketEtfList!: Sequelize.BelongsToManyCreateAssociationMixin<etfList>;
+  removeMarketEtfList!: Sequelize.BelongsToManyRemoveAssociationMixin<etfList, etfListId>;
+  removeMarketEtfLists!: Sequelize.BelongsToManyRemoveAssociationsMixin<etfList, etfListId>;
+  hasMarketEtfList!: Sequelize.BelongsToManyHasAssociationMixin<etfList, etfListId>;
+  hasMarketEtfLists!: Sequelize.BelongsToManyHasAssociationsMixin<etfList, etfListId>;
+  countMarketEtfLists!: Sequelize.BelongsToManyCountAssociationsMixin;
   // etfList hasMany etfStockList via market
   etfStockLists!: etfStockList[];
   getEtfStockLists!: Sequelize.HasManyGetAssociationsMixin<etfStockList>;
@@ -91,13 +113,13 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
       field: 'company_name'
     },
     benchmarkIndex: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(50),
       allowNull: true,
       comment: "벤치마크인덱스명",
       field: 'benchmark_index'
     },
     indexComment: {
-      type: DataTypes.STRING(2000),
+      type: DataTypes.TEXT,
       allowNull: true,
       comment: "인덱스 소개",
       field: 'index_comment'
@@ -119,12 +141,6 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
       allowNull: true,
       comment: "표준상품번호",
       field: 'std_pdno'
-    },
-    distributionYield: {
-      type: DataTypes.STRING(10),
-      allowNull: true,
-      comment: "배당수익률",
-      field: 'distribution_yield'
     },
     regDate: {
       type: DataTypes.DATE,
