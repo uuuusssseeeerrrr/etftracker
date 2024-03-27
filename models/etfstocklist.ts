@@ -1,7 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import type { etfList, etfListId } from './etfList';
-import type { stockList, stockListId } from './stockList';
 
 export interface etfStockListAttributes {
   market: string;
@@ -33,11 +32,6 @@ export class etfStockList extends Model<etfStockListAttributes, etfStockListCrea
   getEtfStockCodeEtfList!: Sequelize.BelongsToGetAssociationMixin<etfList>;
   setEtfStockCodeEtfList!: Sequelize.BelongsToSetAssociationMixin<etfList, etfListId>;
   createEtfStockCodeEtfList!: Sequelize.BelongsToCreateAssociationMixin<etfList>;
-  // etfStockList belongsTo stockList via stockCode
-  stockCodeStockList!: stockList;
-  getStockCodeStockList!: Sequelize.BelongsToGetAssociationMixin<stockList>;
-  setStockCodeStockList!: Sequelize.BelongsToSetAssociationMixin<stockList, stockListId>;
-  createStockCodeStockList!: Sequelize.BelongsToCreateAssociationMixin<stockList>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof etfStockList {
     return etfStockList.init({
@@ -70,10 +64,6 @@ export class etfStockList extends Model<etfStockListAttributes, etfStockListCrea
       defaultValue: "",
       primaryKey: true,
       comment: "주식종목코드",
-      references: {
-        model: 'stock_list',
-        key: 'stock_code'
-      },
       field: 'stock_code'
     },
     regDate: {
@@ -83,7 +73,7 @@ export class etfStockList extends Model<etfStockListAttributes, etfStockListCrea
       field: 'reg_date'
     },
     etfPercent: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: true,
       comment: "ETF 비율",
       field: 'etf_percent'
@@ -100,13 +90,6 @@ export class etfStockList extends Model<etfStockListAttributes, etfStockListCrea
         fields: [
           { name: "market" },
           { name: "etf_stock_code" },
-          { name: "stock_code" },
-        ]
-      },
-      {
-        name: "FK_etf_stock_list_stock_list",
-        using: "BTREE",
-        fields: [
           { name: "stock_code" },
         ]
       },

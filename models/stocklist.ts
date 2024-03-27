@@ -1,6 +1,5 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import type { etfStockList, etfStockListId } from './etfStockList';
 
 export interface stockListAttributes {
   market: string;
@@ -15,7 +14,7 @@ export interface stockListAttributes {
   modDate?: Date;
 }
 
-export type stockListPk = "stockCode";
+export type stockListPk = "market" | "stockCode";
 export type stockListId = stockList[stockListPk];
 export type stockListOptionalAttributes = "market" | "stockCode" | "stockName" | "trCrcyCd" | "buyUnitQty" | "prdtName" | "stockComment" | "stdPdno" | "regDate" | "modDate";
 export type stockListCreationAttributes = Optional<stockListAttributes, stockListOptionalAttributes>;
@@ -32,18 +31,6 @@ export class stockList extends Model<stockListAttributes, stockListCreationAttri
   regDate?: Date;
   modDate?: Date;
 
-  // stockList hasMany etfStockList via stockCode
-  etfStockLists!: etfStockList[];
-  getEtfStockLists!: Sequelize.HasManyGetAssociationsMixin<etfStockList>;
-  setEtfStockLists!: Sequelize.HasManySetAssociationsMixin<etfStockList, etfStockListId>;
-  addEtfStockList!: Sequelize.HasManyAddAssociationMixin<etfStockList, etfStockListId>;
-  addEtfStockLists!: Sequelize.HasManyAddAssociationsMixin<etfStockList, etfStockListId>;
-  createEtfStockList!: Sequelize.HasManyCreateAssociationMixin<etfStockList>;
-  removeEtfStockList!: Sequelize.HasManyRemoveAssociationMixin<etfStockList, etfStockListId>;
-  removeEtfStockLists!: Sequelize.HasManyRemoveAssociationsMixin<etfStockList, etfStockListId>;
-  hasEtfStockList!: Sequelize.HasManyHasAssociationMixin<etfStockList, etfStockListId>;
-  hasEtfStockLists!: Sequelize.HasManyHasAssociationsMixin<etfStockList, etfStockListId>;
-  countEtfStockLists!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof stockList {
     return stockList.init({
@@ -51,6 +38,7 @@ export class stockList extends Model<stockListAttributes, stockListCreationAttri
       type: DataTypes.STRING(10),
       allowNull: false,
       defaultValue: "",
+      primaryKey: true,
       comment: "마켓코드"
     },
     stockCode: {
@@ -86,7 +74,7 @@ export class stockList extends Model<stockListAttributes, stockListCreationAttri
       field: 'prdt_name'
     },
     stockComment: {
-      type: DataTypes.STRING(2000),
+      type: DataTypes.TEXT,
       allowNull: true,
       comment: "종목소개",
       field: 'stock_comment'
@@ -117,13 +105,6 @@ export class stockList extends Model<stockListAttributes, stockListCreationAttri
       {
         name: "PRIMARY",
         unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "stock_code" },
-        ]
-      },
-      {
-        name: "인덱스 2",
         using: "BTREE",
         fields: [
           { name: "market" },

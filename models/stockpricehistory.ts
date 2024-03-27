@@ -20,6 +20,9 @@ export interface stockPriceHistoryAttributes {
   tXprc?: string;
   tXdif?: string;
   tXrat?: string;
+  pXprc?: string;
+  pXdif?: string;
+  pXrat?: string;
   tRate?: string;
   eIcod?: string;
   regDate?: Date;
@@ -27,7 +30,7 @@ export interface stockPriceHistoryAttributes {
 
 export type stockPriceHistoryPk = "priceIdx";
 export type stockPriceHistoryId = stockPriceHistory[stockPriceHistoryPk];
-export type stockPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "tRate" | "eIcod" | "regDate";
+export type stockPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "tomv" | "h52P" | "l52P" | "perx" | "pbrx" | "epsx" | "bpsx" | "tXprc" | "tXdif" | "tXrat" | "pXprc" | "pXdif" | "pXrat" | "tRate" | "eIcod" | "regDate";
 export type stockPriceHistoryCreationAttributes = Optional<stockPriceHistoryAttributes, stockPriceHistoryOptionalAttributes>;
 
 export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockPriceHistoryCreationAttributes> implements stockPriceHistoryAttributes {
@@ -49,6 +52,9 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
   tXprc?: string;
   tXdif?: string;
   tXrat?: string;
+  pXprc?: string;
+  pXdif?: string;
+  pXrat?: string;
   tRate?: string;
   eIcod?: string;
   regDate?: Date;
@@ -156,6 +162,24 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
       comment: "원환산당일등락",
       field: 't_xrat'
     },
+    pXprc: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산전일가격",
+      field: 'p_xprc'
+    },
+    pXdif: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산전일대비",
+      field: 'p_xdif'
+    },
+    pXrat: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      comment: "원환산전일등락",
+      field: 'p_xrat'
+    },
     tRate: {
       type: DataTypes.STRING(12),
       allowNull: true,
@@ -172,7 +196,7 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
       type: DataTypes.DATE,
       allowNull: true,
       comment: "등록시간",
-      field: 'reg_Date'
+      field: 'reg_date'
     }
   }, {
     sequelize,
@@ -186,7 +210,22 @@ export class stockPriceHistory extends Model<stockPriceHistoryAttributes, stockP
         fields: [
           { name: "price_idx" },
         ]
-      }
+      },
+      {
+        name: "market_stock_code",
+        using: "BTREE",
+        fields: [
+          { name: "market" },
+          { name: "stock_code" },
+        ]
+      },
+      {
+        name: "reg_date",
+        using: "BTREE",
+        fields: [
+          { name: "reg_date" },
+        ]
+      },
     ]
   });
   }
