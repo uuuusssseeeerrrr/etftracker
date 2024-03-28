@@ -11,7 +11,7 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
-COPY . .
+COPY ./ ./
 
 RUN npm ci && npm cache clean --force
 RUN npm run build
