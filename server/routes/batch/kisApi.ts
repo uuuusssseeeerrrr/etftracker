@@ -11,6 +11,7 @@ function sleep() {
 
 //접근토큰 발급용 함수
 export const getKisAccessToken = async function () {
+    const {kisKey, kisSecret} = useRuntimeConfig();
     const today = dayjs();
     const tokenData = await models.token.findOne({
         attributes: ['regDate', 'token'],
@@ -24,8 +25,8 @@ export const getKisAccessToken = async function () {
             method : "POST",
             body : {
                 "grant_type": "client_credentials",
-                "appkey": process.env.kisKey,
-                "appsecret": process.env.kisSecret
+                "appkey": kisKey,
+                "appsecret": kisSecret
             },
             headers : {
                 "Content-Type": "application/json"
@@ -45,13 +46,14 @@ export const getKisAccessToken = async function () {
 
 //시세데이터 조회 함수
 export const getKisApiData = async function (market: string, stockCode: string, accessToken: string): Promise<priceDetailData> {
+    const {kisKey, kisSecret} = useRuntimeConfig();
     const kisPriceDetailResponseObj: kisPriceDetailResponse = await $fetch('https://openapi.koreainvestment.com:9443/uapi/overseas-price/v1/quotations/price-detail', {
         method : "GET",    
         headers : {
             "content-Type": "application/json; charset=utf-8",
             "authorization": `Bearer ${accessToken}`,
-            "appkey": String(process.env.kisKey),
-            "appsecret": String(process.env.kisSecret),
+            "appkey": kisKey,
+            "appsecret": kisSecret,
             "tr_id": "HHDFS76200200",
         },
         params : {
@@ -73,13 +75,14 @@ export const getKisApiData = async function (market: string, stockCode: string, 
 //종목정보 조회 함수
 export const getKisInfoApiData = async function (market: string, stockCode: string, accessToken: string): Promise<stockInfoData> {
     const PRDT_TYPE_CD = market === 'TSE' ? '515' : '512';
+    const {kisKey, kisSecret} = useRuntimeConfig();
 
     const kisPriceInfoResponseObj: kisPriceInfoResponse = await $fetch('https://openapi.koreainvestment.com:9443/uapi/overseas-price/v1/quotations/search-info', {
         headers : {
             "content-Type": "application/json; charset=utf-8",
             "authorization": `Bearer ${accessToken}`,
-            "appkey": String(process.env.kisKey),
-            "appsecret": String(process.env.kisSecret),
+            "appkey": kisKey,
+            "appsecret": kisSecret,
             "tr_id": "CTPF1702R",
             "custtype": "P"
         },

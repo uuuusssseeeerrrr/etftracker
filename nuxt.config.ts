@@ -1,9 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { 
-    enabled: true,
+    enabled: false,
     timeline: {
-      enabled: true,
+      enabled: false,
     },
   },
   modules: [
@@ -24,5 +24,15 @@ export default defineNuxtConfig({
       },
       charset : 'utf-8',
     }
+  },
+  runtimeConfig : {
+    userNm : '',
+    pwd : '',
+    database : '',
+    dbHost : '',
+    dbPort : '',
+    kisKey : '',
+    kisSecret : '',
+    tz : ''
   }
 })

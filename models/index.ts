@@ -1,16 +1,15 @@
 import { Sequelize } from 'sequelize';
-
 import { etfList, etfStockList, initModels } from './init-models';
 
+const {dbHost, dbPort, database, userNm, pwd} = useRuntimeConfig();
 const sequelize = new Sequelize({
     dialect: 'mariadb',
-    host: process.env.dbHost,
-    port: Number(process.env.dbPort),
-    database : process.env.database,
-    username : process.env.userNm,
-    password : process.env.password,
+    host: dbHost as string,
+    port: Number(dbPort),
+    database: database as string,
+    username : userNm as string,
+    password: pwd as string
 });
-
 const models = initModels(sequelize);
 
 sequelize.authenticate().then(() => {
