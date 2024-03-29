@@ -20,6 +20,6 @@ COPY ./ ./
 
 RUN npm run build
 
-EXPOSE 30000
+EXPOSE 3000
 
 ENTRYPOINT ["node", ".output/server/index.mjs"]
