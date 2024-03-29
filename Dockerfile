@@ -22,4 +22,4 @@ RUN npm run build
 
 EXPOSE 30000
 
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT ["node", ".output/server/index.mjs"]
