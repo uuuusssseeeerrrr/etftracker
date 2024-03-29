@@ -26,13 +26,13 @@ export default defineNuxtConfig({
     }
   },
   runtimeConfig : {
-    userNm : '',
-    pwd : '',
-    database : '',
-    dbHost : '',
-    dbPort : '',
-    kisKey : '',
-    kisSecret : '',
-    tz : ''
+    userNm : process.env.NUXT_USER_NM,
+    pwd : process.env.NUXT_PWD,
+    database : process.env.NUXT_DATABASE,
+    dbHost : process.env.NUXT_DB_HOST,
+    dbPort : process.env.NUXT_DB_PORT,
+    kisKey : process.env.NUXT_KIS_KEY,
+    kisSecret : process.env.NUXT_KIS_SECRET,
+    tz : 'Asia/Seoul'
   }
 })
