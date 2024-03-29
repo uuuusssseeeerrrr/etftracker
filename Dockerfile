@@ -11,11 +11,15 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
+COPY package.json ./
+COPY package-lock.json ./
+
+RUN npm install
+
 COPY ./ ./
 
-RUN npm ci && npm cache clean --force
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 30000
 
-ENTRYPOINT ["node", ".output/server/index.mjs"]
+ENTRYPOINT ["npm", "start"]
