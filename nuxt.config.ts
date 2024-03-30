@@ -33,6 +33,7 @@ export default defineNuxtConfig({
     dbPort : process.env.NUXT_DB_PORT,
     kisKey : process.env.NUXT_KIS_KEY,
     kisSecret : process.env.NUXT_KIS_SECRET,
+    batchToken : process.env.BATCHTOKEN,
     tz : 'Asia/Seoul'
   }
 })

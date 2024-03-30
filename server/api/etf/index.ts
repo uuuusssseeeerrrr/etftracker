@@ -1,4 +1,3 @@
-import { defineEventHandler } from 'h3';
 import { QueryTypes } from "sequelize";
 import { sequelize } from '../../../models';
 

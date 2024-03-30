@@ -1,10 +1,7 @@
 import dayjs from 'dayjs';
-
-import { getKisApiData, getKisInfoApiData } from './kisApi';
+import { getKisApiData } from './kisApi';
 import { runStockBatch } from '~/types'
 import { models } from '../../../models';
-import { sequelize } from "~/models";
-import { QueryTypes } from "sequelize";
 
 const market = "TSE";
 
@@ -24,7 +21,7 @@ export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
         const stockDataObj = await getKisApiData(market, stockObj.stockCode, accessToken);
 
         stockPriceArr[i] = new models.etfPriceHistory({
-            market: 'TSE',
+            market,
             stockCode: stockObj.stockCode,
             open: stockDataObj.open,
             high: stockDataObj.high,
@@ -61,7 +58,7 @@ export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
         const stockDataObj = await getKisApiData(market, stockObj.stockCode, accessToken);
 
         stockPriceArr[i] = new models.stockPriceHistory({
-            market: 'TSE',
+            market,
             stockCode: stockObj.stockCode,
             open: stockDataObj.open,
             high: stockDataObj.high,
@@ -87,50 +84,3 @@ export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
     await models.stockPriceHistory.bulkCreate(stockPriceArr);
     return true;
 }
-
-// 종목 정보 입력 함수
-export const runJpStockInfoBatch: runStockBatch = async (accessToken: string) => {
-    const today = dayjs();
-    let dataListArray: any[];
-
-    // ETF 신규데이터 기타정보 가져오기(op.is가 잘 안되서 쿼리 직접실행)
-    dataListArray = await sequelize.query(`select * from etf_list where STD_PDNO is null`, {
-        type: QueryTypes.SELECT
-    });
-
-    for (let i = 0; i < dataListArray.length; i++) {
-        const stockObj = dataListArray[i];
-        const stockDataObj = await getKisInfoApiData(market, stockObj.stock_code, accessToken);
-
-        await models.etfList.update({
-            stdPdno : stockDataObj.std_pdno,
-            tradingLot : stockDataObj.buy_unit_qty,
-            modDate: today.toDate()
-        }, {
-            where: { stockCode: stockObj.stock_code }
-        });
-    }
-
-    // 종목별 신규데이터 기타정보 가져오기
-    dataListArray = await sequelize.query(`select * from stock_list where STD_PDNO is null`, {
-        type: QueryTypes.SELECT
-    });
-
-    for (let i = 0; i < dataListArray.length; i++) {
-        const stockObj = dataListArray[i];
-        const stockDataObj = await getKisInfoApiData(market, stockObj.stock_code, accessToken);
-
-        await models.stockList.update({
-            stdPdno : stockDataObj.std_pdno,
-            trCrcyCd : stockDataObj.tr_crcy_cd,
-            buyUnitQty : stockDataObj.buy_unit_qty,
-            prdtName : stockDataObj.prdt_name.indexOf(']') > -1 ? stockDataObj.prdt_name.split(']')[1] : stockDataObj.prdt_name,
-            modDate: today.toDate()
-        }, {
-            where: { stockCode: stockObj.stock_code }
-        });
-    }
-
-    return true;
-}
-
