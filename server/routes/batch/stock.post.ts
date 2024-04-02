@@ -16,10 +16,11 @@ export default defineEventHandler(async (event) => {
             await runJpStockBatch(accessToken);
     
             console.log("jp 배치 종료");
-            
-            return {
-                returnMsg : "종료되었습니다"
-            }
+            setResponseStatus(event, 200, "정상적으로 작업되었습니다");
+        } else {
+            setResponseStatus(event, 204, "배치 대상이 없습니다");
         }
+    } else {
+        setResponseStatus(event, 401, "인증값이 올바르지 않습니다");
     }
 });
