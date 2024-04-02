@@ -57,11 +57,14 @@ export default defineEventHandler(async (event) => {
                 });
             }
 
-            setResponseStatus(event, 200, "정상적으로 작업되었습니다");
+            setResponseStatus(event, 200);
+            return { msg: "정상적으로 작업되었습니다" };
         } else {
-            setResponseStatus(event, 204, "배치 대상이 없습니다");
+            setResponseStatus(event, 204);
+            return { msg: "배치 대상이 없습니다" };
         }
     } else {
-        setResponseStatus(event, 401, "인증값이 올바르지 않습니다");
+        setResponseStatus(event, 401);
+        return { msg: "인증값이 올바르지 않습니다" };
     }
 });
