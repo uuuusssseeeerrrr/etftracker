@@ -47,6 +47,14 @@
               <td class="mr-3">수수료</td>
               <td>{{ etfInfo.trustFeeRate }}</td>
             </tr>
+            <tr>
+              <td class="mr-3">주의사항</td>
+              <td>
+                <div class="text-base">일정퍼센트 이하의 종목은 종목명이 표시되지 않거나 데이터가 없을 수 있습니다</div>
+                <div class="text-base">ETF비중은 정확히 자료가 고지되지 않거나 리밸런싱등의 이유로 실데이터와 상이할 수 있습니다</div>
+                <div class="text-base">차트의 경우 컴퓨터 환경에 의해 다소 느릴수 있습니다</div>  
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -70,8 +78,6 @@
         </template>
         <template #treeMap>
           <UCard>
-            <div class="text-base mb-4">※ 일정퍼센트 이하의 종목은 종목명이 표시되지 않을수 있습니다</div>
-            <div class="text-base mb-8">※ 차트의 경우 컴퓨터 환경에 의해 다소 느릴수 있습니다</div>
             <apexchart type="treemap" :options="chartOptions" :series="chartData" @animationEnd="hiddenLoading"/>
             <div class="loader" ref="loader"></div>
           </UCard>
@@ -237,8 +243,6 @@ for (const gIEtfObj of etfStockData) {
     fillColor
   });
 }
-
-console.log(chartData[0].data);
 
 const hiddenLoading = () => {
   loader.value.style.display = "none";

@@ -1,6 +1,7 @@
-import dayjs from 'dayjs';
+import today from '../../plugins/today';
 import { models } from '../../../models';
 import {priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData} from '~/types'
+
 
 //초당 요청초과로 거절당할경우 방지하는 함수
 function sleep() {
@@ -12,11 +13,11 @@ function sleep() {
 //접근토큰 발급용 함수
 export const getKisAccessToken = async function () {
     const {kisKey, kisSecret} = useRuntimeConfig();
-    const today = dayjs();
+    const dateObj = today();
     const tokenData = await models.token.findOne({
         attributes: ['regDate', 'token'],
         where: {
-            regDate: today.format('YYYYMMDD')
+            regDate: dateObj.format('YYYYMMDD')
         }
     });
 
@@ -34,7 +35,7 @@ export const getKisAccessToken = async function () {
         });
 
         await models.token.create({
-            regDate: today.format('YYYYMMDD'),
+            regDate: dateObj.format('YYYYMMDD'),
             token: tokenResObj.access_token
         });
 

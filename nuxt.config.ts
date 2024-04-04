@@ -34,6 +34,6 @@ export default defineNuxtConfig({
     kisKey : process.env.NUXT_KIS_KEY,
     kisSecret : process.env.NUXT_KIS_SECRET,
     batchToken : process.env.BATCHTOKEN,
-    tz : 'Asia/Seoul'
+    TZ : 'Asia/Seoul'
   }
 })
