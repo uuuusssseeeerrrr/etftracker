@@ -3,7 +3,7 @@ import { models, sequelize } from '../../../models';
 import { Op } from "sequelize";
 
 export default defineEventHandler(async (event) => {
-    const dateObj = dayjs().tz().utc(true);
+    const dateObj = dayjs(new Date()).tz().utc(true);
     const slug = event.context.params?.slug;
     const market = slug?.split("/")[0].toUpperCase();
     const stockCode = slug?.split("/")[1];
