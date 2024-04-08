@@ -1,9 +1,9 @@
+import dayjs from '../../utils/dayjsUtil';
 import { models, sequelize } from '../../../models';
 import { Op } from "sequelize";
-import today from '../../plugins/today';
 
 export default defineEventHandler(async (event) => {
-    const dateObj = today();
+    const dateObj = dayjs().tz().utc(true);
     const slug = event.context.params?.slug;
     const market = slug?.split("/")[0].toUpperCase();
     const stockCode = slug?.split("/")[1];

@@ -168,7 +168,7 @@ import type { gIStockList, gIStockPriceHistory, gIStockWeightInfo } from '~/type
       key: 'tRate',
       label: '적용환율'
   }, {
-      key: 'regDate',
+      key: 'regDateStr',
       label: '조회시간'
   }];
 
@@ -216,7 +216,7 @@ import type { gIStockList, gIStockPriceHistory, gIStockWeightInfo } from '~/type
 
   for(const stockPriceObj of stockPriceHistory) {
     const dateObj = dayjs(stockPriceObj.regDate);
-    stockPriceObj.regDate = dateObj.format('YYYY-MM-DD HH:mm:ss');
+    stockPriceObj.regDateStr = dateObj.format('YYYY-MM-DD HH:mm:ss');
 
     if(tomv.length === 0) {
       if(stockPriceObj.tomv && stockPriceObj.tomv.length > 12) {

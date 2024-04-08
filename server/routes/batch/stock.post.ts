@@ -1,3 +1,4 @@
+import dayjs from '../../utils/dayjsUtil';
 import { runJpEtfBatch, runJpStockBatch } from './tse';
 import { getKisAccessToken } from './kisApi';
 
@@ -11,9 +12,10 @@ export default defineEventHandler(async (event) => {
         if (queryParam && queryParam.market === "TSE") {
             console.log("jp 배치 시작");
             const accessToken = await getKisAccessToken();
-    
-            await runJpEtfBatch(accessToken);
-            await runJpStockBatch(accessToken);
+            const today = dayjs().tz().utc(true).toDate();
+
+            await runJpEtfBatch(accessToken, today);
+            await runJpStockBatch(accessToken, today);
     
             console.log("jp 배치 종료");
             setResponseStatus(event, 200);

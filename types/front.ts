@@ -4,7 +4,9 @@ import type { stockPriceHistoryAttributes } from '~/models/stockPriceHistory';
 
 interface gIEtfList extends etfListAttributes {}
 interface gIStockList extends stockListAttributes {}
-interface gIStockPriceHistory extends stockPriceHistoryAttributes {}
+interface gIStockPriceHistory extends stockPriceHistoryAttributes {
+    "regDateStr": string
+}
 interface gIStockWeightInfo {
     "market": string,
     "etfStockCode": string,

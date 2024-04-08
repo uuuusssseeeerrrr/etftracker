@@ -1,8 +1,8 @@
+import dayjs from '../../utils/dayjsUtil';
 import { getKisAccessToken, getKisInfoApiData } from './kisApi';
 import { models } from '../../../models';
 import { sequelize } from "~/models";
 import { QueryTypes } from "sequelize";
-import today from '../../plugins/today';
 
 export default defineEventHandler(async (event) => {
     // 접근토큰 체크(미들웨어가 늦게 실행되서 먼저 실행)
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     // ETF 신규데이터 기타정보 가져오기(op.is가 잘 안되서 쿼리 직접실행)
     if(authToken && authToken === batchToken) { // 접근토큰 체크(미들웨어가 늦게 실행되서 먼저 실행)
         let dataListArray: any[];
-        const dateObj = today();
+        const dateObj = dayjs().tz().utc(true);
     
         // ETF 신규데이터 기타정보 가져오기(op.is가 잘 안되서 쿼리 직접실행)
         dataListArray = await sequelize.query(`select * from etf_list where STD_PDNO is null or STD_PDNO = ''`, {
