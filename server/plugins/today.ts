@@ -7,7 +7,7 @@ const today = () => {
     dayjs.extend(timezone);
     dayjs.tz.setDefault("Asia/Seoul");
 
-    return dayjs().tz().utc(true);
+    return dayjs(new Date()).tz().utc(true);
 }
 
 export default today;
