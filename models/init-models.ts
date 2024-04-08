@@ -44,12 +44,12 @@ export function initModels(sequelize: Sequelize) {
   const stockPriceHistory = _stockPriceHistory.initModel(sequelize);
   const token = _token.initModel(sequelize);
 
-  etfList.belongsToMany(etfList, { as: 'etfStockCodeEtfLists', through: etfStockList, foreignKey: "market", otherKey: "etfStockCode" });
-  etfList.belongsToMany(etfList, { as: 'marketEtfLists', through: etfStockList, foreignKey: "etfStockCode", otherKey: "market" });
-  etfStockList.belongsTo(etfList, { as: "marketEtfList", foreignKey: "market"});
-  etfList.hasMany(etfStockList, { as: "etfStockLists", foreignKey: "market"});
   etfStockList.belongsTo(etfList, { as: "etfStockCodeEtfList", foreignKey: "etfStockCode"});
-  etfList.hasMany(etfStockList, { as: "etfStockCodeEtfStockLists", foreignKey: "etfStockCode"});
+  etfList.hasMany(etfStockList, { as: "etfStockLists", foreignKey: "etfStockCode"});
+  etfStockList.belongsTo(stockList, { as: "marketStockList", foreignKey: "market"});
+  stockList.hasMany(etfStockList, { as: "etfStockLists", foreignKey: "market"});
+  etfStockList.belongsTo(stockList, { as: "stockCodeStockList", foreignKey: "stockCode"});
+  stockList.hasMany(etfStockList, { as: "stockCodeEtfStockLists", foreignKey: "stockCode"});
 
   return {
     etfList: etfList,

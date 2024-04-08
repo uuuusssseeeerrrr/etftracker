@@ -157,7 +157,7 @@ const columns = [{
   label: '거래단위'
 }, {
   key: 'regDate',
-  label: '최종 업데이트시간'
+  label: '조회시간'
 }];
 
 const route = useRoute();
@@ -200,6 +200,7 @@ const minusColorMap: string[][] = [
 const chartOptions = {
   chart : {
     background: '#808080', 
+    width: '100%'
   },
   stroke: { curve: "smooth", width: 2, colors:['#000000'] },
   dataLabels: {

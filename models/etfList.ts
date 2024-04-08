@@ -34,31 +34,7 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
   regDate?: Date;
   modDate?: Date;
 
-  // etfList belongsToMany etfList via market and etfStockCode
-  etfStockCodeEtfLists!: etfList[];
-  getEtfStockCodeEtfLists!: Sequelize.BelongsToManyGetAssociationsMixin<etfList>;
-  setEtfStockCodeEtfLists!: Sequelize.BelongsToManySetAssociationsMixin<etfList, etfListId>;
-  addEtfStockCodeEtfList!: Sequelize.BelongsToManyAddAssociationMixin<etfList, etfListId>;
-  addEtfStockCodeEtfLists!: Sequelize.BelongsToManyAddAssociationsMixin<etfList, etfListId>;
-  createEtfStockCodeEtfList!: Sequelize.BelongsToManyCreateAssociationMixin<etfList>;
-  removeEtfStockCodeEtfList!: Sequelize.BelongsToManyRemoveAssociationMixin<etfList, etfListId>;
-  removeEtfStockCodeEtfLists!: Sequelize.BelongsToManyRemoveAssociationsMixin<etfList, etfListId>;
-  hasEtfStockCodeEtfList!: Sequelize.BelongsToManyHasAssociationMixin<etfList, etfListId>;
-  hasEtfStockCodeEtfLists!: Sequelize.BelongsToManyHasAssociationsMixin<etfList, etfListId>;
-  countEtfStockCodeEtfLists!: Sequelize.BelongsToManyCountAssociationsMixin;
-  // etfList belongsToMany etfList via etfStockCode and market
-  marketEtfLists!: etfList[];
-  getMarketEtfLists!: Sequelize.BelongsToManyGetAssociationsMixin<etfList>;
-  setMarketEtfLists!: Sequelize.BelongsToManySetAssociationsMixin<etfList, etfListId>;
-  addMarketEtfList!: Sequelize.BelongsToManyAddAssociationMixin<etfList, etfListId>;
-  addMarketEtfLists!: Sequelize.BelongsToManyAddAssociationsMixin<etfList, etfListId>;
-  createMarketEtfList!: Sequelize.BelongsToManyCreateAssociationMixin<etfList>;
-  removeMarketEtfList!: Sequelize.BelongsToManyRemoveAssociationMixin<etfList, etfListId>;
-  removeMarketEtfLists!: Sequelize.BelongsToManyRemoveAssociationsMixin<etfList, etfListId>;
-  hasMarketEtfList!: Sequelize.BelongsToManyHasAssociationMixin<etfList, etfListId>;
-  hasMarketEtfLists!: Sequelize.BelongsToManyHasAssociationsMixin<etfList, etfListId>;
-  countMarketEtfLists!: Sequelize.BelongsToManyCountAssociationsMixin;
-  // etfList hasMany etfStockList via market
+  // etfList hasMany etfStockList via etfStockCode
   etfStockLists!: etfStockList[];
   getEtfStockLists!: Sequelize.HasManyGetAssociationsMixin<etfStockList>;
   setEtfStockLists!: Sequelize.HasManySetAssociationsMixin<etfStockList, etfStockListId>;
@@ -70,18 +46,6 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
   hasEtfStockList!: Sequelize.HasManyHasAssociationMixin<etfStockList, etfStockListId>;
   hasEtfStockLists!: Sequelize.HasManyHasAssociationsMixin<etfStockList, etfStockListId>;
   countEtfStockLists!: Sequelize.HasManyCountAssociationsMixin;
-  // etfList hasMany etfStockList via etfStockCode
-  etfStockCodeEtfStockLists!: etfStockList[];
-  getEtfStockCodeEtfStockLists!: Sequelize.HasManyGetAssociationsMixin<etfStockList>;
-  setEtfStockCodeEtfStockLists!: Sequelize.HasManySetAssociationsMixin<etfStockList, etfStockListId>;
-  addEtfStockCodeEtfStockList!: Sequelize.HasManyAddAssociationMixin<etfStockList, etfStockListId>;
-  addEtfStockCodeEtfStockLists!: Sequelize.HasManyAddAssociationsMixin<etfStockList, etfStockListId>;
-  createEtfStockCodeEtfStockList!: Sequelize.HasManyCreateAssociationMixin<etfStockList>;
-  removeEtfStockCodeEtfStockList!: Sequelize.HasManyRemoveAssociationMixin<etfStockList, etfStockListId>;
-  removeEtfStockCodeEtfStockLists!: Sequelize.HasManyRemoveAssociationsMixin<etfStockList, etfStockListId>;
-  hasEtfStockCodeEtfStockList!: Sequelize.HasManyHasAssociationMixin<etfStockList, etfStockListId>;
-  hasEtfStockCodeEtfStockLists!: Sequelize.HasManyHasAssociationsMixin<etfStockList, etfStockListId>;
-  countEtfStockCodeEtfStockLists!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof etfList {
     return etfList.init({
@@ -113,7 +77,7 @@ export class etfList extends Model<etfListAttributes, etfListCreationAttributes>
       field: 'company_name'
     },
     benchmarkIndex: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(255),
       allowNull: true,
       comment: "벤치마크인덱스명",
       field: 'benchmark_index'

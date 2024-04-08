@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import type { etfStockList, etfStockListId } from './etfStockList';
 
 export interface stockListAttributes {
   market: string;
@@ -31,6 +32,30 @@ export class stockList extends Model<stockListAttributes, stockListCreationAttri
   regDate?: Date;
   modDate?: Date;
 
+  // stockList hasMany etfStockList via market
+  etfStockLists!: etfStockList[];
+  getEtfStockLists!: Sequelize.HasManyGetAssociationsMixin<etfStockList>;
+  setEtfStockLists!: Sequelize.HasManySetAssociationsMixin<etfStockList, etfStockListId>;
+  addEtfStockList!: Sequelize.HasManyAddAssociationMixin<etfStockList, etfStockListId>;
+  addEtfStockLists!: Sequelize.HasManyAddAssociationsMixin<etfStockList, etfStockListId>;
+  createEtfStockList!: Sequelize.HasManyCreateAssociationMixin<etfStockList>;
+  removeEtfStockList!: Sequelize.HasManyRemoveAssociationMixin<etfStockList, etfStockListId>;
+  removeEtfStockLists!: Sequelize.HasManyRemoveAssociationsMixin<etfStockList, etfStockListId>;
+  hasEtfStockList!: Sequelize.HasManyHasAssociationMixin<etfStockList, etfStockListId>;
+  hasEtfStockLists!: Sequelize.HasManyHasAssociationsMixin<etfStockList, etfStockListId>;
+  countEtfStockLists!: Sequelize.HasManyCountAssociationsMixin;
+  // stockList hasMany etfStockList via stockCode
+  stockCodeEtfStockLists!: etfStockList[];
+  getStockCodeEtfStockLists!: Sequelize.HasManyGetAssociationsMixin<etfStockList>;
+  setStockCodeEtfStockLists!: Sequelize.HasManySetAssociationsMixin<etfStockList, etfStockListId>;
+  addStockCodeEtfStockList!: Sequelize.HasManyAddAssociationMixin<etfStockList, etfStockListId>;
+  addStockCodeEtfStockLists!: Sequelize.HasManyAddAssociationsMixin<etfStockList, etfStockListId>;
+  createStockCodeEtfStockList!: Sequelize.HasManyCreateAssociationMixin<etfStockList>;
+  removeStockCodeEtfStockList!: Sequelize.HasManyRemoveAssociationMixin<etfStockList, etfStockListId>;
+  removeStockCodeEtfStockLists!: Sequelize.HasManyRemoveAssociationsMixin<etfStockList, etfStockListId>;
+  hasStockCodeEtfStockList!: Sequelize.HasManyHasAssociationMixin<etfStockList, etfStockListId>;
+  hasStockCodeEtfStockLists!: Sequelize.HasManyHasAssociationsMixin<etfStockList, etfStockListId>;
+  countStockCodeEtfStockLists!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof stockList {
     return stockList.init({

@@ -76,7 +76,7 @@ const columns = [{
   label: '52주 최저가'
 }, {
   key: 'regDate',
-  label: '최종 업데이트시간'
+  label: '마지막 조회시간'
 }];
 
 const { pending, data: etfData } = await useAsyncData('etfData', () => $fetch('/api/etf'));

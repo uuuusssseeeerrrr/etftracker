@@ -169,7 +169,7 @@ import type { gIStockList, gIStockPriceHistory, gIStockWeightInfo } from '~/type
       label: '적용환율'
   }, {
       key: 'regDate',
-      label: '업데이트시간'
+      label: '조회시간'
   }];
 
   const weightColumns = [{
