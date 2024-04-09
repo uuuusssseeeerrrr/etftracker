@@ -5,7 +5,8 @@ import { models } from '../../../models';
 const market = "TSE";
 
 // ETF 가격 입력 함수
-export const runJpEtfBatch: runStockBatch = async (accessToken: string, dateObj: Date) => {
+export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
+    const dateObj = new Date();
     const etfStockListArray = await models.etfList.findAll({
         where: {
             market
@@ -40,7 +41,8 @@ export const runJpEtfBatch: runStockBatch = async (accessToken: string, dateObj:
 }
 
 // 주식 가격 입력 함수
-export const runJpStockBatch: runStockBatch = async (accessToken: string, dateObj: Date) => {
+export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
+    const dateObj = new Date();
     const stockListArray = await models.stockList.findAll({
         where: {
             market

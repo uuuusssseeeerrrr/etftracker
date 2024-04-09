@@ -1,4 +1,4 @@
-import dayjs from '../../utils/dayjsUtil';
+import dayjs from 'dayjs';
 import { models } from '../../../models';
 import {priceDetailData, kisPriceDetailResponse, kisPriceInfoResponse, stockInfoData} from '~/types'
 
@@ -12,7 +12,7 @@ function sleep() {
 
 //접근토큰 발급용 함수
 export const getKisAccessToken = async function () {
-    const dateObj = dayjs(new Date()).tz().utc(true);
+    const dateObj = dayjs();
     const {kisKey, kisSecret} = useRuntimeConfig();
     const tokenData = await models.token.findOne({
         attributes: ['regDate', 'token'],

@@ -1,9 +1,8 @@
-import dayjs from '../../utils/dayjsUtil';
+import dayjs from 'dayjs';
 import { models, sequelize } from '../../../models';
 import { Op } from "sequelize";
 
 export default defineEventHandler(async (event) => {
-    const dateObj = dayjs(new Date()).tz().utc(true);
     const slug = event.context.params?.slug;
     const market = slug?.split("/")[0].toUpperCase();
     const stockCode = slug?.split("/")[1];
@@ -21,7 +20,7 @@ export default defineEventHandler(async (event) => {
                 {market}, 
                 {stockCode},
                 {regDate : {
-                    [Op.between] : [dateObj.subtract(3, 'day').toDate(), dateObj.toDate()]
+                    [Op.between] : [dayjs().subtract(3, 'day').toDate(), dayjs().toDate()]
                 }}
             ]
         },

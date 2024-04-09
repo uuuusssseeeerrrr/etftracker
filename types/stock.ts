@@ -45,7 +45,7 @@ interface stockInfoData {
 }
 
 interface runStockBatch {
-    (accessToken: string, dateObj: Date): Promise<{}>;
+    (accessToken: string): Promise<{}>;
 }
 
 export type { runStockBatch, priceDetailData, stockInfoData };

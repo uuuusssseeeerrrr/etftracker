@@ -1,4 +1,3 @@
-import dayjs from '../../utils/dayjsUtil';
 import { getKisAccessToken, getKisInfoApiData } from './kisApi';
 import { models } from '../../../models';
 import { sequelize } from "~/models";
@@ -12,7 +11,6 @@ export default defineEventHandler(async (event) => {
     // ETF 신규데이터 기타정보 가져오기(op.is가 잘 안되서 쿼리 직접실행)
     if(authToken && authToken === batchToken) { // 접근토큰 체크(미들웨어가 늦게 실행되서 먼저 실행)
         let dataListArray: any[];
-        const dateObj = dayjs(new Date()).tz().utc(true);
     
         // ETF 신규데이터 기타정보 가져오기(op.is가 잘 안되서 쿼리 직접실행)
         dataListArray = await sequelize.query(`select * from etf_list where STD_PDNO is null or STD_PDNO = ''`, {
@@ -21,6 +19,7 @@ export default defineEventHandler(async (event) => {
 
         // 데이터가 있어야만 실행
         if(dataListArray && dataListArray.length > 0) {
+            const dateObj = new Date();
             const accessToken = await getKisAccessToken();
         
             for (let i = 0; i < dataListArray.length; i++) {
@@ -30,7 +29,7 @@ export default defineEventHandler(async (event) => {
                 await models.etfList.update({
                     stdPdno : stockDataObj.std_pdno,
                     tradingLot : stockDataObj.buy_unit_qty,
-                    modDate: dateObj.toDate()
+                    modDate: dateObj
                 }, {
                     where: { stockCode: stockObj.stock_code }
                 });
@@ -50,7 +49,7 @@ export default defineEventHandler(async (event) => {
                     trCrcyCd : stockDataObj.tr_crcy_cd,
                     buyUnitQty : stockDataObj.buy_unit_qty,
                     prdtName : stockDataObj.prdt_name.indexOf(']') > -1 ? stockDataObj.prdt_name.split(']')[1] : stockDataObj.prdt_name,
-                    modDate: dateObj.toDate()
+                    modDate: dateObj
                 }, {
                     where: { stockCode: stockObj.stock_code }
                 });

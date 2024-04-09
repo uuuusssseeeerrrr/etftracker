@@ -5,6 +5,7 @@ ENV NODE_VERSION=20.11.1
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
+ENV TZ Asia/Seoul
 
 RUN apk update && apk upgrade
 RUN mkdir -p /app
