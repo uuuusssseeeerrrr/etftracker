@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { getKisAccessToken, getKisInfoApiData } from './kisApi';
 import { models } from '../../../models';
 import { sequelize } from "~/models";
@@ -19,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
         // 데이터가 있어야만 실행
         if(dataListArray && dataListArray.length > 0) {
-            const dateObj = new Date();
+            const dateObj = dayjs().add(9, 'hour');
             const accessToken = await getKisAccessToken();
         
             for (let i = 0; i < dataListArray.length; i++) {
@@ -29,7 +30,7 @@ export default defineEventHandler(async (event) => {
                 await models.etfList.update({
                     stdPdno : stockDataObj.std_pdno,
                     tradingLot : stockDataObj.buy_unit_qty,
-                    modDate: dateObj
+                    modDate: dateObj.toDate()
                 }, {
                     where: { stockCode: stockObj.stock_code }
                 });
@@ -49,7 +50,7 @@ export default defineEventHandler(async (event) => {
                     trCrcyCd : stockDataObj.tr_crcy_cd,
                     buyUnitQty : stockDataObj.buy_unit_qty,
                     prdtName : stockDataObj.prdt_name.indexOf(']') > -1 ? stockDataObj.prdt_name.split(']')[1] : stockDataObj.prdt_name,
-                    modDate: dateObj
+                    modDate: dateObj.toDate()
                 }, {
                     where: { stockCode: stockObj.stock_code }
                 });

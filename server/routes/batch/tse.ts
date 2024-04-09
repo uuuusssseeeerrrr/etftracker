@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { getKisApiData } from './kisApi';
 import { runStockBatch } from '~/types'
 import { models } from '../../../models';
@@ -6,7 +7,7 @@ const market = "TSE";
 
 // ETF 가격 입력 함수
 export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
-    const dateObj = new Date();
+    const dateObj = dayjs().add(9, 'hour');
     const etfStockListArray = await models.etfList.findAll({
         where: {
             market
@@ -32,7 +33,7 @@ export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
             tXdif: stockDataObj.t_xdif,
             tXrat: stockDataObj.t_xrat,
             tRate: stockDataObj.t_rate,
-            regDate: dateObj
+            regDate: dateObj.toDate()
         }).dataValues;
     }
 
@@ -42,7 +43,7 @@ export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
 
 // 주식 가격 입력 함수
 export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
-    const dateObj = new Date();
+    const dateObj = dayjs().add(9, 'hour');
     const stockListArray = await models.stockList.findAll({
         where: {
             market
@@ -74,7 +75,7 @@ export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
             tXrat: stockDataObj.t_xrat,
             tRate: stockDataObj.t_rate,
             eIcod: stockDataObj.e_icod,
-            regDate: dateObj
+            regDate: dateObj.toDate()
         }).dataValues;
     }
 

@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
                 {market}, 
                 {stockCode},
                 {regDate : {
-                    [Op.between] : [dayjs().subtract(3, 'day').toDate(), dayjs().toDate()]
+                    [Op.between] : [dayjs().add(9, 'hour').subtract(3, 'day').toDate(), dayjs().add(9, 'hour').toDate()]
                 }}
             ]
         },

@@ -1,11 +1,11 @@
 FROM node:20-alpine
-LABEL version='1.0.0'
+LABEL version="1.0.0"
 
-ENV NODE_VERSION=20.11.1
-ENV NODE_ENV=production
-ENV HOST=0.0.0.0
-ENV PORT=3000
-ENV TZ=Asia/Seoul
+ENV NODE_VERSION="20.11.1"
+ENV NODE_ENV="production"
+ENV HOST="0.0.0.0"
+ENV PORT="3000"
+ENV TZ="Asia/Seoul"
 
 RUN apk update && apk upgrade
 RUN mkdir -p /app
