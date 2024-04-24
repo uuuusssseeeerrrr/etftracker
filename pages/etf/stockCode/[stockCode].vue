@@ -230,9 +230,10 @@ for (const gIEtfObj of etfStockData) {
   let tXrat: number = Number(String(gIEtfObj.tXrat || '0').replace('%', ''));
   let fillColor: string = "";
   if (tXrat > 0) {
-    fillColor = (tXrat > 3) ? plusColorMap[2][9] : plusColorMap[Math.floor(tXrat)][Math.floor(tXrat * 10) % 10];
+    console.log(tXrat);
+    fillColor = (tXrat >= 3) ? plusColorMap[2][9] : plusColorMap[Math.floor(tXrat)][Math.floor(tXrat * 10) % 10];
   } else if (tXrat < 0) {
-    fillColor = (tXrat < -3) ? minusColorMap[2][9] : minusColorMap[Math.abs(Math.ceil(tXrat))][Math.floor(Math.abs(tXrat) * 10) % 10];
+    fillColor = (tXrat <= -3) ? minusColorMap[2][9] : minusColorMap[Math.abs(Math.ceil(tXrat))][Math.floor(Math.abs(tXrat) * 10) % 10];
   } else {
     fillColor = 'rgb(65,69,84)';
   }
