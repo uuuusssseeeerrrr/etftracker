@@ -4,8 +4,8 @@ import { Op } from "sequelize";
 
 export default defineEventHandler(async (event) => {
     const slug = event.context.params?.slug;
-    const market = slug?.split("/")[0].toUpperCase();
-    const stockCode = slug?.split("/")[1];
+    const market:string = slug?.split("/")[0].toUpperCase() as string;
+    const stockCode:string = slug?.split("/")[1] as string;
     let stockData: Record<string, unknown> = {};
 
     stockData.stockInfo = await models.stockList.findOne({

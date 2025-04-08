@@ -10,13 +10,10 @@
         </div>
         <div class="float-left">
           <UTable 
-          :loading="pending"
           :columns="columnsTable"
           :rows="filteredRows"
           :ui="{
-            tr:{
-              base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
-            }
+            base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
           }"
           @select="selectRow"
           >
@@ -26,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-const columns = [{
+const columns  = [{
   key: 'marketCode',
   label: '국가'
 }, {
@@ -79,10 +76,10 @@ const columns = [{
   label: '마지막 조회시간'
 }];
 
-const { pending, data: etfData } = await useAsyncData('etfData', () => $fetch('/api/etf'));
+const { data: etfData } = await useAsyncData('etfData', () => $fetch('/api/etf'));
 const rowData = etfData.value as { [key: string]: any; }[];
 const selectedColumns = ref([...columns])
-const columnsTable = computed(() => columns.filter((column) => selectedColumns.value.includes(column)))
+const columnsTable:TableColumn<T>[] = computed(() => columns.filter((column) => selectedColumns.value.includes(column)))
 const router = useRouter();
 const q = ref('')
 

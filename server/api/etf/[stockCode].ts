@@ -4,20 +4,30 @@ import { models } from '../../../models';
 import { etfList } from "~/models/etfList";
 
 type stockReturnData = {
-    etfInfo?: etfList | null;
+    etfInfo?: etfList;
     stockInfo?: Object[];
 };
 
 export default defineEventHandler(async (event) => {
     if (event.node.req.method === 'GET') {
         const stockCode = getRouterParam(event, 'stockCode');
-        const returnData: stockReturnData = {};
+        const returnData: stockReturnData = {
+            etfInfo: undefined,
+            stockInfo: undefined
+        };
     
-        returnData.etfInfo = await models.etfList.findOne({
+        const etfListData = await models.etfList.findOne({
             where : {
                 stockCode
             }
         });
+
+        if(etfListData) {
+            returnData.etfInfo = etfListData;
+        } else {
+            returnData.etfInfo = new etfList();
+        }
+        
     
         returnData.stockInfo = await sequelize.query(`select * from stock_price_info where etfStockCode = ?`, {
             type: QueryTypes.SELECT,
