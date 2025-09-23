@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
+import type { Optional } from 'sequelize';
 
 export interface etfPriceHistoryAttributes {
   priceIdx: number;
@@ -20,7 +21,6 @@ export interface etfPriceHistoryAttributes {
 }
 
 export type etfPriceHistoryPk = "priceIdx";
-export type etfPriceHistoryId = etfPriceHistory[etfPriceHistoryPk];
 export type etfPriceHistoryOptionalAttributes = "priceIdx" | "open" | "high" | "low" | "price" | "lastDayPrice" | "h52P" | "l52P" | "tXprc" | "tXdif" | "tXrat" | "tRate" | "regDate";
 export type etfPriceHistoryCreationAttributes = Optional<etfPriceHistoryAttributes, etfPriceHistoryOptionalAttributes>;
 
