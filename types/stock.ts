@@ -28,8 +28,8 @@ interface priceDetailData {
     "t_xrat": string,
     "t_rate": string,
     "t_xsgn": string,
-    "e_ordyn":string,
-    "e_hogau":string,
+    "e_ordyn": string,
+    "e_hogau": string,
     "e_icod": string,
     "e_parp": string,
     "tvol": string,
@@ -38,10 +38,10 @@ interface priceDetailData {
 }
 
 interface stockInfoData {
-    "std_pdno" : string,
-    "tr_crcy_cd" : string,
-    "buy_unit_qty" : string,
-    "prdt_name" : string
+    "std_pdno": string,
+    "tr_crcy_cd": string,
+    "buy_unit_qty": string,
+    "prdt_name": string
 }
 
 interface runStockBatch {

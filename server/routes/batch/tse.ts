@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { getKisApiData } from './kisApi';
-import { runStockBatch } from '~/types'
-import { models } from '../../../models';
+import { runStockBatch } from '@@/types'
+import { models } from '@@/models';
 
 const market = "TSE";
 

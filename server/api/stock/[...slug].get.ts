@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { models, sequelize } from '../../../models';
+import { models, sequelize } from '@@/models';
 import { Op } from "sequelize";
 
 export default defineEventHandler(async (event) => {

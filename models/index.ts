@@ -4,11 +4,11 @@ import { etfList, etfStockList, initModels } from './init-models';
 const {dbHost, dbPort, database, userNm, pwd} = useRuntimeConfig();
 const sequelize = new Sequelize({
     dialect: 'mariadb',
-    host: dbHost as string,
+    host: dbHost,
     port: Number(dbPort),
-    database: database as string,
-    username : userNm as string,
-    password: pwd as string
+    database: database,
+    username : userNm,
+    password: String(pwd)
 });
 const models = initModels(sequelize);
 

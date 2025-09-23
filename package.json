@@ -13,27 +13,33 @@
     "buildModels": "sequelize-auto -o './models' -h -d etf -u etf -x -p --dialect mysql -l ts --cm c --cf c --cp c"
   },
   "dependencies": {
-    "@nuxt/test-utils": "^3.17.2",
-    "@nuxt/ui": "^3.0.2",
+    "@nuxt/test-utils": "^3.19.2",
+    "@nuxt/ui": "^3.3.4",
     "@sequelize/core": "^7.0.0-alpha.46",
-    "apexcharts": "^4.5.0",
-    "dayjs": "^1.11.13",
-    "happy-dom": "^17.4.4",
-    "mariadb": "^3.4.1",
-    "mysql2": "^3.14.0",
-    "nuxt": "^3.16.2",
+    "apexcharts": "^5.3.5",
+    "dayjs": "^1.11.18",
+    "happy-dom": "^18.0.1",
+    "mariadb": "^3.4.5",
+    "mysql2": "^3.15.0",
+    "nuxt": "^4.1.2",
     "sequelize": "^6.37.7",
-    "vitest": "^3.1.1",
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.0",
+    "vitest": "^3.2.4",
+    "vue": "^3.5.21",
+    "vue-router": "^4.5.1",
     "vue3-apexcharts": "^1.8.0"
   },
   "devDependencies": {
-    "@iconify-json/heroicons": "^1.2.2",
+    "@iconify-json/heroicons": "^1.2.3",
+    "@iconify-json/lucide": "^1.2.68",
     "@nuxt/types": "^2.18.1",
     "@nuxt/typescript-build": "^3.0.2",
-    "@types/node": "^22.14.0",
+    "@types/node": "^24.5.2",
     "sequelize-auto": "^0.8.8",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
+  },
+  "imports": {
+    "#models/*": "./models/*",
+    "#server/*": "./server/*",
+    "#types/*": "./types/*"
   }
 }

@@ -10,9 +10,6 @@
         <NuxtLink to="/about">
             <UIcon name="i-heroicons-exclamation-circle" class="w-8 h-8 float-right"/>
         </NuxtLink>
-        <NuxtLink to="/">
-            <UIcon name="i-heroicons-home" class="w-8 h-8 float-right mr-3"/>
-        </NuxtLink>
       </div>
     </div>
     <div>

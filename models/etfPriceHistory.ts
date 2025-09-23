@@ -41,7 +41,6 @@ export class etfPriceHistory extends Model<etfPriceHistoryAttributes, etfPriceHi
   tRate?: string;
   regDate?: Date;
 
-
   static initModel(sequelize: Sequelize.Sequelize): typeof etfPriceHistory {
     return etfPriceHistory.init({
     priceIdx: {

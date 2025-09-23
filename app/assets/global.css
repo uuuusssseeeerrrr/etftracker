@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
 @font-face {
     font-family: 'SeoulNamsanM';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff');
@@ -6,7 +9,7 @@
 }
 
 body {
-    font-family: 'SeoulNamsanM';
+    font-family: 'SeoulNamsanM', sans-serif;
     margin-top: 20px;
     margin-bottom: 20px;
 }

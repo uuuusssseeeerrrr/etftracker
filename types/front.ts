@@ -1,15 +1,13 @@
-import type { etfListAttributes } from '~/models/etfList';
-import type { stockListAttributes } from '~/models/stockList';
-import type { stockPriceHistoryAttributes } from '~/models/stockPriceHistory';
+import type { stockListAttributes } from '../models/stockList';
+import type { stockPriceHistoryAttributes } from '../models/stockPriceHistory';
 
-interface gIEtfList extends etfListAttributes {}
-interface gIStockList extends stockListAttributes {}
-interface gIStockPriceHistory extends stockPriceHistoryAttributes {
+interface StockList extends stockListAttributes { }
+interface StockPriceHistory extends stockPriceHistoryAttributes {
     "regDateStr": string
 }
-interface gIStockWeightInfo {
+interface StockWeightInfo {
     "market": string,
-    "etfStockCode": string,
+    "etfStockCode": string,ß
     "stockCode": string,
     "etfPercent": string,
     "etfList": {
@@ -20,4 +18,9 @@ interface gIStockWeightInfo {
     }
 }
 
-export type { gIEtfList, gIStockList, gIStockPriceHistory, gIStockWeightInfo };
+interface TableHeader {
+    "key": string;
+    "label": string;
+}
+
+export type { StockList, StockPriceHistory, StockWeightInfo, TableHeader };

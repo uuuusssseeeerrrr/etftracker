@@ -1,10 +1,12 @@
+import { priceDetailData, stockInfoData } from './index';
+
 interface kisdefaultResponse {
     "rt_cd": string,
     "msg_cd": string,
     "msg1": string
 }
 
-interface kisPriceDetailResponse extends kisdefaultResponse{
+interface kisPriceDetailResponse extends kisdefaultResponse {
     "output": priceDetailData
 }
 

@@ -1,7 +1,6 @@
-import { sequelize } from "~/models";
+import { sequelize, models } from "@@/models";
 import { QueryTypes } from "sequelize";
-import { models } from '../../../models';
-import { etfList } from "~/models/etfList";
+import { etfList } from "@@/models/etfList";
 
 type stockReturnData = {
     etfInfo?: etfList;

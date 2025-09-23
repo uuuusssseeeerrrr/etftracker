@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import { getKisAccessToken, getKisInfoApiData } from './kisApi';
-import { models } from '../../../models';
-import { sequelize } from "~/models";
+import { models, sequelize } from "@@/models";
 import { QueryTypes } from "sequelize";
 
 export default defineEventHandler(async (event) => {
