@@ -1,15 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: {
-    enabled: false,
+    enabled: true,
     timeline: {
-      enabled: false,
+      enabled: true,
     },
   },
 
   modules: [
     '@nuxt/ui',
-    '@nuxt/test-utils/module'
   ],
   css: [
     '@/assets/global.css',
@@ -45,5 +44,5 @@ export default defineNuxtConfig({
 
   future: {
     compatibilityVersion: 4
-  },
+  }
 })

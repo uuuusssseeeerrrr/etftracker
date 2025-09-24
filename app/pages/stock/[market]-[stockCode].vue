@@ -68,10 +68,8 @@
     <section class="mt-6">
       <div class="text-xl mt-3 font-semibold">주식 가격 테이블</div>
       <div class="text-base mb-4">※ 서버내 저장된 해당종목의 최근3일간의 등락현황을 나타낸 테이블입니다.</div>
-      <UTable :columns="columns" :rows="stockPriceHistory" :ui="{
-        tr: {
-          base: 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
-        }
+      <UTable :columns="stockColumns" :rows="stockPriceHistory" :ui="{
+        base: 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
       }">
         <template>
           <div class="flex flex-col items-center justify-center py-6 gap-3">
@@ -84,9 +82,7 @@
       <div class="text-xl mt-3 font-semibold">ETF 비중 테이블</div>
       <div class="text-base mb-4">※ 서버내 저장된 해당종목의 ETF 비중 테이블입니다.</div>
       <UTable :columns="weightColumns" :rows="etfWeight" :ui="{
-        tr: {
-          base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
-        }
+        base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
       }" @select="selectRow">
         <template>
           <div class="flex flex-col items-center justify-center py-6 gap-3">
@@ -100,10 +96,10 @@
 
 <script setup lang="ts">
 import dayjs from 'dayjs'
-import type { StockList, StockPriceHistory, StockWeightInfo, stockApiResponse } from '#types/index';
-import type { etfPriceHistoryAttributes } from '#models/etfPriceHistory';
+import type { TableColumn } from '@nuxt/ui';
+import type { StockList, StockWeightInfo, stockApiResponse, StockPriceHistory } from '#types/index';
 
-const stockColumns = [{
+const stockColumns: TableColumn<StockPriceHistory>[] = [{
   accessorKey: 'price',
   header: '현재가'
 }, {
@@ -147,10 +143,18 @@ const stockColumns = [{
   header: '적용환율'
 }, {
   accessorKey: 'regDateStr',
-  header: '조회시간'
+  header: '조회시간',
+  cell: ({ row }) => {
+    const dateObj = dayjs(row.getValue('regDate'));
+    return h(
+      'span',
+      {},
+      dateObj.format('YYYY-MM-DD HH:mm:ss')
+    )
+  },
 }];
 
-const weightColumns = [{
+const weightColumns: TableColumn<StockWeightInfo>[] = [{
   accessorKey: 'etfStockCode',
   header: 'ETF코드'
 }, {
@@ -183,13 +187,10 @@ const stockPriceHistory = stockData.value?.stockPriceHistory as StockPriceHistor
 const etfWeight = stockData.value?.weightInfo as StockWeightInfo[];
 
 const selectRow = (row: any) => {
-  router.push(`/etf/stockCode/${row.etfStockCode}`);
+  router.push(`/etf/stockCode/${row.getValue('etfStockCode')}`);
 }
 
 for (const stockPriceObj of stockPriceHistory) {
-  const dateObj = dayjs(stockPriceObj.regDate);
-  stockPriceObj.regDateStr = dateObj.format('YYYY-MM-DD HH:mm:ss');
-
   if (tomv.length === 0) {
     if (stockPriceObj.tomv && stockPriceObj.tomv.length > 12) {
       tomv = Math.floor(Number(stockPriceObj.tomv) / 1000000000000) + " 조엔";
@@ -200,5 +201,4 @@ for (const stockPriceObj of stockPriceHistory) {
     }
   }
 }
-
 </script>

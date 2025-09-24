@@ -13,8 +13,7 @@
     "buildModels": "sequelize-auto -o './models' -h -d etf -u etf -x -p --dialect mysql -l ts --cm c --cf c --cp c"
   },
   "dependencies": {
-    "@nuxt/test-utils": "^3.19.2",
-    "@nuxt/ui": "^3.3.4",
+    "@nuxt/ui": "^4.0.0",
     "@sequelize/core": "^7.0.0-alpha.46",
     "apexcharts": "^5.3.5",
     "dayjs": "^1.11.18",

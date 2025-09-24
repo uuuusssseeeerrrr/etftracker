@@ -1,11 +1,7 @@
 import { sequelize, models } from "@@/models";
 import { QueryTypes } from "sequelize";
 import { etfList } from "@@/models/etfList";
-
-type stockReturnData = {
-    etfInfo?: etfList;
-    stockInfo?: Object[];
-};
+import { stockPriceInfo, stockReturnData } from '@@/types';
 
 export default defineEventHandler(async (event) => {
     if (event.node.req.method === 'GET') {
@@ -14,25 +10,24 @@ export default defineEventHandler(async (event) => {
             etfInfo: undefined,
             stockInfo: undefined
         };
-    
+
         const etfListData = await models.etfList.findOne({
-            where : {
+            where: {
                 stockCode
             }
         });
 
-        if(etfListData) {
+        if (etfListData) {
             returnData.etfInfo = etfListData;
         } else {
             returnData.etfInfo = new etfList();
         }
-        
-    
-        returnData.stockInfo = await sequelize.query(`select * from stock_price_info where etfStockCode = ?`, {
+
+        returnData.stockInfo = await sequelize.query<stockPriceInfo>(`select * from stock_price_info where etfStockCode = ?`, {
             type: QueryTypes.SELECT,
             replacements: [stockCode],
         });
-        
+
         return returnData;
     } else {
         setResponseStatus(event, 405);

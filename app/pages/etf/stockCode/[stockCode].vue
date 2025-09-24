@@ -65,10 +65,7 @@
           <UCard>
             <div class="text-xl mt-3 font-semibold">ETF 종목별 정보</div>
             <div class="text-base mb-4">※ 하단 테이블 종목 클릭시 종목상세 외부페이지로 이동합니다</div>
-            <div class="mb-5">
-              <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Columns" class="w-44" />
-            </div>
-            <UTable :columns="columnsTable" :rows="etfStockData" :ui="{
+            <UTable :columns="columns" :rows="etfStockData" :ui="{
               tr: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
             }" @select="selectRow">
             </UTable>
@@ -87,6 +84,8 @@
 
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui';
+import { etfList } from '#models/init-models';
+import type { stockReturnData, stockPriceInfo } from '#types/index';
 const UButton = resolveComponent('UButton');
 
 const items = [{
@@ -144,6 +143,9 @@ const columns: TableColumn<object>[] = [{
       class: '-mx-2.5',
       onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
     })
+  },
+  sortingFn: (a, b) => {
+    return Number(String(a.getValue('tXrat')).replace('%', '')) - Number(String(b.getValue('tXrat')).replace('%', ''));
   }
 }, {
   accessorKey: 'open',
@@ -203,13 +205,11 @@ const columns: TableColumn<object>[] = [{
 
 const route = useRoute();
 const router = useRouter();
-const { data: stockData } = await useAsyncData('stockData', () => $fetch(`/api/etf/${route.params.stockCode}`));
-const etfInfo: any = stockData.value?.etfInfo;
+const { data: stockData } = await useAsyncData<stockReturnData>('stockData', () => $fetch(`/api/etf/${route.params.stockCode}`));
+const etfInfo: etfList = stockData.value?.etfInfo || new etfList();
 
 // 종목별정보 탭
-const etfStockData: any | undefined = stockData.value?.stockInfo;
-const selectedColumns = ref([...columns]);
-const columnsTable: TableColumn<object>[] = columns.filter((column) => selectedColumns.value.includes(column));
+const etfStockData: stockPriceInfo[] = stockData.value?.stockInfo || [];
 
 const selectRow = (row: any) => {
   if (row.marketCode === 'TSE') {
@@ -220,17 +220,6 @@ const selectRow = (row: any) => {
 // 등락 맵
 const loader = ref();
 const chartData: any = [{ data: [] }];
-const plusColorMap: string[][] = [
-  ['#808080', '#838a86', '#86958c', '#889f92', '#8baa98', '#8eb49f', '#91bfa5', '#93c9ab', '#96d4b1', '#99deb7'],
-  ['#99deb7', '#8dd6ab', '#81cea0', '#76c694', '#6abe89', '#5eb67d', '#52ae72', '#47a666', '#3b9e5b', '#2f964f'],
-  ['#2f964f', '#30a152', '#30ac55', '#31b658', '#31c15b', '#32cc5e', '#32d761', '#33e164', '#33ec67', '#34f76a']
-];
-const minusColorMap: string[][] = [
-  ['#808080', '#8c7e7e', '#997c7d', '#a5797b', '#b27779', '#be7578', '#cb7376', '#d77074', '#e46e73', '#f06c71'],
-  ['#f06c71', '#ec666b', '#e76065', '#e3595f', '#df5359', '#da4d52', '#d6474c', '#d24046', '#cd3a40', '#c9343a'],
-  ['#cd373c', '#d13136', '#d52b2f', '#d92529', '#dd1f22', '#e21a1c', '#e61415', '#ea0e0f', '#ee0808', '#f20202']
-];
-
 const chartOptions = {
   chart: {
     background: '#808080',
@@ -248,17 +237,27 @@ const chartOptions = {
   }
 };
 
+const plusColorMap: string[][] = [
+  ['#808080', '#838a86', '#86958c', '#889f92', '#8baa98', '#8eb49f', '#91bfa5', '#93c9ab', '#96d4b1', '#99deb7'],
+  ['#99deb7', '#8dd6ab', '#81cea0', '#76c694', '#6abe89', '#5eb67d', '#52ae72', '#47a666', '#3b9e5b', '#2f964f'],
+  ['#2f964f', '#30a152', '#30ac55', '#31b658', '#31c15b', '#32cc5e', '#32d761', '#33e164', '#33ec67', '#34f76a']
+];
+const minusColorMap: string[][] = [
+  ['#808080', '#8c7e7e', '#997c7d', '#a5797b', '#b27779', '#be7578', '#cb7376', '#d77074', '#e46e73', '#f06c71'],
+  ['#f06c71', '#ec666b', '#e76065', '#e3595f', '#df5359', '#da4d52', '#d6474c', '#d24046', '#cd3a40', '#c9343a'],
+  ['#cd373c', '#d13136', '#d52b2f', '#d92529', '#dd1f22', '#e21a1c', '#e61415', '#ea0e0f', '#ee0808', '#f20202']
+];
+
 for (const etfObj of etfStockData) {
   let tXrat: number = Number(String(etfObj.tXrat || '0').replace('%', ''));
-  let fillColor: string = "";
-  if (tXrat > 0) {
-    console.log(tXrat);
-    fillColor = (tXrat >= 3) ? plusColorMap[2][9] : plusColorMap[Math.floor(tXrat)][Math.floor(tXrat * 10) % 10];
-  } else if (tXrat < 0) {
-    fillColor = (tXrat <= -3) ? minusColorMap[2][9] : minusColorMap[Math.abs(Math.ceil(tXrat))][Math.floor(Math.abs(tXrat) * 10) % 10];
-  } else {
+  let fillColor: string | undefined = "";
+  // if (tXrat > 0) {
+  //   fillColor = (tXrat >= 3) ? plusColorMap[2][9] : plusColorMap[Math.floor(tXrat)][Math.floor(tXrat * 10) % 10];
+  // } else if (tXrat < 0) {
+  //   fillColor = (tXrat <= -3) ? minusColorMap[2][9] : minusColorMap[Math.abs(Math.ceil(tXrat))][Math.floor(Math.abs(tXrat) * 10) % 10];
+  // } else {
     fillColor = 'rgb(65,69,84)';
-  }
+  // }
 
   chartData[0].data.push({
     x: etfObj.prdtName,

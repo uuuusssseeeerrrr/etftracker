@@ -5,7 +5,7 @@
       <p></p>
       <span>가격내 통화가 표시되지 않은 경우 현지통화입니다</span>
       <p></p>
-      <span v-if="data !== undefined">조회시간 : {{ data[0].regDate }}</span>
+      <span v-if="data !== undefined && data.length > 0 && data[0] !== undefined">조회시간 : {{ data[0].regDate }}</span>
     </div>
     <div>
       <UTable :columns="columns" :data="data" :ui="{
@@ -18,20 +18,19 @@
 </template>
 
 <script setup lang="ts">
-import type { TableColumn } from '@nuxt/ui';
+import type { TableColumn, TableRow } from '@nuxt/ui';
 import type { etfPriceHistoryAttributes } from '#models/etfPriceHistory';
 
 const UButton = resolveComponent('UButton');
 const { data } = await useAsyncData<etfPriceHistoryAttributes[]>('etfData', () => $fetch('/api/etf'));
 const router = useRouter();
-const selectRow = (row: any) => {
+const selectRow = (row: TableRow<etfPriceHistoryAttributes>) => {
   router.push(`/etf/stockCode/${row.getValue('etfStockCode')}`);
 }
 
 const columns: TableColumn<etfPriceHistoryAttributes>[] = [{
   accessorKey: 'marketCode',
-  header: '거래소',
-  cell: ({ row }) => '도쿄'
+  header: '거래소'
 }, {
   accessorKey: 'etfStockCode',
   header: ({ column }) => {
