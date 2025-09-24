@@ -9,7 +9,7 @@ export interface etfStockListAttributes {
   etfStockCode: string;
   stockCode: string;
   regDate?: Date;
-  etfPercent?: number;
+  etfPercent?: number | string;
 }
 
 export type etfStockListPk = "market" | "etfStockCode" | "stockCode";
@@ -22,7 +22,7 @@ export class etfStockList extends Model<etfStockListAttributes, etfStockListCrea
   etfStockCode!: string;
   stockCode!: string;
   regDate?: Date;
-  etfPercent?: number;
+  etfPercent?: number | string;
 
   // etfStockList belongsTo etfList via etfStockCode
   etfStockCodeEtfList!: etfList;

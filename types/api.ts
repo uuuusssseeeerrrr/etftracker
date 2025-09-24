@@ -1,4 +1,4 @@
-import { priceDetailData, stockInfoData } from './index';
+import type { priceDetailData, stockInfoData } from './index';
 
 interface kisdefaultResponse {
     "rt_cd": string,

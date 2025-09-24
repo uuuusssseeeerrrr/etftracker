@@ -4,10 +4,13 @@
       <span>참고 : 장이 열리기 전인 경우 모든페이지 내 가격데이터가 표시되지 않을 수 있습니다</span>
       <p></p>
       <span>가격내 통화가 표시되지 않은 경우 현지통화입니다</span>
+      <p></p>
+      <span v-if="data !== undefined">조회시간 : {{ data[0].regDate }}</span>
     </div>
     <div>
       <UTable :columns="columns" :data="data" :ui="{
-        base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
+        base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 text-center whitespace-pre-line',
+        th: 'text-center'
       }" @select="selectRow">
       </UTable>
     </div>
@@ -16,17 +19,19 @@
 
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui';
-import type { etfPriceHistoryAttributes } from '../../models/etfPriceHistory';
+import type { etfPriceHistoryAttributes } from '#models/etfPriceHistory';
+
 const UButton = resolveComponent('UButton');
 const { data } = await useAsyncData<etfPriceHistoryAttributes[]>('etfData', () => $fetch('/api/etf'));
 const router = useRouter();
 const selectRow = (row: any) => {
-  router.push(`/etf/stockCode/${row.etfStockCode}`);
+  router.push(`/etf/stockCode/${row.getValue('etfStockCode')}`);
 }
 
 const columns: TableColumn<etfPriceHistoryAttributes>[] = [{
   accessorKey: 'marketCode',
-  header: '국가'
+  header: '거래소',
+  cell: ({ row }) => '도쿄'
 }, {
   accessorKey: 'etfStockCode',
   header: ({ column }) => {
@@ -42,23 +47,31 @@ const columns: TableColumn<etfPriceHistoryAttributes>[] = [{
           : 'i-lucide-arrow-down-wide-narrow'
         : 'i-lucide-arrow-up-down',
       class: '-mx-2.5',
-      onClick: (rowA: etfPriceHistoryAttributes, rowB: etfPriceHistoryAttributes) => {
-        return isSorted === "asc" ? Number(rowA.stockCode < rowB.stockCode) ? 1 : -1 : rowA.stockCode > rowB.stockCode ? 1 : -1;
-      }
+      onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
     })
   }
 }, {
   accessorKey: 'etfName',
-  header: 'ETF명'
+  header: 'ETF명',
+  meta: {
+    class: {
+      td: 'text-left'
+    }
+  }
 }, {
   accessorKey: 'companyName',
-  header: '회사명'
+  header: '회사명',
+  meta: {
+    class: {
+      td: 'text-left'
+    }
+  }
 }, {
   accessorKey: 'price',
   header: '현재가'
 }, {
   accessorKey: 'tXprc',
-  header: '현재가(KRW)'
+  header: '현재가\n(KRW)'
 }, {
   accessorKey: 'tXrat',
   header: ({ column }) => {
@@ -74,14 +87,21 @@ const columns: TableColumn<etfPriceHistoryAttributes>[] = [{
           : 'i-lucide-arrow-down-wide-narrow'
         : 'i-lucide-arrow-up-down',
       class: '-mx-2.5',
-      onClick: (rowA: etfPriceHistoryAttributes, rowB: etfPriceHistoryAttributes) => {
-        if (isSorted === "asc") {
-          return Number(rowA.tXrat?.replace('%', '')) > Number(rowB.tXrat?.replace('%', '')) ? 1 : -1;
-        } else {
-          return Number(rowA.tXrat?.replace('%', '')) > Number(rowB.tXrat?.replace('%', '')) ? -1 : 1;
-        }
-      }
+      onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
     })
+  },
+  cell: ({ row }) => {
+    const tXrat: string = row.getValue('tXrat') || '';
+    return h(
+      'span',
+      {
+        class: Number(tXrat.replace('%', '')) > 0 ? 'text-green-500' : 'text-red-500'
+      },
+      tXrat
+    )
+  },
+  sortingFn: (a, b) => {
+    return Number(String(a.getValue('tXrat')).replace('%', '')) - Number(String(b.getValue('tXrat')).replace('%', ''));
   }
 }, {
   accessorKey: 'open',
@@ -93,17 +113,14 @@ const columns: TableColumn<etfPriceHistoryAttributes>[] = [{
   accessorKey: 'low',
   header: '저가'
 }, {
-  accessorKey: 'lastDayPrice',
-  header: '전일종가'
-}, {
   accessorKey: 'h52p',
-  header: '52주 최고가'
+  header: '52주\n최고가'
 }, {
   accessorKey: 'l52p',
-  header: '52주 최저가'
+  header: '52주\n최저가'
 }, {
-  accessorKey: 'regDate',
-  header: '마지막 조회시간'
+  accessorKey: 'lastDayPrice',
+  header: '전일\n종가'
 }];
 </script>
 

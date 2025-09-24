@@ -1,13 +1,14 @@
 import type { stockListAttributes } from '../models/stockList';
+import { etfStockList } from '#models/etfStockList';
 import type { stockPriceHistoryAttributes } from '../models/stockPriceHistory';
 
 interface StockList extends stockListAttributes { }
 interface StockPriceHistory extends stockPriceHistoryAttributes {
     "regDateStr": string
 }
-interface StockWeightInfo {
+interface StockWeightInfo extends etfStockList {
     "market": string,
-    "etfStockCode": string,ß
+    "etfStockCode": string,
     "stockCode": string,
     "etfPercent": string,
     "etfList": {
@@ -18,9 +19,10 @@ interface StockWeightInfo {
     }
 }
 
-interface TableHeader {
-    "key": string;
-    "label": string;
+interface stockApiResponse {
+    stockInfo: StockList | null | undefined,
+    stockPriceHistory: stockPriceHistoryAttributes[] | null | undefined,
+    weightInfo: StockWeightInfo[] | null | undefined
 }
 
-export type { StockList, StockPriceHistory, StockWeightInfo, TableHeader };
+export type { StockList, StockPriceHistory, StockWeightInfo, stockApiResponse };

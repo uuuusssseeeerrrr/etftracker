@@ -5,62 +5,62 @@
       <div>
         <table>
           <colgroup>
-            <col style="width:250px;"/>
-            <col/>
+            <col style="width:250px;" />
+            <col />
           </colgroup>
           <tbody>
-          <tr>
-            <td class="mr-3">마켓</td>
-            <template v-if="stockInfo.market === 'TSE'">
-              <td>도쿄증권거래소({{ stockInfo.market }})</td>
-            </template>
-          </tr>
-          <tr>
-            <td class="mr-3">종목코드</td>
-            <td>{{ stockInfo.stockCode }}</td>
-          </tr>
-          <tr>
-            <td class="mr-3">표준상품번호</td>
-            <td>{{ stockInfo.stdPdno }}</td>
-          </tr>
-          <tr>
-            <td class="mr-3">종목명</td>
-            <td>{{ stockInfo.stockName }}</td>
-          </tr>
-          <tr>
-            <td class="mr-3">종목명(한글)</td>
-            <td>{{ stockInfo.prdtName }}</td>
-          </tr>
-          <tr>
-            <td class="mr-3">업종(섹터)</td>
-            <td>{{ stockPriceHistory[0]?.eIcod || '수집된 자료가 없습니다.' }}</td>
-          </tr>
-          <tr>
-            <td class="mr-3">거래통화</td>
-            <td>{{ stockInfo.trCrcyCd }}</td>
-          </tr>
-          <tr>
-            <td class="mr-3">시가총액</td>
-            <td>{{ tomv || '수집된 자료가 없습니다.' }}</td>
-          </tr>
-          <tr>
-            <td class="mr-3">매수단위수량</td>
-            <td>{{ stockInfo.buyUnitQty }}</td>
-          </tr>
-          <tr>
-            <td class="mr-3">종목 소개</td>
-            <td>{{ stockInfo.stockComment || '종목소개가 없습니다.' }}</td>
-          </tr>
-          <tr>
-            <td class="mr-3">종목 상세(외부페이지)</td>
-            <td>
-              <!-- 이거버튼안먹음 -->
+            <tr>
+              <td class="mr-3">마켓</td>
               <template v-if="stockInfo.market === 'TSE'">
-                <UButton :to="`https://finance.yahoo.com/quote/${stockInfo.stockCode}.T`" target="_blank"
-                         label="바로가기"/>
+                <td>도쿄증권거래소({{ stockInfo.market }})</td>
               </template>
-            </td>
-          </tr>
+            </tr>
+            <tr>
+              <td class="mr-3">종목코드</td>
+              <td>{{ stockInfo.stockCode }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">표준상품번호</td>
+              <td>{{ stockInfo.stdPdno }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">종목명</td>
+              <td>{{ stockInfo.stockName }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">종목명(한글)</td>
+              <td>{{ stockInfo.prdtName }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">업종(섹터)</td>
+              <td>{{ stockPriceHistory[0]?.eIcod || '수집된 자료가 없습니다.' }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">거래통화</td>
+              <td>{{ stockInfo.trCrcyCd }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">시가총액</td>
+              <td>{{ tomv || '수집된 자료가 없습니다.' }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">매수단위수량</td>
+              <td>{{ stockInfo.buyUnitQty }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">종목 소개</td>
+              <td>{{ stockInfo.stockComment || '종목소개가 없습니다.' }}</td>
+            </tr>
+            <tr>
+              <td class="mr-3">종목 상세(외부페이지)</td>
+              <td>
+                <!-- 이거버튼안먹음 -->
+                <template v-if="stockInfo.market === 'TSE'">
+                  <UButton :to="`https://finance.yahoo.com/quote/${stockInfo.stockCode}.T`" target="_blank"
+                    label="바로가기" />
+                </template>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -68,15 +68,11 @@
     <section class="mt-6">
       <div class="text-xl mt-3 font-semibold">주식 가격 테이블</div>
       <div class="text-base mb-4">※ 서버내 저장된 해당종목의 최근3일간의 등락현황을 나타낸 테이블입니다.</div>
-      <div class="mb-5">
-        <USelectMenu v-model="stockRefColumns" :options="stockColumns" multiple placeholder="Columns"
-                     class="w-44"/>
-      </div>
-      <UTable :columns="selectedStockColumns" :rows="stockPriceHistory" :ui="{
-              tr:{
-                base: 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
-              }
-            }">
+      <UTable :columns="columns" :rows="stockPriceHistory" :ui="{
+        tr: {
+          base: 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
+        }
+      }">
         <template>
           <div class="flex flex-col items-center justify-center py-6 gap-3">
             <span class="text-sm">서버에서 수집된 데이터가 없습니다.</span>
@@ -87,19 +83,11 @@
     <section class="mt-6">
       <div class="text-xl mt-3 font-semibold">ETF 비중 테이블</div>
       <div class="text-base mb-4">※ 서버내 저장된 해당종목의 ETF 비중 테이블입니다.</div>
-      <div class="mb-5">
-        <USelectMenu v-model="weightRefColumns" :options="weightColumns" multiple placeholder="Columns"
-                     class="w-44"/>
-      </div>
-      <UTable
-          :columns="selectedWeightColumns"
-          :rows="etfWeight"
-          :ui="{
-              tr: {
-                base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
-              }
-            }"
-          @select="selectRow">
+      <UTable :columns="weightColumns" :rows="etfWeight" :ui="{
+        tr: {
+          base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
+        }
+      }" @select="selectRow">
         <template>
           <div class="flex flex-col items-center justify-center py-6 gap-3">
             <span class="text-sm">서버에서 수집된 데이터가 없습니다.</span>
@@ -112,92 +100,87 @@
 
 <script setup lang="ts">
 import dayjs from 'dayjs'
-import type {StockList, StockPriceHistory, StockWeightInfo, TableHeader} from '#types';
+import type { StockList, StockPriceHistory, StockWeightInfo, stockApiResponse } from '#types/index';
+import type { etfPriceHistoryAttributes } from '#models/etfPriceHistory';
 
-const stockColumns: TableHeader[] = [{
-  key: 'price',
-  label: '현재가'
+const stockColumns = [{
+  accessorKey: 'price',
+  header: '현재가'
 }, {
-  key: 'tXprc',
-  label: '현재가(KRW)'
+  accessorKey: 'tXprc',
+  header: '현재가(KRW)'
 }, {
-  key: 'tXrat',
-  label: '전일대비'
+  accessorKey: 'tXrat',
+  header: '전일대비'
 }, {
-  key: 'open',
-  label: '시가'
+  accessorKey: 'open',
+  header: '시가'
 }, {
-  key: 'high',
-  label: '고가'
+  accessorKey: 'high',
+  header: '고가'
 }, {
-  key: 'low',
-  label: '저가'
+  accessorKey: 'low',
+  header: '저가'
 }, {
-  key: 'lastDayPrice',
-  label: '전일종가'
+  accessorKey: 'lastDayPrice',
+  header: '전일종가'
 }, {
-  key: 'h52P',
-  label: '52주 최고가'
+  accessorKey: 'h52P',
+  header: '52주 최고가'
 }, {
-  key: 'l52P',
-  label: '52주 최저가'
+  accessorKey: 'l52P',
+  header: '52주 최저가'
 }, {
-  key: 'perx',
-  label: 'PER'
+  accessorKey: 'perx',
+  header: 'PER'
 }, {
-  key: 'pbrx',
-  label: 'PBR'
+  accessorKey: 'pbrx',
+  header: 'PBR'
 }, {
-  key: 'epsx',
-  label: 'EPS'
+  accessorKey: 'epsx',
+  header: 'EPS'
 }, {
-  key: 'bpsx',
-  label: 'BPS'
+  accessorKey: 'bpsx',
+  header: 'BPS'
 }, {
-  key: 'tRate',
-  label: '적용환율'
+  accessorKey: 'tRate',
+  header: '적용환율'
 }, {
-  key: 'regDateStr',
-  label: '조회시간'
+  accessorKey: 'regDateStr',
+  header: '조회시간'
 }];
 
 const weightColumns = [{
-  key: 'etfStockCode',
-  label: 'ETF코드'
+  accessorKey: 'etfStockCode',
+  header: 'ETF코드'
 }, {
-  key: 'etfList.etfName',
-  label: 'ETF명'
+  accessorKey: 'etfList.etfName',
+  header: 'ETF명'
 }, {
-  key: 'stockCode',
-  label: '종목코드'
+  accessorKey: 'stockCode',
+  header: '종목코드'
 }, {
-  key: 'etfPercent',
-  label: 'ETF 내 주식비중'
+  accessorKey: 'etfPercent',
+  header: 'ETF 내 주식비중'
 }, {
-  key: 'etfList.companyName',
-  label: '운용사'
+  accessorKey: 'etfList.companyName',
+  header: '운용사'
 }, {
-  key: 'etfList.tradingLot',
-  label: '거래단위'
+  accessorKey: 'etfList.tradingLot',
+  header: '거래단위'
 }, {
-  key: 'etfList.trustFeeRate',
-  label: '수수료'
+  accessorKey: 'etfList.trustFeeRate',
+  header: '수수료'
 }];
 
 const route = useRoute();
 const router = useRouter();
 let tomv: string = "";
-const {data: stockData} = await useAsyncData('stockData', () => $fetch(`/api/stock/${route.params.market}/${route.params.stockCode}`));
+const { data: stockData } = await useAsyncData<stockApiResponse>('stockData', () => $fetch(`/api/stock/${route.params.market}/${route.params.stockCode}`));
 
-const stockInfo: StockList = stockData.value?.stockInfo as unknown as StockList || {};
-const stockPriceHistory: StockPriceHistory[] = stockData.value?.stockPriceHistory || [];
-const etfWeight: StockWeightInfo[] = stockData.value?.weightInfo || [];
-
-const stockRefColumns = ref([...stockColumns]);
-const selectedStockColumns: ComputedRef<TableHeader[]> = computed(() => stockColumns.filter((column) => stockRefColumns.value.includes(column)));
-
-const weightRefColumns = ref([...weightColumns]);
-const selectedWeightColumns = computed(() => weightColumns.filter((column) => weightRefColumns.value.includes(column)));
+const stockInfo = stockData.value?.stockInfo as StockList;
+const stockPriceHistory = stockData.value?.stockPriceHistory as StockPriceHistory[];
+const etfWeight = stockData.value?.weightInfo as StockWeightInfo[];
 
 const selectRow = (row: any) => {
   router.push(`/etf/stockCode/${row.etfStockCode}`);
