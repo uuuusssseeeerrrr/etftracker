@@ -9,22 +9,19 @@
     "preview": "nuxi preview",
     "postinstall": "nuxi prepare",
     "start": "nuxi start",
-    "test": "vitest",
-    "buildModels": "sequelize-auto -o './models' -h -d etf -u etf -x -p --dialect mysql -l ts --cm c --cf c --cp c"
+    "test": "vitest"
   },
   "dependencies": {
     "@nuxt/ui": "^4.0.0",
-    "@sequelize/core": "^7.0.0-alpha.46",
+    "@prisma/client": "^6.16.2",
+    "@prisma/nuxt": "^0.3.0",
     "apexcharts": "^5.3.5",
     "dayjs": "^1.11.18",
-    "happy-dom": "^18.0.1",
-    "mariadb": "^3.4.5",
-    "mysql2": "^3.15.0",
     "nuxt": "^4.1.2",
-    "sequelize": "^6.37.7",
+    "prisma": "^6.16.2",
     "tailwindcss": "^4.1.13",
     "vitest": "^3.2.4",
-    "vue": "^3.5.21",
+    "vue": "^3.5.22",
     "vue-router": "^4.5.1",
     "vue3-apexcharts": "^1.8.0"
   },
@@ -33,12 +30,6 @@
     "@iconify-json/lucide": "^1.2.68",
     "@nuxt/types": "^2.18.1",
     "@types/node": "^24.5.2",
-    "sequelize-auto": "^0.8.8",
     "typescript": "^5.9.2"
-  },
-  "imports": {
-    "#models/*": "./models/*",
-    "#server/*": "./server/*",
-    "#types/*": "./types/*"
   }
 }

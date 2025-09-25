@@ -97,9 +97,14 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import type { TableColumn } from '@nuxt/ui';
-import type { StockList, StockWeightInfo, stockApiResponse, StockPriceHistory } from '#types/index';
 
-const stockColumns: TableColumn<StockPriceHistory>[] = [{
+interface stockMarketStockCode {
+  stockInfo: any;
+  stockPriceHistory: any;
+  weightInfo: any;
+}
+
+const stockColumns: TableColumn<any>[] = [{
   accessorKey: 'price',
   header: '현재가'
 }, {
@@ -154,7 +159,7 @@ const stockColumns: TableColumn<StockPriceHistory>[] = [{
   },
 }];
 
-const weightColumns: TableColumn<StockWeightInfo>[] = [{
+const weightColumns: TableColumn<any>[] = [{
   accessorKey: 'etfStockCode',
   header: 'ETF코드'
 }, {
@@ -180,11 +185,11 @@ const weightColumns: TableColumn<StockWeightInfo>[] = [{
 const route = useRoute();
 const router = useRouter();
 let tomv: string = "";
-const { data: stockData } = await useAsyncData<stockApiResponse>('stockData', () => $fetch(`/api/stock/${route.params.market}/${route.params.stockCode}`));
+const { data: stockData } = await useAsyncData<stockMarketStockCode>('stockData', () => $fetch(`/api/stock/${route.params.market}/${route.params.stockCode}`));
 
-const stockInfo = stockData.value?.stockInfo as StockList;
-const stockPriceHistory = stockData.value?.stockPriceHistory as StockPriceHistory[];
-const etfWeight = stockData.value?.weightInfo as StockWeightInfo[];
+const stockInfo = stockData.value?.stockInfo;
+const stockPriceHistory = stockData.value?.stockPriceHistory;
+const etfWeight = stockData.value?.weightInfo;
 
 const selectRow = (row: any) => {
   router.push(`/etf/stockCode/${row.getValue('etfStockCode')}`);

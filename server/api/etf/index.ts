@@ -1,8 +1,7 @@
-import { QueryTypes } from "sequelize";
-import { sequelize } from '../../../models';
+import prisma from '@@/lib/prisma';
 
 export default defineEventHandler(async (event) => {
     if (event.node.req.method === 'GET') {
-        return await sequelize.query(`select * from etf_price_info`, { type: QueryTypes.SELECT });
+        return await prisma.$queryRaw`select * from etf_price_info`;
     }
 });

@@ -6,7 +6,8 @@
     "paths": {
       "#models/*": ["./models/*"],
       "#server/*": ["./server/*"],
-      "#types/*": ["./types/*"]
+      "#types/*": ["./types/*"],
+      "#lib/*": ["./lib/*"]
     }
   }
 }

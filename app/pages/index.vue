@@ -19,16 +19,15 @@
 
 <script setup lang="ts">
 import type { TableColumn, TableRow } from '@nuxt/ui';
-import type { etfPriceHistoryAttributes } from '#models/etfPriceHistory';
 
 const UButton = resolveComponent('UButton');
-const { data } = await useAsyncData<etfPriceHistoryAttributes[]>('etfData', () => $fetch('/api/etf'));
+const { data } = await useAsyncData<any[]>('etfData', () => $fetch('/api/etf'));
 const router = useRouter();
-const selectRow = (row: TableRow<etfPriceHistoryAttributes>) => {
+const selectRow = (row: TableRow<any>) => {
   router.push(`/etf/stockCode/${row.getValue('etfStockCode')}`);
 }
 
-const columns: TableColumn<etfPriceHistoryAttributes>[] = [{
+const columns: TableColumn<any>[] = [{
   accessorKey: 'marketCode',
   header: '거래소'
 }, {

@@ -84,8 +84,12 @@
 
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui';
-import { etfList } from '#models/init-models';
-import type { stockReturnData, stockPriceInfo } from '#types/index';
+
+interface etfStockCode {
+  etfInfo: any;
+  stockInfo: any[];
+}
+
 const UButton = resolveComponent('UButton');
 
 const items = [{
@@ -205,11 +209,11 @@ const columns: TableColumn<object>[] = [{
 
 const route = useRoute();
 const router = useRouter();
-const { data: stockData } = await useAsyncData<stockReturnData>('stockData', () => $fetch(`/api/etf/${route.params.stockCode}`));
-const etfInfo: etfList = stockData.value?.etfInfo || new etfList();
+const { data: stockData } = await useAsyncData<etfStockCode>('stockData', () => $fetch(`/api/etf/${route.params.stockCode}`));
+const etfInfo = stockData.value?.etfInfo || {};
 
 // 종목별정보 탭
-const etfStockData: stockPriceInfo[] = stockData.value?.stockInfo || [];
+const etfStockData = stockData.value?.stockInfo || [];
 
 const selectRow = (row: any) => {
   if (row.marketCode === 'TSE') {
@@ -256,7 +260,7 @@ for (const etfObj of etfStockData) {
   // } else if (tXrat < 0) {
   //   fillColor = (tXrat <= -3) ? minusColorMap[2][9] : minusColorMap[Math.abs(Math.ceil(tXrat))][Math.floor(Math.abs(tXrat) * 10) % 10];
   // } else {
-    fillColor = 'rgb(65,69,84)';
+  fillColor = 'rgb(65,69,84)';
   // }
 
   chartData[0].data.push({

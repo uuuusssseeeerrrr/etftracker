@@ -9,6 +9,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxt/ui',
+    "@prisma/nuxt"
   ],
   css: [
     '@/assets/global.css',
