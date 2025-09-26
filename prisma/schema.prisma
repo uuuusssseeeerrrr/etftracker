@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -9,107 +8,114 @@ datasource db {
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model etf_list {
-  market          String           @default("") @db.VarChar(10)
-  stock_code      String           @default("") @db.VarChar(20)
-  etf_name        String?          @db.VarChar(255)
-  company_name    String?          @db.VarChar(50)
-  benchmark_index String?          @db.VarChar(255)
-  index_comment   String?          @db.Text
-  trading_lot     String?          @db.VarChar(10)
-  trust_fee_rate  String?          @db.VarChar(10)
-  std_pdno        String?          @db.VarChar(12)
-  reg_date        DateTime?        @db.DateTime(0)
-  mod_date        DateTime?        @db.DateTime(0)
-  etf_stock_list  etf_stock_list[]
+model EtfList {
+  market         String         @default("") @db.VarChar(10)
+  stockCode      String         @default("") @map("stock_code") @db.VarChar(20)
+  etfName        String?        @map("etf_name") @db.VarChar(255)
+  companyName    String?        @map("company_name") @db.VarChar(50)
+  benchmarkIndex String?        @map("benchmark_index") @db.VarChar(255)
+  indexComment   String?        @map("index_comment") @db.Text
+  tradingLot     String?        @map("trading_lot") @db.VarChar(10)
+  trustFeeRate   String?        @map("trust_fee_rate") @db.VarChar(10)
+  stdPdno        String?        @map("std_pdno") @db.VarChar(12)
+  regDate        DateTime?      @map("reg_date") @db.DateTime(0)
+  modDate        DateTime?      @map("mod_date") @db.DateTime(0)
+  etfStockList   EtfStockList[]
 
-  @@id([market, stock_code])
+  @@id([market, stockCode])
+  @@map("etf_list")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model etf_price_history {
-  price_idx      Int       @id @default(autoincrement())
-  market         String    @db.VarChar(10)
-  stock_code     String    @db.VarChar(20)
-  open           String?   @db.VarChar(12)
-  high           String?   @db.VarChar(12)
-  low            String?   @db.VarChar(12)
-  price          String?   @db.VarChar(12)
-  last_day_price String?   @db.VarChar(12)
-  h52p           String?   @db.VarChar(12)
-  l52p           String?   @db.VarChar(12)
-  t_xprc         String?   @db.VarChar(12)
-  t_xdif         String?   @db.VarChar(12)
-  t_xrat         String?   @db.VarChar(12)
-  t_rate         String?   @db.VarChar(12)
-  reg_date       DateTime? @db.DateTime(0)
+model EtfPriceHistory {
+  priceIdx     Int       @id @default(autoincrement()) @map("price_idx")
+  market       String    @db.VarChar(10)
+  stockCode    String    @map("stock_code") @db.VarChar(20)
+  open         String?   @db.VarChar(12)
+  high         String?   @db.VarChar(12)
+  low          String?   @db.VarChar(12)
+  price        String?   @db.VarChar(12)
+  lastDayPrice String?   @map("last_day_price") @db.VarChar(12)
+  h52p         String?   @db.VarChar(12)
+  l52p         String?   @db.VarChar(12)
+  tXprc        String?   @map("t_xprc") @db.VarChar(12)
+  tXdif        String?   @map("t_xdif") @db.VarChar(12)
+  tXrat        String?   @map("t_xrat") @db.VarChar(12)
+  tRate        String?   @map("t_rate") @db.VarChar(12)
+  regDate      DateTime? @map("reg_date") @db.DateTime(0)
 
-  @@index([market, stock_code], map: "market_stock_code")
-  @@index([reg_date], map: "reg_date")
+  @@index([market, stockCode], map: "market_stock_code")
+  @@index([regDate], map: "reg_date")
+  @@map("etf_price_history")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model etf_stock_list {
-  market         String     @default("") @db.VarChar(10)
-  etf_stock_code String     @default("") @db.VarChar(20)
-  stock_code     String     @default("") @db.VarChar(20)
-  reg_date       DateTime?  @db.DateTime(0)
-  etf_percent    Float?     @db.Float
-  etf_list       etf_list   @relation(fields: [market, etf_stock_code], references: [market, stock_code], onUpdate: Restrict, map: "FK_etf_stock_list_etf_list")
-  stock_list     stock_list @relation(fields: [market, stock_code], references: [market, stock_code], onUpdate: Restrict, map: "etf_stock_list_stock_list_market_stock_code_fk")
+model EtfStockList {
+  market       String    @default("") @db.VarChar(10)
+  etfStockCode String    @default("") @map("etf_stock_code") @db.VarChar(20)
+  stockCode    String    @default("") @map("stock_code") @db.VarChar(20)
+  regDate      DateTime? @map("reg_date") @db.DateTime(0)
+  etfPercent   Float?    @map("etf_percent") @db.Float
+  etfList      EtfList   @relation(fields: [market, etfStockCode], references: [market, stockCode], onUpdate: Restrict, map: "FK_etf_stock_list_etf_list")
+  stockList    StockList @relation(fields: [market, stockCode], references: [market, stockCode], onUpdate: Restrict, map: "etf_stock_list_stock_list_market_stock_code_fk")
 
-  @@id([market, etf_stock_code, stock_code])
-  @@index([market, stock_code], map: "etf_stock_list_stock_list_market_stock_code_fk")
+  @@id([market, etfStockCode, stockCode])
+  @@index([market, stockCode], map: "etf_stock_list_stock_list_market_stock_code_fk")
+  @@map("etf_stock_list")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model stock_list {
-  market         String           @default("") @db.VarChar(10)
-  stock_code     String           @default("") @db.VarChar(20)
-  stock_name     String?          @db.VarChar(255)
-  tr_crcy_cd     String?          @db.VarChar(3)
-  buy_unit_qty   String?          @db.VarChar(10)
-  prdt_name      String?          @db.VarChar(60)
-  stock_comment  String?          @db.Text
-  std_pdno       String?          @db.VarChar(12)
-  reg_date       DateTime?        @db.DateTime(0)
-  mod_date       DateTime?        @db.DateTime(0)
-  etf_stock_list etf_stock_list[]
+model StockList {
+  market       String         @default("") @db.VarChar(10)
+  stockCode    String         @default("") @map("stock_code") @db.VarChar(20)
+  stockName    String?        @map("stock_name") @db.VarChar(255)
+  trCrcyCd     String?        @map("tr_crcy_cd") @db.VarChar(3)
+  buyUnitQty   String?        @map("buy_unit_qty") @db.VarChar(10)
+  prdtName     String?        @map("prdt_name") @db.VarChar(60)
+  stockComment String?        @map("stock_comment") @db.Text
+  stdPdno      String?        @map("std_pdno") @db.VarChar(12)
+  regDate      DateTime?      @map("reg_date") @db.DateTime(0)
+  modDate      DateTime?      @map("mod_date") @db.DateTime(0)
+  etfStockList EtfStockList[]
 
-  @@id([market, stock_code])
+  @@id([market, stockCode])
+  @@map("stock_list")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model stock_price_history {
-  price_idx      Int       @id @default(autoincrement())
-  market         String    @db.VarChar(10)
-  stock_code     String    @db.VarChar(20)
-  open           String?   @db.VarChar(12)
-  high           String?   @db.VarChar(12)
-  low            String?   @db.VarChar(12)
-  price          String?   @db.VarChar(12)
-  last_day_price String?   @db.VarChar(12)
-  tomv           String?   @db.VarChar(16)
-  h52p           String?   @db.VarChar(12)
-  l52p           String?   @db.VarChar(12)
-  perx           String?   @db.VarChar(10)
-  pbrx           String?   @db.VarChar(10)
-  epsx           String?   @db.VarChar(10)
-  bpsx           String?   @db.VarChar(10)
-  t_xprc         String?   @db.VarChar(12)
-  t_xdif         String?   @db.VarChar(12)
-  t_xrat         String?   @db.VarChar(12)
-  t_rate         String?   @db.VarChar(12)
-  e_icod         String?   @db.VarChar(50)
-  reg_date       DateTime? @db.DateTime(0)
+model StockPriceHistory {
+  priceIdx     Int       @id @default(autoincrement()) @map("price_idx")
+  market       String    @db.VarChar(10)
+  stockCode    String    @map("stock_code") @db.VarChar(20)
+  open         String?   @db.VarChar(12)
+  high         String?   @db.VarChar(12)
+  low          String?   @db.VarChar(12)
+  price        String?   @db.VarChar(12)
+  lastDayPrice String?   @map("last_day_price") @db.VarChar(12)
+  tomv         String?   @db.VarChar(16)
+  h52p         String?   @db.VarChar(12)
+  l52p         String?   @db.VarChar(12)
+  perx         String?   @db.VarChar(10)
+  pbrx         String?   @db.VarChar(10)
+  epsx         String?   @db.VarChar(10)
+  bpsx         String?   @db.VarChar(10)
+  tXprc        String?   @map("t_xprc") @db.VarChar(12)
+  tXdif        String?   @map("t_xdif") @db.VarChar(12)
+  tXrat        String?   @map("t_xrat") @db.VarChar(12)
+  tRate        String?   @map("t_rate") @db.VarChar(12)
+  eIcod        String?   @map("e_icod") @db.VarChar(50)
+  regDate      DateTime? @map("reg_date") @db.DateTime(0)
 
-  @@index([market, stock_code], map: "market_stock_code")
-  @@index([reg_date], map: "reg_date")
+  @@index([market, stockCode], map: "market_stock_code")
+  @@index([regDate], map: "reg_date")
+  @@map("stock_price_history")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model token {
-  token_idx Int    @id @default(autoincrement())
-  reg_date  String @default("") @db.Char(8)
-  token     String @db.Text
+model Token {
+  tokenIdx Int    @id @default(autoincrement()) @map("token_idx")
+  regDate  String @default("") @map("reg_date") @db.Char(8)
+  token    String @db.Text
+
+  @@map("token")
 }

@@ -11,7 +11,7 @@ function sleep() {
 
 //접근토큰 발급용 함수
 export const getKisAccessToken = async function () {
-  const dateObj = dayjs().add(9, 'hour');
+  const dateObj = dayjs();
   const { kisKey, kisSecret } = useRuntimeConfig();
   const tokenData = await prisma.token.findFirst({
     select: {
@@ -37,14 +37,16 @@ export const getKisAccessToken = async function () {
     });
 
     await prisma.token.create({
-      regDate: dateObj.format('YYYYMMDD'),
-      token: tokenResObj.access_token
+      data: {
+        regDate: dateObj.format('YYYYMMDD'),
+        token: tokenResObj.access_token
+      }
     });
 
     return tokenResObj.access_token;
   }
 
-  return tokenData.dataValues.token;
+  return tokenData.token;
 };
 
 //시세데이터 조회 함수

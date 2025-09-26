@@ -8,7 +8,7 @@
             <col style="width:150px;" />
             <col />
           </colgroup>
-          <tbody>
+          <tbody v-if="etfInfo">
             <tr>
               <td class="mr-3">마켓</td>
               <template v-if="etfInfo.market === 'TSE'">
@@ -55,26 +55,40 @@
                 <div class="text-base">차트의 경우 컴퓨터 환경에 의해 다소 느릴수 있습니다</div>
               </td>
             </tr>
+            <tr v-if="etfStockData !== undefined && etfStockData.length > 0 && etfStockData[0] !== undefined">
+              <td class="mr-3">조회시간</td>
+              <td>
+                <div class="text-base">{{ etfStockData[0].regDate }}</div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td class="">etf 정보가 존재하지 않습니다</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </section>
     <section class="mt-6">
       <UTabs :items="items">
-        <template>
+        <template #stock>
           <UCard>
             <div class="text-xl mt-3 font-semibold">ETF 종목별 정보</div>
             <div class="text-base mb-4">※ 하단 테이블 종목 클릭시 종목상세 외부페이지로 이동합니다</div>
-            <UTable :columns="columns" :rows="etfStockData" :ui="{
-              tr: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
+            <UTable :columns="columns" :data="etfStockData" :ui="{
+              tr: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 text-center',
+              th: 'text-center'
             }" @select="selectRow">
             </UTable>
           </UCard>
         </template>
-        <template>
+        <template #treeMap>
           <UCard>
-            <apexchart type="treemap" :options="chartOptions" :series="chartData" @animationEnd="hiddenLoading" />
-            <div class="loader" ref="loader"></div>
+            <ClientOnly>
+              <apexchart type="treemap" :options="chartOptions" :series="chartData" @animationEnd="hiddenLoading" />
+              <div class="loader" ref="loader"></div>
+            </ClientOnly>
           </UCard>
         </template>
       </UTabs>
@@ -83,12 +97,8 @@
 </template>
 
 <script setup lang="ts">
-import type { TableColumn } from '@nuxt/ui';
-
-interface etfStockCode {
-  etfInfo: any;
-  stockInfo: any[];
-}
+import type { TableColumn, TableRow } from '@nuxt/ui';
+import type { etfStockCodeResponse } from '#types/index';
 
 const UButton = resolveComponent('UButton');
 
@@ -120,10 +130,20 @@ const columns: TableColumn<object>[] = [{
   }
 }, {
   accessorKey: 'prdtName',
-  header: '종목명'
+  header: '종목명',
+  meta: {
+    class: {
+      td: 'text-left'
+    }
+  }
 }, {
   accessorKey: 'stockNm',
-  header: '종목명(ENG)'
+  header: '종목명(ENG)',
+  meta: {
+    class: {
+      td: 'text-left'
+    }
+  }
 }, {
   accessorKey: 'price',
   header: '현재가'
@@ -147,6 +167,16 @@ const columns: TableColumn<object>[] = [{
       class: '-mx-2.5',
       onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
     })
+  },
+  cell: ({ row }) => {
+    const tXrat: string = row.getValue('tXrat') || '';
+    return h(
+      'span',
+      {
+        class: Number(tXrat.replace('%', '')) > 0 ? 'text-green-500' : 'text-red-500'
+      },
+      tXrat
+    )
   },
   sortingFn: (a, b) => {
     return Number(String(a.getValue('tXrat')).replace('%', '')) - Number(String(b.getValue('tXrat')).replace('%', ''));
@@ -202,22 +232,19 @@ const columns: TableColumn<object>[] = [{
 }, {
   accessorKey: 'buyUnitQty',
   header: '거래단위'
-}, {
-  accessorKey: 'regDate',
-  header: '조회시간'
 }];
 
 const route = useRoute();
 const router = useRouter();
-const { data: stockData } = await useAsyncData<etfStockCode>('stockData', () => $fetch(`/api/etf/${route.params.stockCode}`));
-const etfInfo = stockData.value?.etfInfo || {};
+const { data: stockData } = await useAsyncData<etfStockCodeResponse>('stockData', () => $fetch(`/api/etf/${route.params.stockCode}`));
+const etfInfo = stockData.value?.etfInfo;
 
 // 종목별정보 탭
 const etfStockData = stockData.value?.stockInfo || [];
 
-const selectRow = (row: any) => {
-  if (row.marketCode === 'TSE') {
-    router.push(`/stock/${row.marketCode}-${row.stockCode}`);
+const selectRow = (row: TableRow<any>) => {
+  if (etfInfo?.market === 'TSE') {
+    router.push(`/stock/${etfInfo?.market}-${row.getValue('stockCode')}`);
   }
 }
 
@@ -238,6 +265,40 @@ const chartOptions = {
   },
   legend: {
     show: false,
+  },
+  tooltip: {
+    enabled: true,
+
+    custom: ({ series, seriesIndex, dataPointIndex, w }: any) => {
+      const data = w.config.series[seriesIndex].data[dataPointIndex];
+
+      return `
+        <style>
+        .custom-tooltip-box {
+          width: 200px;
+          height: 100px;
+          background-color: rgba(0, 0, 0, 0.8);
+          color: white;
+          padding: 8px;
+          box-sizing: border-box;
+          border-radius: 4px;
+          font-size: 12px;
+          line-height: 1.4;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
+      </style>
+      <div class="apexcharts-tooltip-custom">
+        <div class="custom-tooltip-box">
+          <p style="margin: 4px 0 0 0;">종목명 : ${data.x}</p>
+          <p style="margin: 4px 0 0 0;">등락율 : ${data.tXrat}</p>
+        </div>
+      </div>
+      `;
+    }
   }
 };
 
@@ -253,15 +314,15 @@ const minusColorMap: string[][] = [
 ];
 
 for (const etfObj of etfStockData) {
-  let tXrat: number = Number(String(etfObj.tXrat || '0').replace('%', ''));
-  let fillColor: string | undefined = "";
-  // if (tXrat > 0) {
-  //   fillColor = (tXrat >= 3) ? plusColorMap[2][9] : plusColorMap[Math.floor(tXrat)][Math.floor(tXrat * 10) % 10];
-  // } else if (tXrat < 0) {
-  //   fillColor = (tXrat <= -3) ? minusColorMap[2][9] : minusColorMap[Math.abs(Math.ceil(tXrat))][Math.floor(Math.abs(tXrat) * 10) % 10];
-  // } else {
-  fillColor = 'rgb(65,69,84)';
-  // }
+  let tXrat = Number(String(etfObj.tXrat || '0').replace('%', ''));
+  let fillColor;
+  if (tXrat > 0) {
+    fillColor = (tXrat >= 3) ? plusColorMap[2][9] : plusColorMap[Math.floor(tXrat)][Math.floor(tXrat * 10) % 10];
+  } else if (tXrat < 0) {
+    fillColor = (tXrat <= -3) ? minusColorMap[2][9] : minusColorMap[Math.abs(Math.ceil(tXrat))][Math.floor(Math.abs(tXrat) * 10) % 10];
+  } else {
+    fillColor = 'rgb(65,69,84)';
+  }
 
   chartData[0].data.push({
     x: etfObj.prdtName,

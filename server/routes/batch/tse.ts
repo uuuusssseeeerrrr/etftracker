@@ -7,7 +7,7 @@ const market = "TSE";
 
 // ETF 가격 입력 함수
 export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
-  const dateObj = dayjs().add(9, 'hour');
+  const dateObj = dayjs();
   const etfStockListArray = await prisma.etfList.findMany({
     where: {
       market
@@ -15,8 +15,8 @@ export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
   });
   const stockPriceArr = [];
 
-  for (let stockObj of etfStockListArray.length) {
-    const stockDataObj = await getKisApiData(market, stockObj.dataValues.stockCode, accessToken);
+  for (let stockObj of etfStockListArray) {
+    const stockDataObj = await getKisApiData(market, stockObj.stockCode, accessToken);
 
     stockPriceArr.push({
       market,
@@ -45,7 +45,7 @@ export const runJpEtfBatch: runStockBatch = async (accessToken: string) => {
 
 // 주식 가격 입력 함수
 export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
-  const dateObj = dayjs().add(9, 'hour');
+  const dateObj = dayjs();
   const stockListArray = await prisma.stockList.findMany({
     where: {
       market
@@ -53,8 +53,8 @@ export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
   });
   const stockPriceArr = [];
 
-  for (let stockObj of stockListArray.length) {
-    const stockDataObj = await getKisApiData(market, stockObj.dataValues.stockCode, accessToken);
+  for (let stockObj of stockListArray) {
+    const stockDataObj = await getKisApiData(market, stockObj.stockCode, accessToken);
 
     stockPriceArr.push({
       market,
@@ -83,5 +83,6 @@ export const runJpStockBatch: runStockBatch = async (accessToken: string) => {
   await prisma.stockPriceHistory.createMany({
     data: stockPriceArr
   });
+
   return true;
 }

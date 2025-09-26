@@ -1,3 +1,5 @@
+import type { EtfList, StockList, StockPriceHistory, EtfStockList } from '@prisma/client';
+
 interface priceDetailData {
   "rsym": string,
   "zdiv": string,
@@ -55,4 +57,25 @@ interface kisTokenResponse {
   "access_token_token_expired": string;
 }
 
-export type { runStockBatch, priceDetailData, stockInfoData, kisTokenResponse };
+interface weightInf extends EtfStockList {
+  etfList : {
+    etfName: string | null,
+    companyName: string | null,
+    tradingLot: string | null,
+    trustFeeRate: string | null,
+    stdPdno: string | null,
+  }
+}
+
+interface etfStockCodeResponse {
+  etfInfo: EtfList | null;
+  stockInfo: any[] | null;
+}
+
+interface stockSlugResponse {
+  stockInfo: StockList | null,
+  stockPriceHistory: StockPriceHistory[] | null,
+  weightInfo: any[] | null
+}
+
+export type { runStockBatch, priceDetailData, stockInfoData, kisTokenResponse, etfStockCodeResponse, stockSlugResponse };

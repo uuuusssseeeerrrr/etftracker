@@ -1,11 +1,12 @@
 import prisma from '@@/lib/prisma';
+import { etfStockCodeResponse } from '@@/types'
 
 export default defineEventHandler(async (event) => {
   if (event.node.req.method === 'GET') {
     const stockCode = getRouterParam(event, 'stockCode');
-    const returnData = {
-      etfInfo: undefined,
-      stockInfo: undefined
+    let returnData: etfStockCodeResponse = {
+      etfInfo: null,
+      stockInfo: null
     };
 
     returnData.etfInfo = await prisma.etfList.findFirst({
@@ -14,7 +15,7 @@ export default defineEventHandler(async (event) => {
       }
     });
 
-    returnData.stockInfo = await prisma.$queryRaw`select * from stock_price_info where etfStockCode = ${stockCode}`;
+    returnData.stockInfo = await prisma.$queryRaw<any[]>`select * from stock_price_info where etfStockCode = ${stockCode}`;
 
 
     return returnData;

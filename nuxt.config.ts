@@ -9,8 +9,10 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxt/ui',
-    "@prisma/nuxt"
+    "@prisma/nuxt",
+    'dayjs-nuxt'
   ],
+
   css: [
     '@/assets/global.css',
   ],
@@ -30,20 +32,21 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    userNm: process.env.NUXT_USER_NM,
-    pwd: process.env.NUXT_PWD,
-    database: process.env.NUXT_DATABASE,
-    dbHost: process.env.NUXT_DB_HOST,
-    dbPort: process.env.NUXT_DB_PORT,
     kisKey: process.env.NUXT_KIS_KEY,
     kisSecret: process.env.NUXT_KIS_SECRET,
-    batchToken: process.env.BATCHTOKEN,
-    TZ: 'Asia/Seoul'
+    batchToken: process.env.BATCHTOKEN
   },
 
   compatibilityDate: '2025-09-31',
 
   future: {
     compatibilityVersion: 4
+  },
+
+  dayjs: {
+    locales: ['en', 'ko'], // Or any other locales you need
+    plugins: ['relativeTime', 'utc', 'timezone'], // Include the 'timezone' plugin
+    defaultLocale: 'ko',
+    defaultTimezone: 'Asia/Seoul', // Set your desired default timezone
   }
 })

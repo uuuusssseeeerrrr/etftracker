@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     // 장마감인데 배치가 들어올경우 생략
     if((dayjs().get('hour') > 15) || (dayjs().hour() >= 15 && dayjs().minute() > 20)) {
         setResponseStatus(event, 200);
-        console.log("wkd")
+        
         return { msg: "장이 마감되었습니다" };
     }
 

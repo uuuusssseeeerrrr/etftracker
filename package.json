@@ -17,6 +17,8 @@
     "@prisma/nuxt": "^0.3.0",
     "apexcharts": "^5.3.5",
     "dayjs": "^1.11.18",
+    "dayjs-nuxt": "^2.1.11",
+    "mariadb": "^3.4.5",
     "nuxt": "^4.1.2",
     "prisma": "^6.16.2",
     "tailwindcss": "^4.1.13",
@@ -30,6 +32,7 @@
     "@iconify-json/lucide": "^1.2.68",
     "@nuxt/types": "^2.18.1",
     "@types/node": "^24.5.2",
+    "prisma-case-format": "^2.2.1",
     "typescript": "^5.9.2"
   }
 }

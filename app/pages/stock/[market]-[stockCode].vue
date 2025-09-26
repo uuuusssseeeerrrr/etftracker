@@ -8,7 +8,7 @@
             <col style="width:250px;" />
             <col />
           </colgroup>
-          <tbody>
+          <tbody v-if="stockInfo">
             <tr>
               <td class="mr-3">마켓</td>
               <template v-if="stockInfo.market === 'TSE'">
@@ -68,8 +68,9 @@
     <section class="mt-6">
       <div class="text-xl mt-3 font-semibold">주식 가격 테이블</div>
       <div class="text-base mb-4">※ 서버내 저장된 해당종목의 최근3일간의 등락현황을 나타낸 테이블입니다.</div>
-      <UTable :columns="stockColumns" :rows="stockPriceHistory" :ui="{
-        base: 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
+      <UTable :columns="stockColumns" :data="stockPriceHistory" :ui="{
+        base: 'hover:bg-gray-50 dark:hover:bg-gray-800/50 text-center',
+        th: 'text-center'
       }">
         <template>
           <div class="flex flex-col items-center justify-center py-6 gap-3">
@@ -81,8 +82,9 @@
     <section class="mt-6">
       <div class="text-xl mt-3 font-semibold">ETF 비중 테이블</div>
       <div class="text-base mb-4">※ 서버내 저장된 해당종목의 ETF 비중 테이블입니다.</div>
-      <UTable :columns="weightColumns" :rows="etfWeight" :ui="{
-        base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50'
+      <UTable :columns="weightColumns" :data="etfWeight" :ui="{
+        base: 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 text-center',
+        th: 'text-center'
       }" @select="selectRow">
         <template>
           <div class="flex flex-col items-center justify-center py-6 gap-3">
@@ -97,74 +99,86 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import type { TableColumn } from '@nuxt/ui';
+import type { stockSlugResponse } from '#types/index';
+import type { StockPriceHistory, EtfList } from '@prisma/client';
+import { numberFormat } from '../lib/numberFn';
 
-interface stockMarketStockCode {
-  stockInfo: any;
-  stockPriceHistory: any;
-  weightInfo: any;
-}
+const stockColumns: TableColumn<StockPriceHistory>[] = [
+  {
+    accessorKey: 'regDate',
+    header: '조회시간',
+    cell: ({ row }) => {
+      const dateObj = dayjs(row.getValue('regDate'));
+      return h(
+        'span',
+        {},
+        dateObj.format('YYYY-MM-DD HH:mm:ss')
+      )
+    },
+  }, {
+    accessorKey: 'price',
+    header: '현재가',
+    accessorFn: (row) => numberFormat(row.price)
+  }, {
+    accessorKey: 'tXprc',
+    header: '현재가(KRW)',
+    accessorFn: (row) => numberFormat(row.tXprc)
+  }, {
+    accessorKey: 'tXrat',
+    header: '전일대비'
+  }, {
+    accessorKey: 'open',
+    header: '시가',
+    accessorFn: (row) => numberFormat(row.open)
+  }, {
+    accessorKey: 'high',
+    header: '고가',
+    accessorFn: (row) => numberFormat(row.high)
+  }, {
+    accessorKey: 'low',
+    header: '저가',
+    accessorFn: (row) => numberFormat(row.low)
+  }, {
+    accessorKey: 'lastDayPrice',
+    header: '전일종가',
+    accessorFn: (row) => numberFormat(row.lastDayPrice)
+  }, {
+    accessorKey: 'h52p',
+    header: '52주 최고가',
+    accessorFn: (row) => numberFormat(row.h52p)
+  }, {
+    accessorKey: 'l52p',
+    header: '52주 최저가',
+    accessorFn: (row) => numberFormat(row.l52p)
+  }, {
+    accessorKey: 'perx',
+    header: 'PER'
+  }, {
+    accessorKey: 'pbrx',
+    header: 'PBR'
+  }, {
+    accessorKey: 'epsx',
+    header: 'EPS'
+  }, {
+    accessorKey: 'bpsx',
+    header: 'BPS'
+  }, {
+    accessorKey: 'tRate',
+    header: '적용환율'
+  }
+];
 
-const stockColumns: TableColumn<any>[] = [{
-  accessorKey: 'price',
-  header: '현재가'
-}, {
-  accessorKey: 'tXprc',
-  header: '현재가(KRW)'
-}, {
-  accessorKey: 'tXrat',
-  header: '전일대비'
-}, {
-  accessorKey: 'open',
-  header: '시가'
-}, {
-  accessorKey: 'high',
-  header: '고가'
-}, {
-  accessorKey: 'low',
-  header: '저가'
-}, {
-  accessorKey: 'lastDayPrice',
-  header: '전일종가'
-}, {
-  accessorKey: 'h52P',
-  header: '52주 최고가'
-}, {
-  accessorKey: 'l52P',
-  header: '52주 최저가'
-}, {
-  accessorKey: 'perx',
-  header: 'PER'
-}, {
-  accessorKey: 'pbrx',
-  header: 'PBR'
-}, {
-  accessorKey: 'epsx',
-  header: 'EPS'
-}, {
-  accessorKey: 'bpsx',
-  header: 'BPS'
-}, {
-  accessorKey: 'tRate',
-  header: '적용환율'
-}, {
-  accessorKey: 'regDateStr',
-  header: '조회시간',
-  cell: ({ row }) => {
-    const dateObj = dayjs(row.getValue('regDate'));
-    return h(
-      'span',
-      {},
-      dateObj.format('YYYY-MM-DD HH:mm:ss')
-    )
-  },
-}];
-
-const weightColumns: TableColumn<any>[] = [{
+const weightColumns: TableColumn<EtfList>[] = [{
   accessorKey: 'etfStockCode',
   header: 'ETF코드'
 }, {
   accessorKey: 'etfList.etfName',
-  header: 'ETF명'
+  header: 'ETF명',
+  meta: {
+    class: {
+      td: 'text-left'
+    }
+  }
 }, {
   accessorKey: 'stockCode',
   header: '종목코드'
@@ -173,7 +187,12 @@ const weightColumns: TableColumn<any>[] = [{
   header: 'ETF 내 주식비중'
 }, {
   accessorKey: 'etfList.companyName',
-  header: '운용사'
+  header: '운용사',
+  meta: {
+    class: {
+      td: 'text-left'
+    }
+  }
 }, {
   accessorKey: 'etfList.tradingLot',
   header: '거래단위'
@@ -185,11 +204,11 @@ const weightColumns: TableColumn<any>[] = [{
 const route = useRoute();
 const router = useRouter();
 let tomv: string = "";
-const { data: stockData } = await useAsyncData<stockMarketStockCode>('stockData', () => $fetch(`/api/stock/${route.params.market}/${route.params.stockCode}`));
+const { data: stockData } = await useAsyncData<stockSlugResponse>(`stockData-${route.params.stockCode}`, () => $fetch(`/api/stock/${route.params.market}/${route.params.stockCode}`));
 
 const stockInfo = stockData.value?.stockInfo;
-const stockPriceHistory = stockData.value?.stockPriceHistory;
-const etfWeight = stockData.value?.weightInfo;
+const stockPriceHistory = stockData.value?.stockPriceHistory || [];
+const etfWeight = stockData.value?.weightInfo || [];
 
 const selectRow = (row: any) => {
   router.push(`/etf/stockCode/${row.getValue('etfStockCode')}`);

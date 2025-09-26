@@ -12,8 +12,8 @@ export default defineEventHandler(async (event) => {
     let dataListArray = await prisma.etfList.findMany({
       where: {
         OR: [
-          { std_pdno: null },
-          { std_pdno: "" }
+          { stdPdno: null },
+          { stdPdno: "" }
         ],
       }
     });
@@ -24,15 +24,15 @@ export default defineEventHandler(async (event) => {
 
       for (let i = 0; i < dataListArray.length; i++) {
         const stockObj = dataListArray[i];
-        const stockDataObj = await getKisInfoApiData(stockObj.market, stockObj.stock_code, accessToken);
+        const stockDataObj = await getKisInfoApiData(stockObj.market, stockObj.stockCode, accessToken);
 
-        await prisma.etfList.update({
-          where: { stockCode: stockObj.stock_code },
+        await prisma.etfList.updateMany({
           data: {
             stdPdno: stockDataObj.std_pdno,
             tradingLot: stockDataObj.buy_unit_qty,
             modDate: dayjs().toDate()
-          }
+          },
+          where: { stockCode: stockObj.stockCode }
         });
       }
     }
@@ -40,8 +40,8 @@ export default defineEventHandler(async (event) => {
     let stockListArray = await prisma.stockList.findMany({
       where: {
         OR: [
-          { std_pdno: null },
-          { std_pdno: "" }
+          { stdPdno: null },
+          { stdPdno: "" }
         ],
       }
     });
@@ -51,17 +51,17 @@ export default defineEventHandler(async (event) => {
 
       for (let i = 0; i < stockListArray.length; i++) {
         const stockObj = stockListArray[i];
-        const stockDataObj = await getKisInfoApiData(stockObj.market, stockObj.stock_code, accessToken);
+        const stockDataObj = await getKisInfoApiData(stockObj.market, stockObj.stockCode, accessToken);
 
-        await prisma.stockList.update({
-          where: { stockCode: stockObj.stock_code },
+        await prisma.stockList.updateMany({
           data: {
             stdPdno: stockDataObj.std_pdno,
             trCrcyCd: stockDataObj.tr_crcy_cd,
             buyUnitQty: stockDataObj.buy_unit_qty,
             prdtName: stockDataObj.prdt_name.indexOf(']') > -1 ? stockDataObj.prdt_name.split(']')[1] : stockDataObj.prdt_name,
             modDate: dayjs().toDate()
-          }
+          },
+          where: { stockCode: stockObj.stockCode }
         });
       }
     }
