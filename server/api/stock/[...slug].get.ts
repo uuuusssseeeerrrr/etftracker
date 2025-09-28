@@ -17,15 +17,14 @@ export default defineEventHandler(async (event) => {
       stockCode
     }
   });
-console.log(process.env.TZ);
-console.log(dayjs());
+  
   stockData.stockPriceHistory = await prisma.stockPriceHistory.findMany({
     where: {
       market,
       stockCode,
       regDate: {
-        gte: dayjs().subtract(3, 'day').startOf('day').toDate(),
-        lte: dayjs().endOf('day').toDate()
+        // gte: dayjs().subtract(3, 'day').startOf('day').format(),
+        // lte: dayjs().endOf('day').format()
       }
     },
     orderBy: {

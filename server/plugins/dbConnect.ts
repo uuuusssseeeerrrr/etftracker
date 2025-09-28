@@ -2,7 +2,7 @@ import prisma from '@@/lib/prisma'
 
 export default defineNitroPlugin(async (nitroApp) => {
   try {
-    await prisma.$connect()
+    await prisma.$connect();
 
     console.log('✅ 데이터베이스 연결 성공: Prisma Client가 정상적으로 초기화되었습니다.')
   } catch (error) {
