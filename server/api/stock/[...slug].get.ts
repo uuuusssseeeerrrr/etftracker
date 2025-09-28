@@ -24,8 +24,8 @@ console.log(dayjs());
       market,
       stockCode,
       regDate: {
-        gte: dayjs().subtract(3, 'day').toDate(),
-        lte: dayjs().toDate()
+        gte: dayjs().subtract(3, 'day').startOf('day').toDate(),
+        lte: dayjs().endOf('day').toDate()
       }
     },
     orderBy: {

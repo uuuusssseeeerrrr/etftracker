@@ -58,7 +58,8 @@
             <tr v-if="etfStockData !== undefined && etfStockData.length > 0 && etfStockData[0] !== undefined">
               <td class="mr-3">조회시간</td>
               <td>
-                <div class="text-base">{{ etfStockData[0].regDate }}</div>
+                <div class="text-base">{{ etfStockData[0].regDate ? etfStockData[0].regDate : '데이터가 수집되는 시간이 아닙니다' }}
+                </div>
               </td>
             </tr>
           </tbody>
@@ -99,6 +100,7 @@
 <script setup lang="ts">
 import type { TableColumn, TableRow } from '@nuxt/ui';
 import type { etfStockCodeResponse } from '#types/index';
+import type { StockPriceHistory } from '@prisma/client';
 
 const UButton = resolveComponent('UButton');
 
@@ -110,7 +112,7 @@ const items = [{
   slot: 'treeMap'
 }];
 
-const columns: TableColumn<object>[] = [{
+const columns: TableColumn<StockPriceHistory>[] = [{
   accessorKey: 'stockCode',
   header: ({ column }) => {
     const isSorted = column.getIsSorted()
@@ -294,7 +296,7 @@ const chartOptions = {
       <div class="apexcharts-tooltip-custom">
         <div class="custom-tooltip-box">
           <p style="margin: 4px 0 0 0;">종목명 : ${data.x}</p>
-          <p style="margin: 4px 0 0 0;">등락율 : ${data.tXrat}</p>
+          <p style="margin: 4px 0 0 0;">등락율 : ${data.tXrat ? data.tXrat : ''}</p>
         </div>
       </div>
       `;

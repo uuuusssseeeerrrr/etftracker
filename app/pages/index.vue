@@ -5,7 +5,7 @@
       <p></p>
       <span>가격내 통화가 표시되지 않은 경우 현지통화입니다</span>
       <p></p>
-      <span v-if="data !== undefined && data.length > 0 && data[0] !== undefined">조회시간 : {{ data[0].regDate }}</span>
+      <span v-if="data !== undefined && data.length > 0">조회시간 : {{ data[0].regDate ? data[0].regDate : '데이터가 수집되는 시간이 아닙니다' }}</span>
     </div>
     <div>
       <UTable :columns="columns" :data="data" :ui="{
