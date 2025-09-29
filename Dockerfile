@@ -1,7 +1,6 @@
-FROM node:20-alpine
+FROM node:22-alpine
 LABEL version="1.0.0"
 
-ENV NODE_VERSION="20.11.1"
 ENV NODE_ENV="production"
 ENV HOST="0.0.0.0"
 ENV PORT="3000"
