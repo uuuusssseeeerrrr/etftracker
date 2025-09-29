@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import type { TableColumn, TableRow } from '@nuxt/ui';
-import { numberFormat } from './lib/numberFn';
 
 const UButton = resolveComponent('UButton');
 const { data } = await useAsyncData<any[]>('etfData', () => $fetch('/api/etf'));

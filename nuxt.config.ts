@@ -9,17 +9,16 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxt/ui',
-    "@prisma/nuxt",
     'dayjs-nuxt'
-  ],
-
-  css: [
-    '@/assets/global.css',
   ],
 
   imports: {
     dirs: ["types"],
   },
+
+  css: [
+    '@/assets/global.css',
+  ],
 
   app: {
     head: {
