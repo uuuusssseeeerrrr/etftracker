@@ -18,8 +18,8 @@ model EtfList {
   tradingLot     String?        @map("trading_lot") @db.VarChar(10)
   trustFeeRate   String?        @map("trust_fee_rate") @db.VarChar(10)
   stdPdno        String?        @map("std_pdno") @db.VarChar(12)
-  regDate        DateTime?      @map("reg_date") @db.DateTime(0)
-  modDate        DateTime?      @map("mod_date") @db.DateTime(0)
+  regDate        DateTime?      @default(now()) @map("reg_date") @db.DateTime(0)
+  modDate        DateTime?      @default(now()) @map("mod_date") @db.DateTime(0)
   etfStockList   EtfStockList[]
 
   @@id([market, stockCode])
@@ -42,7 +42,7 @@ model EtfPriceHistory {
   tXdif        String?   @map("t_xdif") @db.VarChar(12)
   tXrat        String?   @map("t_xrat") @db.VarChar(12)
   tRate        String?   @map("t_rate") @db.VarChar(12)
-  regDate      DateTime? @map("reg_date") @db.DateTime(0)
+  regDate      DateTime? @default(now()) @map("reg_date") @db.DateTime(0)
 
   @@index([market, stockCode], map: "market_stock_code")
   @@index([regDate], map: "reg_date")
@@ -54,7 +54,7 @@ model EtfStockList {
   market       String    @default("") @db.VarChar(10)
   etfStockCode String    @default("") @map("etf_stock_code") @db.VarChar(20)
   stockCode    String    @default("") @map("stock_code") @db.VarChar(20)
-  regDate      DateTime? @map("reg_date") @db.DateTime(0)
+  regDate      DateTime? @default(now()) @map("reg_date") @db.DateTime(0)
   etfPercent   Float?    @map("etf_percent") @db.Float
   etfList      EtfList   @relation(fields: [market, etfStockCode], references: [market, stockCode], onUpdate: Restrict, map: "FK_etf_stock_list_etf_list")
   stockList    StockList @relation(fields: [market, stockCode], references: [market, stockCode], onUpdate: Restrict, map: "etf_stock_list_stock_list_market_stock_code_fk")
@@ -74,8 +74,8 @@ model StockList {
   prdtName     String?        @map("prdt_name") @db.VarChar(60)
   stockComment String?        @map("stock_comment") @db.Text
   stdPdno      String?        @map("std_pdno") @db.VarChar(12)
-  regDate      DateTime?      @map("reg_date") @db.DateTime(0)
-  modDate      DateTime?      @map("mod_date") @db.DateTime(0)
+  regDate      DateTime?      @default(now()) @map("reg_date") @db.DateTime(0)
+  modDate      DateTime?      @default(now()) @map("mod_date") @db.DateTime(0)
   etfStockList EtfStockList[]
 
   @@id([market, stockCode])
@@ -104,7 +104,7 @@ model StockPriceHistory {
   tXrat        String?   @map("t_xrat") @db.VarChar(12)
   tRate        String?   @map("t_rate") @db.VarChar(12)
   eIcod        String?   @map("e_icod") @db.VarChar(50)
-  regDate      DateTime? @map("reg_date") @db.DateTime(0)
+  regDate      DateTime? @default(now()) @map("reg_date") @db.DateTime(0)
 
   @@index([market, stockCode], map: "market_stock_code")
   @@index([regDate], map: "reg_date")

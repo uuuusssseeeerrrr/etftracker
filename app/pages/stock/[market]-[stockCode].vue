@@ -112,7 +112,7 @@ const stockColumns: TableColumn<StockPriceHistory>[] = [
       return h(
         'span',
         {},
-        dateObj.format('YYYY-MM-DD HH:mm:ss')
+        dateObj.subtract(9, 'hour').format('YYYY-MM-DD HH:mm:ss')
       )
     },
   }, {
@@ -125,7 +125,17 @@ const stockColumns: TableColumn<StockPriceHistory>[] = [
     accessorFn: (row) => numberFormat(row.tXprc)
   }, {
     accessorKey: 'tXrat',
-    header: '전일대비'
+    header: '전일대비',
+    cell: ({ row }) => {
+      const tXrat: string = row.getValue('tXrat') + '%' || '';
+      return h(
+        'span',
+        {
+          class: Number(tXrat.replace('%', '')) > 0 ? 'text-green-500' : 'text-red-500'
+        },
+        tXrat
+      )
+    },
   }, {
     accessorKey: 'open',
     header: '시가',
