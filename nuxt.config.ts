@@ -43,9 +43,9 @@ export default defineNuxtConfig({
   },
 
   dayjs: {
-    locales: ['en', 'ko'], // Or any other locales you need
-    plugins: ['relativeTime', 'utc', 'timezone'], // Include the 'timezone' plugin
+    locales: ['en', 'ko'],
+    plugins: ['utc', 'timezone'],
     defaultLocale: 'ko',
-    defaultTimezone: 'Asia/Seoul', // Set your desired default timezone
+    defaultTimezone: 'Asia/Seoul'
   }
 })
