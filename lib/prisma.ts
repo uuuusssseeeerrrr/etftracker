@@ -28,8 +28,6 @@ const prismaClientSingleton = () => {
             }
           }
 
-          console.log(args)
-
           return query(args)
         },
       },

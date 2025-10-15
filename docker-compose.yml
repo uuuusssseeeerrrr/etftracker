@@ -1,0 +1,15 @@
+version: "3.10"
+
+services:
+  etf:
+    build: .
+    image: kyoko1958/etf
+    container_name: etf
+    ports:
+      - "30000:3000"
+    environment:
+      NODE_ENV: production
+    volumes:
+      - /app:/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

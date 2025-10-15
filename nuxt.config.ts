@@ -30,12 +30,6 @@ export default defineNuxtConfig({
     }
   },
 
-  runtimeConfig: {
-    kisKey: process.env.NUXT_KIS_KEY,
-    kisSecret: process.env.NUXT_KIS_SECRET,
-    batchToken: process.env.BATCHTOKEN
-  },
-
   compatibilityDate: '2025-09-31',
 
   future: {
