@@ -270,10 +270,8 @@ const chartOptions = {
   },
   tooltip: {
     enabled: true,
-
     custom: ({ series, seriesIndex, dataPointIndex, w }: any) => {
       const data = w.config.series[seriesIndex].data[dataPointIndex];
-
       return `
         <style>
         .custom-tooltip-box {

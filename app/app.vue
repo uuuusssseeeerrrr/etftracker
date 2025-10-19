@@ -4,11 +4,14 @@
       <div class="title">
         <span>
           <NuxtLink to="/">
-            내 ETF 주식가격은 얼마인가?
+            ETF 주식가격이 얼마나 올랐나
           </NuxtLink>
         </span>
         <NuxtLink to="/about">
             <UIcon name="i-heroicons-exclamation-circle" class="w-8 h-8 float-right"/>
+        </NuxtLink>
+        <NuxtLink to="/rate">
+            <UIcon name="i-heroicons-currency-dollar" class="w-8 h-8 float-right"/>
         </NuxtLink>
       </div>
     </div>

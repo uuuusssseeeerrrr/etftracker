@@ -25,14 +25,14 @@
     "tailwindcss": "^4.1.14",
     "vitest": "^3.2.4",
     "vue": "^3.5.22",
-    "vue-router": "^4.6.0",
+    "vue-router": "^4.6.3",
     "vue3-apexcharts": "^1.9.0"
   },
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.3",
-    "@iconify-json/lucide": "^1.2.69",
+    "@iconify-json/lucide": "^1.2.70",
     "@nuxt/types": "^2.18.1",
-    "@types/node": "^24.7.2",
+    "@types/node": "^24.8.1",
     "prisma-case-format": "^2.2.1",
     "typescript": "^5.9.3"
   },

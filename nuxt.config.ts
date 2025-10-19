@@ -1,4 +1,5 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+const isProduction = process.env.NODE_ENV === 'production';
+
 export default defineNuxtConfig({
   devtools: {
     enabled: true,
@@ -37,9 +38,12 @@ export default defineNuxtConfig({
   },
 
   dayjs: {
-    locales: ['en', 'ko'],
     plugins: ['utc', 'timezone'],
     defaultLocale: 'ko',
     defaultTimezone: 'Asia/Seoul'
+  },
+
+  nitro: {
+    logLevel: isProduction ? 0 : 4
   }
 })

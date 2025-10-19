@@ -119,3 +119,15 @@ model Token {
 
   @@map("token")
 }
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model rate {
+  rate_idx Int      @id @default(autoincrement())
+  reg_date DateTime @default(now()) @db.DateTime(0)
+  usd_rate Decimal? @db.Decimal(6, 2)
+  jpy_rate Decimal? @db.Decimal(6, 2)
+  eur_rate Decimal? @db.Decimal(6, 2)
+  sgd_rate Decimal? @db.Decimal(6, 2)
+
+  @@index([reg_date(sort: Desc)], map: "rate_reg_date_index")
+}
