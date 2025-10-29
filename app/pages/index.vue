@@ -23,7 +23,7 @@ import type { TableColumn, TableRow } from '@nuxt/ui';
 const UButton = resolveComponent('UButton');
 const { data } = await useAsyncData<any[]>('etfData', () => $fetch('/api/etf'));
 const router = useRouter();
-const selectRow = (row: TableRow<any>) => {
+const selectRow = (_: any, row: TableRow<any>) => {
   router.push(`/etf/stockCode/${row.getValue('etfStockCode')}`);
 }
 

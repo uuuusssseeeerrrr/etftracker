@@ -1,6 +1,4 @@
 import { describe, test, expect, beforeEach } from 'vitest'
-import { Sequelize } from 'sequelize';
-import { initModels } from '~/models/init-models';
 
 describe('database Connect Test', () => {
     let models: any = null;

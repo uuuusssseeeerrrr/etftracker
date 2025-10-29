@@ -17,3 +17,10 @@ export const padRate = (value: any, currentTab: String) : String => {
     return value.toString();
   }
 }
+
+export const formatPercent = (value: any) => {
+  if(value === undefined || value === null) {
+    return '0.00%';
+  }
+  return `${(Number(value) * 100).toFixed(2)}%`;
+}

@@ -100,19 +100,19 @@
 import dayjs from 'dayjs'
 import type { TableColumn } from '@nuxt/ui';
 import type { stockSlugResponse } from '#types/index';
-import type { StockPriceHistory, EtfList } from '@prisma/client';
-import { numberFormat } from '../lib/numberFn';
+import type { StockPriceHistory, EtfStockList } from '@prisma/client';
+import { numberFormat, formatPercent } from '../lib/numberFn';
 
 const stockColumns: TableColumn<StockPriceHistory>[] = [
   {
     accessorKey: 'regDate',
     header: '조회시간',
     cell: ({ row }) => {
-      const dateObj = dayjs(row.getValue('regDate'));
+      console.log(dayjs(row.getValue('regDate')))
       return h(
         'span',
         {},
-        dateObj.subtract(9, 'hour').format('YYYY-MM-DD HH:mm:ss')
+        dayjs(row.getValue('regDate')).subtract(9, 'hour').format('YYYY-MM-DD HH:mm:ss')
       )
     },
   }, {
@@ -174,11 +174,12 @@ const stockColumns: TableColumn<StockPriceHistory>[] = [
     header: 'BPS'
   }, {
     accessorKey: 'tRate',
-    header: '적용환율'
+    header: '적용환율',
+    accessorFn: (row) => (route.params.market === 'TSE') ? (Number(row.tRate) * 100).toFixed(2) : row.tRate
   }
 ];
 
-const weightColumns: TableColumn<EtfList>[] = [{
+const weightColumns: TableColumn<EtfStockList>[] = [{
   accessorKey: 'etfStockCode',
   header: 'ETF코드'
 }, {
@@ -194,7 +195,8 @@ const weightColumns: TableColumn<EtfList>[] = [{
   header: '종목코드'
 }, {
   accessorKey: 'etfPercent',
-  header: 'ETF 내 주식비중'
+  header: 'ETF 내 주식비중',
+  accessorFn: (row) => formatPercent(row.etfPercent)
 }, {
   accessorKey: 'etfList.companyName',
   header: '운용사',
@@ -220,7 +222,7 @@ const stockInfo = stockData.value?.stockInfo;
 const stockPriceHistory = stockData.value?.stockPriceHistory || [];
 const etfWeight = stockData.value?.weightInfo || [];
 
-const selectRow = (row: any) => {
+const selectRow = (_: any, row: any) => {
   router.push(`/etf/stockCode/${row.getValue('etfStockCode')}`);
 }
 

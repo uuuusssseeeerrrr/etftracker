@@ -18,6 +18,7 @@ model EtfList {
   tradingLot     String?        @map("trading_lot") @db.VarChar(10)
   trustFeeRate   String?        @map("trust_fee_rate") @db.VarChar(10)
   stdPdno        String?        @map("std_pdno") @db.VarChar(12)
+  isin_code      String?        @db.VarChar(12)
   regDate        DateTime?      @default(now()) @map("reg_date") @db.DateTime(0)
   modDate        DateTime?      @default(now()) @map("mod_date") @db.DateTime(0)
   etfStockList   EtfStockList[]
@@ -54,10 +55,9 @@ model EtfStockList {
   market       String    @default("") @db.VarChar(10)
   etfStockCode String    @default("") @map("etf_stock_code") @db.VarChar(20)
   stockCode    String    @default("") @map("stock_code") @db.VarChar(20)
-  regDate      DateTime? @default(now()) @map("reg_date") @db.DateTime(0)
+  checkDate    DateTime? @default(now()) @map("check_date") @db.DateTime(0)
   etfPercent   Float?    @map("etf_percent") @db.Float
   etfList      EtfList   @relation(fields: [market, etfStockCode], references: [market, stockCode], onUpdate: Restrict, map: "FK_etf_stock_list_etf_list")
-  stockList    StockList @relation(fields: [market, stockCode], references: [market, stockCode], onUpdate: Restrict, map: "etf_stock_list_stock_list_market_stock_code_fk")
 
   @@id([market, etfStockCode, stockCode])
   @@index([market, stockCode], map: "etf_stock_list_stock_list_market_stock_code_fk")
@@ -66,17 +66,17 @@ model EtfStockList {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model StockList {
-  market       String         @default("") @db.VarChar(10)
-  stockCode    String         @default("") @map("stock_code") @db.VarChar(20)
-  stockName    String?        @map("stock_name") @db.VarChar(255)
-  trCrcyCd     String?        @map("tr_crcy_cd") @db.VarChar(3)
-  buyUnitQty   String?        @map("buy_unit_qty") @db.VarChar(10)
-  prdtName     String?        @map("prdt_name") @db.VarChar(60)
-  stockComment String?        @map("stock_comment") @db.Text
-  stdPdno      String?        @map("std_pdno") @db.VarChar(12)
-  regDate      DateTime?      @default(now()) @map("reg_date") @db.DateTime(0)
-  modDate      DateTime?      @default(now()) @map("mod_date") @db.DateTime(0)
-  etfStockList EtfStockList[]
+  market       String    @default("") @db.VarChar(10)
+  stockCode    String    @default("") @map("stock_code") @db.VarChar(20)
+  stockName    String?   @map("stock_name") @db.VarChar(255)
+  trCrcyCd     String?   @map("tr_crcy_cd") @db.VarChar(3)
+  buyUnitQty   String?   @map("buy_unit_qty") @db.VarChar(10)
+  prdtName     String?   @map("prdt_name") @db.VarChar(60)
+  stockComment String?   @map("stock_comment") @db.Text
+  stdPdno      String?   @map("std_pdno") @db.VarChar(12)
+  isin_code    String?   @db.VarChar(12)
+  regDate      DateTime? @default(now()) @map("reg_date") @db.DateTime(0)
+  modDate      DateTime? @default(now()) @map("mod_date") @db.DateTime(0)
 
   @@id([market, stockCode])
   @@map("stock_list")

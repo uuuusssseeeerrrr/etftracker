@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import prisma from '@@/lib/prisma';
 import { stockSlugResponse } from '@@/types';
 
@@ -11,31 +12,34 @@ export default defineEventHandler(async (event) => {
     stockPriceHistory: null,
     weightInfo: null
   };
+  dayjs.extend(utc);
 
   stockData.stockInfo = await prisma.stockList.findFirst({
     where: {
       stockCode
     }
   });
-  
+
   stockData.stockPriceHistory = await prisma.stockPriceHistory.findMany({
     where: {
       market,
       stockCode,
       regDate: {
-        // gte: dayjs().subtract(3, 'day').startOf('day').format(),
-        // lte: dayjs().endOf('day').format()
+        gte: dayjs().utc().subtract(3, 'day').startOf('day').format(), // .subtract(3, 'day')
+        lte: dayjs().utc().endOf('day').format()
       }
     },
     orderBy: {
       regDate: 'desc'
     }
   });
+  
 
   stockData.weightInfo = await prisma.etfStockList.findMany({
     select: {
       market: true,
       etfStockCode: true,
+      checkDate: true,
       stockCode: true,
       etfPercent: true,
       etfList: true

@@ -1,4 +1,4 @@
-import type { EtfList, StockList, StockPriceHistory } from '@prisma/client';
+import type { EtfList, StockList, StockPriceHistory, EtfStockList } from '@prisma/client';
 
 interface etfStockCodeResponse {
   etfInfo: EtfList | null;
@@ -8,7 +8,7 @@ interface etfStockCodeResponse {
 interface stockSlugResponse {
   stockInfo: StockList | null,
   stockPriceHistory: StockPriceHistory[] | null,
-  weightInfo: any[] | null
+  weightInfo: EtfStockList[] | null
 }
 
 export type { etfStockCodeResponse, stockSlugResponse };

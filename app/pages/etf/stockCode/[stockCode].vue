@@ -87,8 +87,7 @@
         <template #treeMap>
           <UCard>
             <ClientOnly>
-              <apexchart type="treemap" :options="chartOptions" :series="chartData" @animationEnd="hiddenLoading" />
-              <div class="loader" ref="loader"></div>
+              <apexchart type="treemap" :options="chartOptions" :series="chartData"/>
             </ClientOnly>
           </UCard>
         </template>
@@ -244,7 +243,7 @@ const etfInfo = stockData.value?.etfInfo;
 // 종목별정보 탭
 const etfStockData = stockData.value?.stockInfo || [];
 
-const selectRow = (row: TableRow<any>) => {
+const selectRow = (_: any, row: TableRow<any>) => {
   if (etfInfo?.market === 'TSE') {
     router.push(`/stock/${etfInfo?.market}-${row.getValue('stockCode')}`);
   }
@@ -331,32 +330,4 @@ for (const etfObj of etfStockData) {
     fillColor
   });
 }
-
-const hiddenLoading = () => {
-  loader.value.style.display = "none";
-}
 </script>
-
-<style scoped>
-.loader {
-  width: 200px;
-  padding: 8px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #25b09b;
-  --_m:
-    conic-gradient(#0000 10%, #000), content-box;
-  -webkit-mask: var(--_m);
-  mask: var(--_m);
-  -webkit-mask-composite: source-out;
-  mask-composite: subtract;
-  animation: l3 1s infinite linear;
-  margin: 0 auto;
-}
-
-@keyframes l3 {
-  to {
-    transform: rotate(1turn)
-  }
-}
-</style>

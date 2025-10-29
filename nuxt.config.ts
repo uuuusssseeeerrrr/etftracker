@@ -7,7 +7,6 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-
   modules: [
     '@nuxt/ui',
     'dayjs-nuxt'
@@ -31,10 +30,14 @@ export default defineNuxtConfig({
     }
   },
 
-  compatibilityDate: '2025-09-31',
+  compatibilityDate: '2025-10-31',
 
   future: {
     compatibilityVersion: 4
+  },
+
+  nitro: {
+    logLevel: isProduction ? 0 : 4
   },
 
   dayjs: {
@@ -42,8 +45,4 @@ export default defineNuxtConfig({
     defaultLocale: 'ko',
     defaultTimezone: 'Asia/Seoul'
   },
-
-  nitro: {
-    logLevel: isProduction ? 0 : 4
-  }
 })

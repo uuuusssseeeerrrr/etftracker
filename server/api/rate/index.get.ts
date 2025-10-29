@@ -13,14 +13,14 @@ export default defineEventHandler(async (event) => {
         rate_idx: rateIdx,
       },
       orderBy: {
-        rate_idx: 'asc',
+        reg_date: 'desc',
       }
     });
   } else {
     return await prisma.rate.findMany({
       take: pageSize,
       orderBy: {
-        rate_idx: 'desc',
+        reg_date: 'desc',
       }
     });
   }
