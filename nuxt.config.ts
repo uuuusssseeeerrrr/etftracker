@@ -8,8 +8,7 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    '@nuxt/ui',
-    'dayjs-nuxt'
+    '@nuxt/ui'
   ],
 
   imports: {
@@ -36,13 +35,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4
   },
 
-  nitro: {
-    logLevel: isProduction ? 0 : 4
-  },
-
-  dayjs: {
-    plugins: ['utc', 'timezone'],
-    defaultLocale: 'ko',
-    defaultTimezone: 'Asia/Seoul'
+  build: {
+    transpile: ['@prisma/client'] 
   },
 })

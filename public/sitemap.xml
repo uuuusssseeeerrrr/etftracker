@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Static pages -->
+  <url>
+    <loc>https://ietf.info/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <lastmod>2025-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://ietf.info/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2025-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://ietf.info/rate</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <lastmod>2025-10-30</lastmod>
+  </url>
+
+  <!-- Dynamic routes (placeholders)
+       The project contains dynamic pages at:
+         /etf/stockCode/[stockCode]
+         /stock/[market]-[stockCode]
+       These are dynamic and require enumerating actual stock/ETF codes from the database.
+       Options to populate them:
+         - Run a script that uses the project's Prisma client to query unique codes and write full sitemap.xml
+         - Create a server route (e.g. /sitemap.xml) that queries prisma at runtime and returns XML
+       Example dynamic entry (replace STOCK_CODE / MARKET appropriately):
+  -->
+  <!--
+  <url>
+    <loc>https://ietf.info/etf/stockCode/STOCK_CODE</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2025-10-30</lastmod>
+  </url>
+  -->
+
+</urlset>

@@ -2,7 +2,7 @@
   <h2 class="mt-[20px] text-xl">환율 정보입니다</h2>
   <p>환율 정보는 1시간단위로 업데이트됩니다.</p>
   <p v-if="rateData !== undefined">최근 조회시간 :
-    {{ dayjs.utc(rateData[0]?.reg_date).tz('Asia/Seoul').format('YYYY년 MM월 DD일 HH시 mm분') }}
+    {{ dayjs(rateData[0]?.reg_date).subtract(9, 'hour').format('YYYY년 MM월 DD일 HH시 mm분') }}
   </p>
 
   <section class="mt-[20px]">
@@ -83,7 +83,7 @@ const columns: TableColumn<arrayRateData>[] = [
         td: 'text-center'
       }
     },
-    accessorFn: (row) => dayjs.utc(row.regDate).tz('Asia/Seoul').format('YYYY년 MM월 DD일 HH시')
+    accessorFn: (row) => dayjs(row.regDate).subtract(9, 'hour').format('YYYY년 MM월 DD일 HH시')
   },
   {
     accessorKey: 'value',
@@ -153,7 +153,7 @@ const chartOption = computed(() => {
       labels: {
         show: true,
         formatter: (value: string) => {
-          return dayjs.utc(value).tz('Asia/Seoul').format('YYYY-MM-DD');
+          return dayjs(value).subtract(9, 'hour').format('YYYY-MM-DD');
         }
       }
     },
@@ -182,11 +182,11 @@ const chartOption = computed(() => {
         </style>
         <div class="apexcharts-tooltip-custom">
           <div class="custom-tooltip-box">
-            <p style="margin: 4px 0 0 0;">조회일 : ${dayjs.utc(data.x).tz('Asia/Seoul').format('YYYY-MM-DD')}</p>
-            <p style="margin: 4px 0 0 0;">시가 : ${padRate(data.y[0], currentTab.value)}</p>
-            <p style="margin: 4px 0 0 0;">고가 : ${padRate(data.y[1], currentTab.value)}</p>
-            <p style="margin: 4px 0 0 0;">저가 : ${padRate(data.y[2], currentTab.value)}</p>
-            <p style="margin: 4px 0 0 0;">종가 : ${padRate(data.y[3], currentTab.value)}</p>
+            <p style="margin: 4px 0 0 0;">조회일 : ${dayjs(data.x).subtract(9, 'hour').format('YYYY-MM-DD')}</p>
+            <p style="margin: 4px 0 0 0;">시작가격 : ${padRate(data.y[0], currentTab.value)}</p>
+            <p style="margin: 4px 0 0 0;">높은가격 : ${padRate(data.y[1], currentTab.value)}</p>
+            <p style="margin: 4px 0 0 0;">낮은가격 : ${padRate(data.y[2], currentTab.value)}</p>
+            <p style="margin: 4px 0 0 0;">마지막가격 : ${padRate(data.y[3], currentTab.value)}</p>
           </div>
         </div>
         `;

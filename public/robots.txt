@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /stock, /lib, /etf
+Sitemap : /sitemap.xml

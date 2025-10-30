@@ -17,7 +17,6 @@
     "@prisma/nuxt": "^0.3.0",
     "apexcharts": "^5.3.5",
     "dayjs": "^1.11.18",
-    "dayjs-nuxt": "^2.1.11",
     "mariadb": "^3.4.5",
     "nuxt": "^4.2.0",
     "oxc-parser": "^0.95.0",
@@ -25,7 +24,7 @@
     "pino-pretty": "^13.1.2",
     "prisma": "6.18.0",
     "tailwindcss": "^4.1.16",
-    "vitest": "^4.0.4",
+    "vitest": "^4.0.5",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3",
     "vue3-apexcharts": "^1.10.0"
@@ -37,10 +36,5 @@
     "@types/node": "^24.9.2",
     "prisma-case-format": "^2.2.1",
     "typescript": "^5.9.3"
-  },
-  "pnpm": {
-    "overrides": {
-      "oxc-parser": "0.95.0"
-    }
   }
 }

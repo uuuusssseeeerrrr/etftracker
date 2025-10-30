@@ -108,7 +108,6 @@ const stockColumns: TableColumn<StockPriceHistory>[] = [
     accessorKey: 'regDate',
     header: '조회시간',
     cell: ({ row }) => {
-      console.log(dayjs(row.getValue('regDate')))
       return h(
         'span',
         {},
