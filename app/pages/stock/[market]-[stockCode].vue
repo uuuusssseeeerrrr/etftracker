@@ -99,8 +99,7 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import type { TableColumn } from '@nuxt/ui';
-import type { stockSlugResponse } from '#types/index';
-import type { StockPriceHistory, EtfStockList } from '@prisma/client';
+import type { stockSlugResponse, StockPriceHistory, EtfStockList } from '#types/index';
 import { numberFormat, formatPercent } from '../lib/numberFn';
 
 const stockColumns: TableColumn<StockPriceHistory>[] = [

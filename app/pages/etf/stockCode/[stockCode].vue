@@ -98,8 +98,7 @@
 
 <script setup lang="ts">
 import type { TableColumn, TableRow } from '@nuxt/ui';
-import type { etfStockCodeResponse } from '#types/index';
-import type { StockPriceHistory } from '@prisma/client';
+import type { etfStockCodeResponse, StockPriceHistory } from '#types/index';
 
 const UButton = resolveComponent('UButton');
 

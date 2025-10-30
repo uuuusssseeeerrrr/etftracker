@@ -34,8 +34,4 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4
   },
-
-  build: {
-    transpile: ['@prisma/client'] 
-  },
 })

@@ -46,7 +46,7 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import type { TableColumn, TabsItem } from '@nuxt/ui';
-import type { rate } from '@prisma/client';
+import type { rate } from '#types/index';
 import type { rateChartResponse } from '#types/index';
 import { padRate } from './lib/numberFn';
 type arrayRateData = { regDate: Date; value: String };

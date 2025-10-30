@@ -1,3 +1,5 @@
+import type { rate } from '../.prisma/client';
+
 interface rateChartSQLResult {
   DAY: String | null,
   MAX_RATE: String | null,
@@ -11,4 +13,4 @@ interface rateChartResponse {
   y : [String, String, String, String]
 }
 
-export type { rateChartSQLResult, rateChartResponse };
+export type { rateChartSQLResult, rateChartResponse, rate };

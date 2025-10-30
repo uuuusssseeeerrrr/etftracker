@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../.prisma/client'
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 const prismaClientSingleton = () => {
