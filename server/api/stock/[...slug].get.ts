@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
       market,
       stockCode,
       regDate: {
-        gte: dayjs().utc().subtract(3, 'day').startOf('day').format(), // .subtract(3, 'day')
+        gte: dayjs().utc().subtract(3, 'day').startOf('day').format(),
         lte: dayjs().utc().endOf('day').format()
       }
     },
