@@ -2,10 +2,12 @@
   <section>
     <div class="m-5">
       <span>참고 : 장이 열리기 전인 경우 모든페이지 내 가격데이터가 표시되지 않을 수 있습니다</span>
-      <p></p>
+      <br/>
       <span>가격내 통화가 표시되지 않은 경우 현지통화입니다</span>
-      <p></p>
-      <span v-if="data !== undefined && data.length > 0">조회시간 : {{ data[0].regDate ? data[0].regDate : '데이터가 수집되는 시간이 아닙니다' }}</span>
+      <br/>
+      <span>거래소의 경우 API 조회 기준입니다</span>
+      <br/>
+      <span v-if="data !== undefined && data.length > 0">조회시간 : {{ data[0].regDate ? data[0].regDate : (data[1].regDate ? data[0].regDate : '데이터가 수집되는 시간이 아닙니다') }}</span>
     </div>
     <div>
       <UTable :columns="columns" :data="data" :ui="{
