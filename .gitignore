@@ -99,4 +99,5 @@ sw.*
 
 # 잡다한 폴더
 .output
+.prisma
 /generated/prisma

@@ -1,4 +1,5 @@
 import prisma from '@@/lib/prisma';
+
 import { etfStockCodeResponse } from '@@/types'
 
 export default defineEventHandler(async (event) => {
@@ -14,8 +15,11 @@ export default defineEventHandler(async (event) => {
     }
   });
 
-  returnData.stockInfo = await prisma.$queryRaw<any[]>`select * from stock_price_info where etfStockCode = ${stockCode}`;
-
+  returnData.stockInfo = await prisma.stock_price_info.findMany({
+    where : {
+      etfStockCode: stockCode
+    }
+  });
 
   return returnData;
 });

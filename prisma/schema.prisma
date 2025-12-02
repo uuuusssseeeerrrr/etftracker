@@ -1,12 +1,12 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../.prisma"
-  binaryTargets   = ["native", "linux-musl-arm64-openssl-3.0.x"]
+  provider      = "prisma-client"
+  output        = "../.prisma"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+  previewFeatures = ["views"]
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -58,8 +58,8 @@ model EtfStockList {
   etfStockCode String    @default("") @map("etf_stock_code") @db.VarChar(20)
   stockCode    String    @default("") @map("stock_code") @db.VarChar(20)
   checkDate    DateTime? @default(now()) @map("check_date") @db.DateTime(0)
-  etfPercent   Float?    @map("etf_percent") @db.Float
-  etfList      EtfList   @relation(fields: [market, etfStockCode], references: [market, stockCode], onUpdate: Restrict, map: "FK_etf_stock_list_etf_list")
+  etfPercent   Decimal?  @map("etf_percent") @db.Decimal(7, 5)
+  etfList      EtfList   @relation(fields: [market, etfStockCode], references: [market, stockCode], map: "FK_etf_stock_list_etf_list")
 
   @@id([market, etfStockCode, stockCode])
   @@index([market, stockCode], map: "etf_stock_list_stock_list_market_stock_code_fk")
@@ -77,8 +77,8 @@ model StockList {
   stockComment String?   @map("stock_comment") @db.Text
   stdPdno      String?   @map("std_pdno") @db.VarChar(12)
   isin_code    String?   @db.VarChar(12)
-  regDate      DateTime? @default(now()) @map("reg_date") @db.DateTime(0)
-  modDate      DateTime? @default(now()) @map("mod_date") @db.DateTime(0)
+  regDate      DateTime? @map("reg_date") @db.DateTime(0)
+  modDate      DateTime? @map("mod_date") @db.DateTime(0)
 
   @@id([market, stockCode])
   @@map("stock_list")
@@ -132,4 +132,63 @@ model rate {
   sgd_rate Decimal? @db.Decimal(6, 2)
 
   @@index([reg_date(sort: Desc)], map: "rate_reg_date_index")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model price_api_call_history {
+  market     String   @db.Char(3)
+  success_yn String?  @db.Char(1)
+  es_yn      String?  @db.Char(1)
+  reg_date   DateTime @db.DateTime(0)
+
+  @@id([market, reg_date])
+}
+
+view etf_price_info {
+  marketCode String?
+  etfStockCode String?
+  etfName String?
+  companyName String?
+  open String?
+  high String?
+  low String?
+  price String?
+  lastDayPrice String?
+  h52p String?
+  l52p String?
+  tXprc String?
+  tXdif String?
+  tXrat String?
+  tRate String?
+  regDate String?
+}
+
+view stock_price_info {
+  marketCode String?
+  etfStockCode String?
+  etfName String?
+  stockCode String?
+  stockNm String?
+  open String?
+  high String?
+  low String?
+  price String?
+  lastDayPrice String?
+  tomv String?
+  h52p String?
+  l52p String?
+  perx String?
+  pbrx String?
+  epsx String?
+  bpsx String?
+  tXprc String?
+  tXdif String?
+  tXrat String?
+  tRate String?
+  eIcod String?
+  buyUnitQty String?
+  trCrcyCd String?
+  prdtName String?
+  etfPercent String?
+  regDate String?
 }

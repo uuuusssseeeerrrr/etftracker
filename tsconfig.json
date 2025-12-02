@@ -9,6 +9,11 @@
       "#types/*": ["./types/*"],
       "#lib/*": ["./lib/*"],
       "#util/*": ["./server/utils/*"]
-    }
-  }
+    },
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ES2023",
+    "strict": true,
+    "esModuleInterop": true
+  },
 }

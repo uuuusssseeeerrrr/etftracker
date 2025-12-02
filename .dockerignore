@@ -1,7 +1,0 @@
-# .dockerignore
-/.nuxt
-/.vscode
-/node_modules
-/.idea
-.gitignore
-README.md
