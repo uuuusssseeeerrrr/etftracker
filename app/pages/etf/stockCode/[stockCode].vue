@@ -229,9 +229,6 @@ const columns: TableColumn<StockPriceHistory>[] = [{
       onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
     })
   }
-}, {
-  accessorKey: 'buyUnitQty',
-  header: '거래단위'
 }];
 
 const route = useRoute();
@@ -268,7 +265,7 @@ const chartOptions = {
   },
   tooltip: {
     enabled: true,
-    custom: ({ series, seriesIndex, dataPointIndex, w }: any) => {
+    custom: ({ seriesIndex, dataPointIndex, w }: any) => {
       const data = w.config.series[seriesIndex].data[dataPointIndex];
       return `
         <style>

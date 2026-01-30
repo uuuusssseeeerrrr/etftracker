@@ -1,5 +1,3 @@
-const isProduction = process.env.NODE_ENV === 'production';
-
 export default defineNuxtConfig({
   devtools: {
     enabled: true,
@@ -34,4 +32,9 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4
   },
+
+  routeRules: {
+    '/': { ssr: true },  // index 페이지만 SSR
+    '/**': { ssr: false }, // 나머지는 모두 CSR
+  }
 })
