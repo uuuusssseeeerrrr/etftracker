@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
     GROUP BY DATE(rate.REG_DATE)
   `);
 
-  return rateChartData.map((item): rateChartResponse => {
+  return rateChartData.map((item: rateChartSQLResult): rateChartResponse => {
     return {
       x: item.DAY ? item.DAY.toString() : '',
       y: [

@@ -1,12 +1,19 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 import prisma from '@@/lib/prisma';
-import { stockSlugResponse } from '@@/types';
+import type { stockSlugResponse } from '@@/types';
 
 export default defineEventHandler(async (event) => {
   const slug = event.context.params?.slug;
-  const market: string = slug?.split("/")[0].toUpperCase() as string;
-  const stockCode: string = slug?.split("/")[1] as string;
+  const [marketSlug, stockCode] = slug?.split("/") ?? [];
+  const market = marketSlug?.toUpperCase();
+
+  if (!market || !stockCode) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Invalid market/stockCode parameter'
+    });
+  }
   let stockData: stockSlugResponse = {
     stockInfo: null,
     stockPriceHistory: null,

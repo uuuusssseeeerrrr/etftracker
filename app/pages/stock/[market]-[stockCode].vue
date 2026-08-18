@@ -116,16 +116,16 @@ const stockColumns: TableColumn<StockPriceHistory>[] = [
   }, {
     accessorKey: 'price',
     header: '현재가',
-    accessorFn: (row) => numberFormat(row.price)
+    cell: ({ row }) => numberFormat(row.getValue('price'))
   }, {
     accessorKey: 'tXprc',
     header: '현재가(KRW)',
-    accessorFn: (row) => numberFormat(row.tXprc)
+    cell: ({ row }) => numberFormat(row.getValue('tXprc'))
   }, {
     accessorKey: 'tXrat',
     header: '전일대비',
     cell: ({ row }) => {
-      const tXrat: string = row.getValue('tXrat') + '%' || '';
+      const tXrat: string = row.getValue('tXrat') || '';
       return h(
         'span',
         {
@@ -137,27 +137,27 @@ const stockColumns: TableColumn<StockPriceHistory>[] = [
   }, {
     accessorKey: 'open',
     header: '시가',
-    accessorFn: (row) => numberFormat(row.open)
+    cell: ({ row }) => numberFormat(row.getValue('open'))
   }, {
     accessorKey: 'high',
     header: '고가',
-    accessorFn: (row) => numberFormat(row.high)
+    cell: ({ row }) => numberFormat(row.getValue('high'))
   }, {
     accessorKey: 'low',
     header: '저가',
-    accessorFn: (row) => numberFormat(row.low)
+    cell: ({ row }) => numberFormat(row.getValue('low'))
   }, {
     accessorKey: 'lastDayPrice',
     header: '전일종가',
-    accessorFn: (row) => numberFormat(row.lastDayPrice)
+    cell: ({ row }) => numberFormat(row.getValue('lastDayPrice'))
   }, {
     accessorKey: 'h52p',
     header: '52주 최고가',
-    accessorFn: (row) => numberFormat(row.h52p)
+    cell: ({ row }) => numberFormat(row.getValue('h52p'))
   }, {
     accessorKey: 'l52p',
     header: '52주 최저가',
-    accessorFn: (row) => numberFormat(row.l52p)
+    cell: ({ row }) => numberFormat(row.getValue('l52p'))
   }, {
     accessorKey: 'perx',
     header: 'PER'
@@ -173,7 +173,7 @@ const stockColumns: TableColumn<StockPriceHistory>[] = [
   }, {
     accessorKey: 'tRate',
     header: '적용환율',
-    accessorFn: (row) => (route.params.market === 'TSE') ? (Number(row.tRate) * 100).toFixed(2) : row.tRate
+    cell: ({ row }) => (route.params.market === 'TSE') ? (Number(row.getValue('tRate')) * 100).toFixed(2) : row.getValue('tRate')
   }
 ];
 
@@ -194,7 +194,7 @@ const weightColumns: TableColumn<EtfStockList>[] = [{
 }, {
   accessorKey: 'etfPercent',
   header: 'ETF 내 주식비중',
-  accessorFn: (row) => formatPercent(row.etfPercent)
+  cell: ({ row }) => formatPercent(row.getValue('etfPercent'))
 }, {
   accessorKey: 'etfList.companyName',
   header: '운용사',

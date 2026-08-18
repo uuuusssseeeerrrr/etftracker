@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import type { TableColumn } from '@nuxt/ui';
-import type { rateChartResponse } from '#types/index';
+import type { rateChartResponse } from '#types';
 import { padRate } from '../pages/lib/numberFn';
 
 type arrayRateData = { regDate: Date; value: String };
@@ -30,7 +30,7 @@ const columns: TableColumn<arrayRateData>[] = [
         td: 'text-center'
       }
     },
-    accessorFn: (row) => dayjs(row.regDate).subtract(9, 'hour').format('YYYY년 MM월 DD일 HH시')
+    cell: ({ row }) => dayjs(row.getValue('regDate')).subtract(9, 'hour').format('YYYY년 MM월 DD일 HH시')
   },
   {
     accessorKey: 'value',

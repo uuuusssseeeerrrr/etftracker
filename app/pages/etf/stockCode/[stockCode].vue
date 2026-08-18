@@ -99,6 +99,7 @@
 <script setup lang="ts">
 import type { TableColumn, TableRow } from '@nuxt/ui';
 import type { etfStockCodeResponse, StockPriceHistory } from '#types/index';
+import { numberFormat } from '../../lib/numberFn';
 
 const UButton = resolveComponent('UButton');
 
@@ -146,10 +147,12 @@ const columns: TableColumn<StockPriceHistory>[] = [{
   }
 }, {
   accessorKey: 'price',
-  header: '현재가'
+  header: '현재가',
+  cell: ({ row }) => numberFormat(row.getValue('price'))
 }, {
   accessorKey: 'tXprc',
-  header: '현재가(KRW)'
+  header: '현재가(KRW)',
+  cell: ({ row }) => numberFormat(row.getValue('tXprc'))
 }, {
   accessorKey: 'tXrat',
   header: ({ column }) => {
@@ -183,22 +186,28 @@ const columns: TableColumn<StockPriceHistory>[] = [{
   }
 }, {
   accessorKey: 'open',
-  header: '시가'
+  header: '시가',
+  cell: ({ row }) => numberFormat(row.getValue('open'))
 }, {
   accessorKey: 'high',
-  header: '고가'
+  header: '고가',
+  cell: ({ row }) => numberFormat(row.getValue('high'))
 }, {
   accessorKey: 'low',
-  header: '저가'
+  header: '저가',
+  cell: ({ row }) => numberFormat(row.getValue('low'))
 }, {
   accessorKey: 'lastDayPrice',
-  header: '전일종가'
+  header: '전일종가',
+  cell: ({ row }) => numberFormat(row.getValue('lastDayPrice'))
 }, {
   accessorKey: 'h52p',
-  header: '52주 최고가'
+  header: '52주 최고가',
+  cell: ({ row }) => numberFormat(row.getValue('h52p'))
 }, {
   accessorKey: 'l52p',
-  header: '52주 최저가'
+  header: '52주 최저가',
+  cell: ({ row }) => numberFormat(row.getValue('l52p'))
 }, {
   accessorKey: 'perx',
   header: 'PER'
