@@ -1,6 +1,6 @@
 import prisma from '@@/lib/prisma';
 
-import { etfStockCodeResponse } from '@@/types'
+import type { etfStockCodeResponse } from '@@/types'
 
 export default defineEventHandler(async (event) => {
   const stockCode = getRouterParam(event, 'stockCode');

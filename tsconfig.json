@@ -1,17 +1,9 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
+  // 커스텀 alias는 nuxt.config.ts의 alias에서 관리 (여기서 paths를 지정하면 .nuxt의 paths를 덮어씀)
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "#models/*": ["./models/*"],
-      "#server/*": ["./server/*"],
-      "#types/*": ["./types/*"],
-      "#lib/*": ["./lib/*"],
-      "#util/*": ["./server/utils/*"]
-    },
     "module": "ESNext",
-    "moduleResolution": "node",
     "target": "ES2023",
     "strict": true,
     "esModuleInterop": true

@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 import type { TableColumn, TableRow } from '@nuxt/ui';
+import { numberFormat } from './lib/numberFn';
 
 const UButton = resolveComponent('UButton');
 const { data } = await useAsyncData<any[]>('etfData', () => $fetch('/api/etf'));
@@ -68,10 +69,12 @@ const columns: TableColumn<any>[] = [{
   }
 }, {
   accessorKey: 'price',
-  header: '현재가'
+  header: '현재가',
+  cell: ({ row }) => numberFormat(row.getValue('price'))
 }, {
   accessorKey: 'tXprc',
-  header: '현재가\n(KRW)'
+  header: '현재가\n(KRW)',
+  cell: ({ row }) => numberFormat(row.getValue('tXprc'))
 }, {
   accessorKey: 'tXrat',
   header: ({ column }) => {
@@ -105,23 +108,30 @@ const columns: TableColumn<any>[] = [{
   }
 }, {
   accessorKey: 'open',
-  header: '시가'
+  header: '시가',
+  cell: ({ row }) => numberFormat(row.getValue('open'))
 }, {
   accessorKey: 'high',
-  header: '고가'
+  header: '고가',
+  cell: ({ row }) => numberFormat(row.getValue('high'))
 }, {
   accessorKey: 'low',
-  header: '저가'
+  header: '저가',
+  cell: ({ row }) => numberFormat(row.getValue('low'))
 }, {
   accessorKey: 'h52p',
-  header: '52주\n최고가'
+  header: '52주\n최고가',
+  cell: ({ row }) => numberFormat(row.getValue('h52p'))
 }, {
   accessorKey: 'l52p',
-  header: '52주\n최저가'
+  header: '52주\n최저가',
+  cell: ({ row }) => numberFormat(row.getValue('l52p'))
 }, {
   accessorKey: 'lastDayPrice',
-  header: '전일\n종가'
+  header: '전일\n종가',
+  cell: ({ row }) => numberFormat(row.getValue('lastDayPrice'))
 }];
+
 </script>
 
 <style scoped>

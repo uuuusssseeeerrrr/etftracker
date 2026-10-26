@@ -1,4 +1,4 @@
-import type { EtfList, StockList, StockPriceHistory, EtfStockList } from '../.prisma/client';
+import type { EtfList, StockList, StockPriceHistory, EtfStockList } from '../.prisma/browser';
 
 interface etfStockCodeResponse {
   etfInfo: EtfList | null;
