@@ -37,6 +37,12 @@ export default defineNuxtConfig({
     }
   },
 
+  // Nuxt 4.6.4 + @nuxt/cli 4.0.1: host 미지정 시 devServer.host가 {}로 resolve되어
+  // "options.hostname.toLowerCase is not a function" 오류 발생 → 명시적으로 지정
+  devServer: {
+    host: 'localhost',
+  },
+
   compatibilityDate: '2025-10-31',
 
   future: {

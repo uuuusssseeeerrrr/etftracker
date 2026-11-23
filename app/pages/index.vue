@@ -8,6 +8,12 @@
       <span>거래소의 경우 API 조회 기준입니다</span>
       <br/>
       <span v-if="data !== undefined && data.length > 0">조회시간 : {{ data[0].regDate ? data[0].regDate : (data[1].regDate ? data[0].regDate : '데이터가 수집되는 시간이 아닙니다') }}</span>
+      <template v-for="holiday in holidayData" :key="holiday.country">
+        <br/>
+        <span class="text-red-500">
+          휴일 : {{ countryName[holiday.country] ?? holiday.country }} {{ holiday.holidayDate }} {{ holiday.holidayName }}{{ holiday.closeTime ? ` (조기폐장 ${holiday.closeTime})` : ' (휴장)' }}
+        </span>
+      </template>
     </div>
     <div>
       <UTable :columns="columns" :data="data" :ui="{
@@ -22,9 +28,15 @@
 <script setup lang="ts">
 import type { TableColumn, TableRow } from '@nuxt/ui';
 import { numberFormat } from './lib/numberFn';
+import type { holidayResponse } from '@@/types';
 
 const UButton = resolveComponent('UButton');
 const { data } = await useAsyncData<any[]>('etfData', () => $fetch('/api/etf'));
+const { data: holidayData } = await useAsyncData<holidayResponse[]>('holidayData', () => $fetch('/api/holiday'));
+const countryName: Record<string, string> = {
+  US: '미국',
+  JP: '일본',
+};
 const router = useRouter();
 const selectRow = (_: any, row: TableRow<any>) => {
   router.push(`/etf/stockCode/${row.getValue('etfStockCode')}`);

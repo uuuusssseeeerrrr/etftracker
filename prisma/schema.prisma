@@ -192,3 +192,17 @@ view stock_price_info {
   etfPercent String?
   regDate String?
 }
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model holiday {
+  country      String    @db.VarChar(10)
+  holiday_date String    @db.VarChar(10)
+  year         Int
+  holiday_name String    @db.VarChar(255)
+  close_time   DateTime? @db.Time(0)
+  reg_date     DateTime  @db.DateTime(0)
+  mod_date     DateTime  @db.DateTime(0)
+
+  @@id([country, holiday_date])
+  @@index([year], map: "idx_holiday_year")
+  @@index([country, year], map: "idx_holiday_country_year")
+}
